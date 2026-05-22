@@ -1,5 +1,6 @@
-package com.foco_acessibilidade_dengue
+package com.foco_acessibilidade_dengue.data.remote.auth
 
+import com.foco_acessibilidade_dengue.data.remote.supabase
 import io.github.jan.supabase.gotrue.auth
 import io.github.jan.supabase.gotrue.providers.builtin.Email
 
