@@ -6,5 +6,5 @@ class Denuncia(
     val tipo: String,
     val latitude: Double?,
     val longitude: Double?
-
+// comentário só pra poder commitar de novo
 )
