@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
             FocoAcessibilidadeDengueTheme {
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
                     val navController = rememberNavController()
-                    NavHost(navController, "login") {
+                    NavHost(navController, "report") {
                         composable(route = "login") {
                             LoginScreen { navController.navigate("signup") }
                         }

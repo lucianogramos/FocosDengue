@@ -1,26 +1,33 @@
 package com.foco_acessibilidade_dengue.ui.report_screen
 
+import android.net.Uri
+import android.webkit.MimeTypeMap
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuAnchorType
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -34,6 +41,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
@@ -43,6 +51,7 @@ import androidx.compose.ui.unit.sp
 import com.foco_acessibilidade_dengue.R
 import com.foco_acessibilidade_dengue.ui.components.ParagraphText
 import com.foco_acessibilidade_dengue.ui.components.PrimaryCard
+import com.foco_acessibilidade_dengue.ui.components.SecondaryCard
 import com.foco_acessibilidade_dengue.ui.utils.dashedBorder
 
 @Composable
@@ -72,11 +81,10 @@ fun LocationCard() {
 
         Spacer(Modifier.height(8.dp))
 
-        Box(
-            modifier = Modifier.fillMaxWidth().height(256.dp)
-                .background(colorScheme.tertiary, RoundedCornerShape(8.dp))
-                .border(BorderStroke(1.dp, colorScheme.outline), RoundedCornerShape(8.dp)),
-            contentAlignment = Alignment.Center
+        SecondaryCard(
+            modifier = Modifier.fillMaxWidth().height(256.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
             Text("Mapa do Google", color = colorScheme.onBackground)
         }
@@ -144,97 +152,112 @@ fun TextFieldWithCounter(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Select(
-    expanded: Boolean,
-    setExpanded: (Boolean) -> Unit,
-    selectedValue: String,
-    setSelectedValue: (String) -> Unit,
-    options: List<String> = emptyList(),
-    label: String = "",
+fun PhotoCard(
+    height: Dp,
+    dashLength: Dp = 8.dp,
+    gapLength: Dp = 4.dp,
+    onClick: ((uri: Uri?) -> Unit)? = null
 ) {
     val colorScheme = MaterialTheme.colorScheme
+    val context = LocalContext.current
+    var photoUri: Uri? by remember { mutableStateOf(null) }
 
-    ExposedDropdownMenuBox(
-        expanded = expanded,
-        onExpandedChange = setExpanded
-    ) {
-        OutlinedTextField(
-            value = selectedValue,
-            onValueChange = {},
-            readOnly = true, // Torna o campo imutável via teclado
-            label = if (!label.isEmpty()) { { Text(label, color = colorScheme.onBackground) } } else null,
-            // O menuAnchor() liga fisicamente o menu a este campo de texto
-            modifier = Modifier.fillMaxWidth().menuAnchor(
-                type = ExposedDropdownMenuAnchorType.PrimaryEditable,
-                enabled = true
-            ),
-            shape = RoundedCornerShape(8.dp),
-            trailingIcon = {
-                ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
-            },
-            colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(
-                focusedBorderColor = colorScheme.primary,
-                unfocusedBorderColor = colorScheme.outline,
-                focusedTrailingIconColor = colorScheme.onBackground,
-                unfocusedTrailingIconColor = colorScheme.onBackground,
-                focusedLabelColor = colorScheme.onBackground,
-                unfocusedLabelColor = colorScheme.onBackground,
-                focusedContainerColor = colorScheme.background,
-                unfocusedContainerColor = colorScheme.background
-            )
-        )
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        photoUri = uri
+        if (uri != null) {
+            val contentResolver = context.contentResolver
+            val mimeType = contentResolver.getType(uri)
+            val extension = MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType)
 
-        ExposedDropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { setExpanded(false) },
-            containerColor = colorScheme.background,
-            shape = RoundedCornerShape(8.dp),
-            border = BorderStroke(1.dp, colorScheme.outline)
-        ) {
-            options.forEach { option ->
-                DropdownMenuItem(
-                    text = { Text(option) },
-                    onClick = {
-                        setSelectedValue(option)
-                        setExpanded(false)
-                    },
-                    contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
-                )
+            if (extension == "jpg" || extension == "jpeg") {
+                Toast.makeText(context, "Foto selecionada", Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(context, "Extensão de arquivo .$extension inválida", Toast.LENGTH_LONG).show()
+                photoUri = null
             }
         }
     }
-}
 
-@Composable
-fun PhotoCard(
-    height: Dp
-) {
-    val colorScheme = MaterialTheme.colorScheme
-
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(height)
-            .dashedBorder(
-                color = colorScheme.outline,
-                shape = RoundedCornerShape(8.dp),
-                dashLength = 8.dp,
-                gapLength = 4.dp
-            ),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Icon(
-            painter = painterResource(R.drawable.photo_camera_icon),
-            contentDescription = "Adicionar Foto",
-            tint = colorScheme.onBackground
+    val modifier = Modifier.fillMaxWidth().height(height)
+        .dashedBorder(
+            color = colorScheme.outline,
+            shape = RoundedCornerShape(8.dp),
+            dashLength = dashLength,
+            gapLength = gapLength
         )
+        .clickable(onClick = {
+            launcher.launch("image/jpeg")
+            onClick?.invoke(photoUri)
+        })
 
-        Spacer(Modifier.height(12.dp))
+    if (photoUri != null) {
+        Box(
+            modifier = modifier.background(
+                color = colorScheme.secondary,
+                shape = RoundedCornerShape(8.dp)
+            )
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(end = 12.dp, top = 12.dp),
+                horizontalArrangement = Arrangement.End
+            ) {
+                Button(
+                    modifier = Modifier.size(32.dp),
+                    shape = CircleShape,
+                    contentPadding = PaddingValues(0.dp),
+                    onClick = {
+                        photoUri = null
+                        onClick?.invoke(null)
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = colorScheme.background
+                    )
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.remove_icon),
+                        contentDescription = "Remover Foto",
+                        tint = colorScheme.onBackground
+                    )
+                }
+            }
 
-        Text("Adicionar Foto", color = colorScheme.onBackground)
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.image_icon),
+                    contentDescription = "Foto Selecionada",
+                    tint = colorScheme.onBackground
+                )
+
+                Spacer(Modifier.height(8.dp))
+
+                Text("Foto Selecionada", color = colorScheme.onBackground)
+            }
+        }
+    }
+    else {
+        Column(
+            modifier = modifier,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Icon(
+                painter = painterResource(R.drawable.photo_camera_icon),
+                contentDescription = "Adicionar Foto",
+                tint = colorScheme.onBackground
+            )
+
+            Spacer(Modifier.height(12.dp))
+
+            Text("Adicionar Foto", color = colorScheme.onBackground)
+            ParagraphText("Adicione uma foto jpg/jpeg", fontSize = 14.sp)
+        }
     }
 }
 

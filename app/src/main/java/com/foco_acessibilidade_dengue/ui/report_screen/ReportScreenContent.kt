@@ -70,7 +70,9 @@ fun ReportScreenContent(modifier: Modifier = Modifier) {
 
         SubtitleText("Fotos do Problema", marginTop = 12.dp, marginBottom = 12.dp)
 
-        PhotoCard(height = 128.dp)
+        PhotoCard(height = 128.dp) {
+
+        }
 
         Spacer(Modifier.height(12.dp))
 
