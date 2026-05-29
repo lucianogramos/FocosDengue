@@ -3,7 +3,6 @@ package com.foco_acessibilidade_dengue.ui.auth_screen.login
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -16,6 +15,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.foco_acessibilidade_dengue.R
+import com.foco_acessibilidade_dengue.ui.components.PrimaryDivider
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,11 +43,7 @@ fun LoginTopbar() {
             }
         )
 
-        HorizontalDivider(
-            thickness = 1.dp, // Espessura da linha
-            modifier = Modifier.padding(horizontal = 4.dp),
-            color = colorScheme.onBackground.copy(alpha = 0.7f)
-        )
+        PrimaryDivider()
     }
 }
 

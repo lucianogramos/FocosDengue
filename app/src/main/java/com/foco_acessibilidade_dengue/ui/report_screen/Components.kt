@@ -13,11 +13,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuAnchorType
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedCard
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -38,21 +41,19 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.foco_acessibilidade_dengue.R
+import com.foco_acessibilidade_dengue.ui.components.ParagraphText
+import com.foco_acessibilidade_dengue.ui.components.PrimaryCard
+import com.foco_acessibilidade_dengue.ui.utils.dashedBorder
 
 @Composable
 fun LocationCard() {
     val colorScheme = MaterialTheme.colorScheme
 
-    OutlinedCard (
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(8.dp),
-        border = BorderStroke(1.dp, colorScheme.outline),
-        colors = CardDefaults.outlinedCardColors(containerColor = colorScheme.secondary)
-    ) {
+    PrimaryCard {
         Spacer(Modifier.height(8.dp))
 
         Row(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp),
+            modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -72,7 +73,7 @@ fun LocationCard() {
         Spacer(Modifier.height(8.dp))
 
         Box(
-            modifier = Modifier.fillMaxWidth().height(256.dp).padding(horizontal = 12.dp)
+            modifier = Modifier.fillMaxWidth().height(256.dp)
                 .background(colorScheme.tertiary, RoundedCornerShape(8.dp))
                 .border(BorderStroke(1.dp, colorScheme.outline), RoundedCornerShape(8.dp)),
             contentAlignment = Alignment.Center
@@ -80,21 +81,11 @@ fun LocationCard() {
             Text("Mapa do Google", color = colorScheme.onBackground)
         }
 
-        Spacer(Modifier.height(8.dp))
-
-        Text(
-            text = "Bairro Alcides Junqueira",
-            modifier = Modifier.padding(horizontal = 12.dp),
-            color = colorScheme.onBackground.copy(alpha = 0.7f),
-            fontSize = 14.sp
+        ParagraphText(
+            text = "Bairro Alcides Junqueira\nItuiutaba - MG",
+            fontSize = 14.sp,
+            marginTop = 8.dp
         )
-        Text(
-            text ="Ituiutaba - MG",
-            modifier = Modifier.padding(horizontal = 12.dp),
-            color = colorScheme.onBackground.copy(alpha = 0.7f),
-            fontSize = 14.sp
-        )
-        Spacer(Modifier.height(8.dp))
     }
 }
 
@@ -137,8 +128,8 @@ fun TextFieldWithCounter(
                 unfocusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent,
                 errorIndicatorColor = Color.Transparent,
-                focusedPlaceholderColor = colorScheme.onBackground.copy(alpha = 0.6f),
-                unfocusedPlaceholderColor = colorScheme.onBackground.copy(alpha = 0.6f),
+                focusedPlaceholderColor = colorScheme.onSecondary,
+                unfocusedPlaceholderColor = colorScheme.onSecondary,
                 focusedTextColor = colorScheme.onBackground,
                 unfocusedTextColor = colorScheme.onBackground
             )
@@ -146,27 +137,113 @@ fun TextFieldWithCounter(
 
         Text(
             text = "${value.length} / $maxChar",
-            color = colorScheme.onBackground.copy(alpha = 0.7f),
+            color = colorScheme.onSecondary,
             style = MaterialTheme.typography.bodySmall,
             modifier = Modifier.align(Alignment.End).padding(end = 12.dp)
         )
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun Select(
+    expanded: Boolean,
+    setExpanded: (Boolean) -> Unit,
+    selectedValue: String,
+    setSelectedValue: (String) -> Unit,
+    options: List<String> = emptyList(),
+    label: String = "",
+) {
+    val colorScheme = MaterialTheme.colorScheme
+
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = setExpanded
+    ) {
+        OutlinedTextField(
+            value = selectedValue,
+            onValueChange = {},
+            readOnly = true, // Torna o campo imutável via teclado
+            label = if (!label.isEmpty()) { { Text(label, color = colorScheme.onBackground) } } else null,
+            // O menuAnchor() liga fisicamente o menu a este campo de texto
+            modifier = Modifier.fillMaxWidth().menuAnchor(
+                type = ExposedDropdownMenuAnchorType.PrimaryEditable,
+                enabled = true
+            ),
+            shape = RoundedCornerShape(8.dp),
+            trailingIcon = {
+                ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+            },
+            colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(
+                focusedBorderColor = colorScheme.primary,
+                unfocusedBorderColor = colorScheme.outline,
+                focusedTrailingIconColor = colorScheme.onBackground,
+                unfocusedTrailingIconColor = colorScheme.onBackground,
+                focusedLabelColor = colorScheme.onBackground,
+                unfocusedLabelColor = colorScheme.onBackground,
+                focusedContainerColor = colorScheme.background,
+                unfocusedContainerColor = colorScheme.background
+            )
+        )
+
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { setExpanded(false) },
+            containerColor = colorScheme.background,
+            shape = RoundedCornerShape(8.dp),
+            border = BorderStroke(1.dp, colorScheme.outline)
+        ) {
+            options.forEach { option ->
+                DropdownMenuItem(
+                    text = { Text(option) },
+                    onClick = {
+                        setSelectedValue(option)
+                        setExpanded(false)
+                    },
+                    contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun PhotoCard(
+    height: Dp
+) {
+    val colorScheme = MaterialTheme.colorScheme
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(height)
+            .dashedBorder(
+                color = colorScheme.outline,
+                shape = RoundedCornerShape(8.dp),
+                dashLength = 8.dp,
+                gapLength = 4.dp
+            ),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Icon(
+            painter = painterResource(R.drawable.photo_camera_icon),
+            contentDescription = "Adicionar Foto",
+            tint = colorScheme.onBackground
+        )
+
+        Spacer(Modifier.height(12.dp))
+
+        Text("Adicionar Foto", color = colorScheme.onBackground)
+    }
+}
+
 @Preview
 @Composable
-fun TextFieldWithCounterPreview() {
-    var text by remember { mutableStateOf("") }
+fun PhotoCardPreview() {
     MaterialTheme {
-        Surface(color = MaterialTheme.colorScheme.background) {
-            TextFieldWithCounter(
-                value = text,
-                onValueChange = { text = it },
-                maxChar = 200,
-                height = 128.dp,
-                maxLines = 5,
-                placeholder = "Digite algo..."
-            )
+        Surface (color = MaterialTheme.colorScheme.background) {
+            PhotoCard(height = 128.dp)
         }
     }
 }

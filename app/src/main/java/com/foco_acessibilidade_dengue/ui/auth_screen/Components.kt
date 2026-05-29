@@ -43,11 +43,11 @@ fun AuthTextField(
         visualTransformation = visualTransformation,
         colors = OutlinedTextFieldDefaults.colors(
             focusedLabelColor = colorScheme.onBackground,
-            unfocusedLabelColor = colorScheme.onBackground.copy(alpha = 0.7f),
+            unfocusedLabelColor = colorScheme.onSecondary,
             focusedContainerColor = colorScheme.background,
             unfocusedContainerColor = colorScheme.background,
-            focusedPlaceholderColor = colorScheme.onBackground.copy(alpha = 0.7f),
-            unfocusedPlaceholderColor = colorScheme.onBackground.copy(alpha = 0.7f),
+            focusedPlaceholderColor = colorScheme.onSecondary,
+            unfocusedPlaceholderColor = colorScheme.onSecondary,
             focusedTextColor = colorScheme.onBackground,
             unfocusedTextColor = colorScheme.onBackground,
             focusedBorderColor = colorScheme.primary,
@@ -77,5 +77,5 @@ fun ClickHereLink(text: String, tag: String, onClick: LinkInteractionListener?) 
         }
     }
 
-    Text(link, color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f))
+    Text(link, color = MaterialTheme.colorScheme.onSecondary)
 }
