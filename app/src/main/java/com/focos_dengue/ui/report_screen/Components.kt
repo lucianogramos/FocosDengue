@@ -38,18 +38,18 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.times
 import coil.compose.AsyncImage
 import com.focos_dengue.R
-import com.focos_dengue.ui.components.ParagraphText
-import com.focos_dengue.ui.components.PrimaryCard
-import com.focos_dengue.ui.components.PrimaryIcon
-import com.focos_dengue.ui.components.SecondaryCard
-import com.focos_dengue.ui.utils.DP_0
-import com.focos_dengue.ui.utils.MD
-import com.focos_dengue.ui.utils.ROUNDED_MD
-import com.focos_dengue.ui.utils.SM
-import com.focos_dengue.ui.utils.TEXT_SM
-import com.focos_dengue.ui.utils.XL
-import com.focos_dengue.ui.utils.XS
-import com.focos_dengue.ui.utils.dashedBorder
+import com.focos_dengue.ui.util.ParagraphText
+import com.focos_dengue.ui.util.PrimaryCard
+import com.focos_dengue.ui.util.PrimaryIcon
+import com.focos_dengue.ui.util.SecondaryCard
+import com.focos_dengue.ui.util.DP_0
+import com.focos_dengue.ui.util.MD
+import com.focos_dengue.ui.util.ROUNDED_MD
+import com.focos_dengue.ui.util.SM
+import com.focos_dengue.ui.util.TEXT_SM
+import com.focos_dengue.ui.util.XL
+import com.focos_dengue.ui.util.XS
+import com.focos_dengue.ui.util.dashedBorder
 
 @Composable
 fun LocationCard() {

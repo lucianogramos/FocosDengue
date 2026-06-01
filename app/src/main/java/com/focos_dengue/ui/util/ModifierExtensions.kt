@@ -1,4 +1,4 @@
-package com.focos_dengue.ui.utils
+package com.focos_dengue.ui.util
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent

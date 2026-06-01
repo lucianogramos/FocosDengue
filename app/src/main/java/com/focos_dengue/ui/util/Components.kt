@@ -1,4 +1,4 @@
-package com.focos_dengue.ui.components
+package com.focos_dengue.ui.util
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -43,14 +43,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
-import com.focos_dengue.ui.utils.BORDER_WIDTH
-import com.focos_dengue.ui.utils.DP_0
-import com.focos_dengue.ui.utils.MD
-import com.focos_dengue.ui.utils.ROUNDED_MD
-import com.focos_dengue.ui.utils.SM
-import com.focos_dengue.ui.utils.TEXT_MD
-import com.focos_dengue.ui.utils.TEXT_SM
-import com.focos_dengue.ui.utils.TEXT_XL
 
 @Composable
 fun VerticalMargin(margintTop: Dp, marginBottom: Dp, content: @Composable () -> Unit) {

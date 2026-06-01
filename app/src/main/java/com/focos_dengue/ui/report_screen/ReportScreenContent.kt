@@ -18,18 +18,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.times
-import com.focos_dengue.ui.utils.LG
-import com.focos_dengue.ui.utils.MD
-import com.focos_dengue.ui.utils.SM
-import com.focos_dengue.ui.utils.XS
-import com.focos_dengue.ui.utils.XL
-import com.focos_dengue.ui.utils.TEXT_SM
-import com.focos_dengue.ui.components.ParagraphText
-import com.focos_dengue.ui.components.PrimaryButton
-import com.focos_dengue.ui.components.PrimaryCard
-import com.focos_dengue.ui.components.SubtitleText
-import com.focos_dengue.ui.components.TextFieldWithCounter
-import com.focos_dengue.ui.components.TitleText
+import com.focos_dengue.ui.util.LG
+import com.focos_dengue.ui.util.MD
+import com.focos_dengue.ui.util.SM
+import com.focos_dengue.ui.util.XS
+import com.focos_dengue.ui.util.XL
+import com.focos_dengue.ui.util.TEXT_SM
+import com.focos_dengue.ui.util.ParagraphText
+import com.focos_dengue.ui.util.PrimaryButton
+import com.focos_dengue.ui.util.PrimaryCard
+import com.focos_dengue.ui.util.SubtitleText
+import com.focos_dengue.ui.util.TextFieldWithCounter
+import com.focos_dengue.ui.util.TitleText
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

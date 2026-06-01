@@ -18,7 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withLink
-import com.focos_dengue.ui.utils.ROUNDED_MD
+import com.focos_dengue.ui.util.ROUNDED_MD
 
 @Composable
 fun AuthTextField(
