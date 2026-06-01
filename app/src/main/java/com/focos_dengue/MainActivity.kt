@@ -11,27 +11,28 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.focos_dengue.data.remote.model.ScreenName
 import com.focos_dengue.ui.auth_screen.login.LoginScreen
 import com.focos_dengue.ui.auth_screen.signup.SignUpScreen
 import com.focos_dengue.ui.report_screen.ReportScreen
-import com.focos_dengue.ui.theme.FocoAcessibilidadeDengueTheme
+import com.focos_dengue.ui.theme.FocosDengueTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            FocoAcessibilidadeDengueTheme {
+            FocosDengueTheme {
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
                     val navController = rememberNavController()
-                    NavHost(navController, "report") {
-                        composable(route = "login") {
-                            LoginScreen { navController.navigate("signup") }
+                    NavHost(navController, ScreenName.REPORT.route) {
+                        composable(route = ScreenName.LOGIN.route) {
+                            LoginScreen { navController.navigate(ScreenName.SIGNUP.route) }
                         }
-                        composable(route = "signup") {
-                            SignUpScreen { navController.navigate("login") }
+                        composable(route = ScreenName.SIGNUP.route) {
+                            SignUpScreen { navController.navigate(ScreenName.LOGIN.route) }
                         }
-                        composable(route = "report") {
+                        composable(route = ScreenName.REPORT.route) {
                             ReportScreen()
                         }
                     }

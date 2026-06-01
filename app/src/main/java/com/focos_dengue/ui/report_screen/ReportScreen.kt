@@ -7,7 +7,11 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun ReportScreen() {
-    Scaffold() { innerPadding ->
+    Scaffold(
+        bottomBar = {
+            ReportScreenBottomBar()
+        }
+    ) { innerPadding ->
         ReportScreenContent(Modifier.padding(innerPadding))
     }
 }
