@@ -24,7 +24,14 @@ fun ReportScreen(toAccountScreen: () -> Unit, viewModel: ReportViewModel = viewM
             onDescriptionChange = viewModel::updateDescription,
             onPhotoUriChange = viewModel::updatePhotoUri,
             onSendReport = {
-                Toast.makeText(context, "Denúncia enviada", Toast.LENGTH_LONG).show()
+                viewModel.onSendReport { result ->
+                    when (result) {
+                        is SendResult.Sucess ->
+                            Toast.makeText(context, "Denúncia enviada", Toast.LENGTH_LONG).show()
+                        is SendResult.Error ->
+                            Toast.makeText(context, result.message, Toast.LENGTH_LONG).show()
+                    }
+                }
             }
         )
     }

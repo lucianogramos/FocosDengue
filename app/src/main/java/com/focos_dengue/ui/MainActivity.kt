@@ -1,4 +1,4 @@
-package com.focos_dengue
+package com.focos_dengue.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.focos_dengue.data.remote.model.ScreenName
+import com.focos_dengue.ui.navigation.ScreenName
 import com.focos_dengue.ui.auth_screen.login.LoginScreen
 import com.focos_dengue.ui.auth_screen.signup.SignUpScreen
 import com.focos_dengue.ui.main_screen.account_screen.AccountScreen
@@ -24,7 +24,10 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             FocosDengueTheme {
-                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
                     val navController = rememberNavController()
                     NavHost(navController, ScreenName.REPORT.route) {
                         composable(route = ScreenName.LOGIN.route) {

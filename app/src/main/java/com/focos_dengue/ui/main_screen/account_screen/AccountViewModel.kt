@@ -42,7 +42,7 @@ class AccountViewModel : ViewModel() {
         uiState = uiState.copy(confirmationPasswordValue = password)
     }
 
-    fun onSave(onShowToast: (String) -> Unit) {
+    fun onSave(callback: (SaveResult) -> Unit) {
         val data = listOf(
             uiState.oldEmailValue,
             uiState.newEmailValue,
@@ -52,16 +52,16 @@ class AccountViewModel : ViewModel() {
         )
 
         if (data.all { it.isEmpty() }) {
-            onShowToast("Nenhum dado foi alterado")
+            callback(SaveResult.Error("Nenhum dado foi alterado"))
             return
         }
 
         if (uiState.newPasswordValue != uiState.confirmationPasswordValue) {
-            onShowToast("A sua nova senha não é igual a senha de confirmação")
+            callback(SaveResult.Error("A sua nova senha não é igual a senha de confirmação"))
             return
         }
 
         // TODO: Implementar a lógica de salvamento real (ex: chamada ao repositório)
-        onShowToast("Configurações salvas")
+        callback(SaveResult.Success)
     }
 }

@@ -28,8 +28,13 @@ fun AccountScreen(toReportScreen: () -> Unit, viewModel: AccountViewModel = view
             onNewPasswordChange = viewModel::updateNewPassword,
             onConfirmationPasswordChange = viewModel::updateConfirmationPassword,
             onSave = {
-                viewModel.onSave { message ->
-                    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+                viewModel.onSave { result ->
+                    when (result) {
+                        is SaveResult.Success ->
+                            Toast.makeText(context, "Configurações Salvas", Toast.LENGTH_LONG).show()
+                        is SaveResult.Error ->
+                            Toast.makeText(context, result.message, Toast.LENGTH_LONG).show()
+                    }
                 }
             }
         )

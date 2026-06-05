@@ -22,4 +22,9 @@ class ReportViewModel : ViewModel() {
     fun updatePhotoUri(uri: Uri?) {
         uiState = uiState.copy(photoUri = uri)
     }
+
+    fun onSendReport(callback: (SendResult) -> Unit) {
+        // TODO: Implementar a lógica de envio da denúncia
+        callback(SendResult.Sucess)
+    }
 }

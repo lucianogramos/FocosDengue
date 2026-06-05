@@ -1,4 +1,4 @@
-package com.focos_dengue.data.remote.model
+package com.focos_dengue.ui.navigation
 
 enum class ScreenName(val route: String) {
     LOGIN("login"),
