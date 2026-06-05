@@ -5,15 +5,24 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
-fun SignUpScreen(toLoginScreen: () -> Unit) {
+fun SignUpScreen(toLoginScreen: () -> Unit, viewModel: SignUpViewModel = viewModel()) {
     Scaffold(
         modifier = Modifier.fillMaxWidth(),
         topBar = {
             SignUpTopbar()
         }
     ) { innerPadding ->
-        SignUpScreenContent(Modifier.padding(innerPadding), toLoginScreen = toLoginScreen)
+        SignUpScreenContent(
+            modifier = Modifier.padding(innerPadding),
+            toLoginScreen = toLoginScreen,
+            state = viewModel.uiState,
+            onNameChange = viewModel::updateName,
+            onEmailChange = viewModel::updateEmail,
+            onPasswordChange = viewModel::updatePassword,
+            onSignUp = viewModel::onSignUp
+        )
     }
 }

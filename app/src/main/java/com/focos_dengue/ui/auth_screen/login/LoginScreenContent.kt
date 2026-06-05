@@ -11,7 +11,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.times
-import com.focos_dengue.data.remote.auth.loginUsuario
 import com.focos_dengue.ui.auth_screen.ClickHereLink
 import com.focos_dengue.ui.util.ParagraphText
 import com.focos_dengue.ui.util.PrimaryButton
@@ -22,23 +21,24 @@ import com.focos_dengue.ui.util.PrimaryTextField
 import com.focos_dengue.ui.util.SM
 import com.focos_dengue.ui.util.XL
 import com.focos_dengue.ui.util.XS
-import kotlinx.coroutines.launch
 
 @Composable
-fun LoginScreenContent(modifier: Modifier = Modifier, toSignUpScreen: (() -> Unit)? = null) {
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-
-    val scope = rememberCoroutineScope()
-
+fun LoginScreenContent(
+    modifier: Modifier = Modifier,
+    toSignUpScreen: (() -> Unit)? = null,
+    state: LoginUIState,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onLogin: () -> Unit
+) {
     Column(modifier = modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(2 * MD)) {
         TitleText("Bem-vindo", marginTop = XS)
 
         ParagraphText("Faça login para continuar", marginTop = SM, marginBottom = LG)
 
         PrimaryTextField(
-            value = email,
-            onValueChange = { email = it },
+            value = state.email,
+            onValueChange = onEmailChange,
             label = "E-mail",
             placeholder = "email@exemplo.com",
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
@@ -47,8 +47,8 @@ fun LoginScreenContent(modifier: Modifier = Modifier, toSignUpScreen: (() -> Uni
         Spacer(Modifier.height(LG))
 
         PrimaryTextField(
-            value = password,
-            onValueChange = { password = it },
+            value = state.password,
+            onValueChange = onPasswordChange,
             label = "Senha",
             visualTransformation = PasswordVisualTransformation(), // Esconde o texto com bolinhas
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
@@ -56,11 +56,7 @@ fun LoginScreenContent(modifier: Modifier = Modifier, toSignUpScreen: (() -> Uni
 
         Spacer(Modifier.height(XL))
 
-        PrimaryButton("Entrar")  {
-            scope.launch {
-                loginUsuario(email, password)
-            }
-        }
+        PrimaryButton(text = "Entrar", onClick = onLogin)
 
         Spacer(Modifier.height(XS))
 
@@ -74,7 +70,12 @@ fun LoginScreenContent(modifier: Modifier = Modifier, toSignUpScreen: (() -> Uni
 fun LoginScreenContentPreview() {
     MaterialTheme {
         Surface(color = MaterialTheme.colorScheme.background) {
-            LoginScreenContent()
+            LoginScreenContent(
+                state = LoginUIState(),
+                onEmailChange = {},
+                onPasswordChange = {},
+                onLogin = {}
+            )
         }
     }
 }
