@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
@@ -24,6 +25,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -39,6 +41,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -68,7 +71,10 @@ fun PrimaryButton(text: String, modifier: Modifier = Modifier, onClick: () -> Un
 @Composable
 fun TitleText(text: String, modifier: Modifier = Modifier, fontSize: TextUnit = TEXT_XL, marginTop: Dp = DP_0, marginBottom: Dp = DP_0) {
     VerticalMargin(marginTop, marginBottom) {
-        Text(text, modifier, MaterialTheme.colorScheme.onBackground, fontSize = fontSize, fontWeight = FontWeight.Bold)
+        Text(
+            text = text, modifier = modifier, color = MaterialTheme.colorScheme.onBackground,
+            fontSize = fontSize, fontWeight = FontWeight.Bold, lineHeight = TEXT_XL * 1.2
+        )
     }
 }
 
@@ -146,16 +152,18 @@ fun SecondaryCard(
 }
 
 @Composable
-fun PrimaryDivider() {
+fun PrimaryDivider(colors: List<Color> = emptyList()) {
     val colorScheme = MaterialTheme.colorScheme
 
-    val gradientColors = listOf(
-        Color.Transparent,
-        colorScheme.outline,
-        colorScheme.outline,
-        colorScheme.outline,
-        Color.Transparent
-    )
+    val gradientColors = colors.ifEmpty {
+        listOf(
+            Color.Transparent,
+            colorScheme.outline,
+            colorScheme.outline,
+            colorScheme.outline,
+            Color.Transparent
+        )
+    }
 
     HorizontalDivider(
         thickness = 1.5.dp,
@@ -166,14 +174,55 @@ fun PrimaryDivider() {
     )
 }
 
+@Composable
+fun PrimaryTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    singleLine: Boolean = true,
+    maxLines: Int = 1,
+    label: String = "",
+    placeholder: String = "",
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    visualTransformation: VisualTransformation = VisualTransformation.None
+) {
+    val colorScheme = MaterialTheme.colorScheme
+
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        modifier = modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(ROUNDED_MD),
+        singleLine = singleLine,
+        maxLines = maxLines,
+        label = if (label.isNotEmpty()) { { Text(label) } } else null,
+        placeholder = if (placeholder.isNotEmpty()) { { Text(placeholder) } } else null,
+        keyboardOptions = keyboardOptions,
+        visualTransformation = visualTransformation,
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedContainerColor = colorScheme.background,
+            unfocusedContainerColor = colorScheme.background,
+            focusedLabelColor = colorScheme.onBackground,
+            unfocusedLabelColor = colorScheme.onSecondary,
+            focusedPlaceholderColor = colorScheme.onSecondary,
+            unfocusedPlaceholderColor = colorScheme.onSecondary,
+            focusedTextColor = colorScheme.onBackground,
+            unfocusedTextColor = colorScheme.onBackground,
+            focusedBorderColor = colorScheme.primary,
+            unfocusedBorderColor = colorScheme.outline
+        )
+    )
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TextFieldWithCounter(
+fun PrimaryTextFieldWithCounter(
     value: String,
     onValueChange: (String) -> Unit,
     maxChar: Int,
     modifier: Modifier = Modifier,
     height: Dp,
+    singleLine: Boolean = false,
     maxLines: Int = 1,
     placeholder: String = ""
 ) {
@@ -196,6 +245,7 @@ fun TextFieldWithCounter(
                 if (it.length <= maxChar) onValueChange(it)
             },
             modifier = Modifier.fillMaxWidth().weight(1f).onFocusChanged { isFocused = it.isFocused },
+            singleLine = singleLine,
             maxLines = maxLines,
             placeholder = if (placeholder.isNotEmpty()) { { Text(placeholder) } } else null,
             colors = TextFieldDefaults.colors(

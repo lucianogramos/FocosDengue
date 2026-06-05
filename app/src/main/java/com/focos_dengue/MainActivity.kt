@@ -14,7 +14,8 @@ import androidx.navigation.compose.rememberNavController
 import com.focos_dengue.data.remote.model.ScreenName
 import com.focos_dengue.ui.auth_screen.login.LoginScreen
 import com.focos_dengue.ui.auth_screen.signup.SignUpScreen
-import com.focos_dengue.ui.report_screen.ReportScreen
+import com.focos_dengue.ui.main_screen.account_screen.AccountScreen
+import com.focos_dengue.ui.main_screen.report_screen.ReportScreen
 import com.focos_dengue.ui.theme.FocosDengueTheme
 
 class MainActivity : ComponentActivity() {
@@ -27,13 +28,16 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     NavHost(navController, ScreenName.REPORT.route) {
                         composable(route = ScreenName.LOGIN.route) {
-                            LoginScreen { navController.navigate(ScreenName.SIGNUP.route) }
+                            LoginScreen({ navController.navigate(ScreenName.SIGNUP.route) })
                         }
                         composable(route = ScreenName.SIGNUP.route) {
-                            SignUpScreen { navController.navigate(ScreenName.LOGIN.route) }
+                            SignUpScreen({ navController.navigate(ScreenName.LOGIN.route) })
                         }
                         composable(route = ScreenName.REPORT.route) {
-                            ReportScreen()
+                            ReportScreen({ navController.navigate(ScreenName.ACCOUNT.route) })
+                        }
+                        composable(route = ScreenName.ACCOUNT.route) {
+                            AccountScreen({ navController.navigate(ScreenName.REPORT.route) })
                         }
                     }
                 }

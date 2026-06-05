@@ -1,4 +1,4 @@
-package com.focos_dengue.ui.report_screen
+package com.focos_dengue.ui.main_screen.report_screen
 
 import android.net.Uri
 import android.webkit.MimeTypeMap
@@ -95,7 +95,7 @@ fun PhotoCard(
     height: Dp,
     dashLength: Dp = SM,
     gapLength: Dp = XS,
-    onClick: ((uri: Uri?) -> Unit)? = null
+    onClick: ((Uri?) -> Unit)? = null
 ) {
     val colorScheme = MaterialTheme.colorScheme
     val context = LocalContext.current
