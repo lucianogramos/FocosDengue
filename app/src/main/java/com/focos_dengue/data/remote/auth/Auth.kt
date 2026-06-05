@@ -53,6 +53,23 @@ suspend fun loginUsuario(email: String, senha: String): Result<Unit> {
 
 }
 
+suspend fun recoverPassword(email: String): Result<Unit> {
+
+    if (email.isBlank()) {
+        return Result.failure(Exception("Digite um e-mail!"))
+    }
+
+    return try {
+
+        supabase.auth.resetPasswordForEmail(email = email)
+
+        Result.success(Unit)
+
+    } catch (e: Exception) {
+        Result.failure(e)
+    }
+}
+
 suspend fun logoutUsuario() {
     supabase.auth.signOut()
 }
