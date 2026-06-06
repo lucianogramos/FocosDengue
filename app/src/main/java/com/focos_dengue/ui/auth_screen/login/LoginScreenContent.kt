@@ -8,24 +8,26 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.times
 import com.focos_dengue.ui.auth_screen.ClickHereLink
-import com.focos_dengue.ui.util.ParagraphText
+import com.focos_dengue.ui.auth_screen.PasswordTextField
 import com.focos_dengue.ui.util.PrimaryButton
 import com.focos_dengue.ui.util.TitleText
 import com.focos_dengue.ui.util.LG
 import com.focos_dengue.ui.util.MD
 import com.focos_dengue.ui.util.PrimaryTextField
 import com.focos_dengue.ui.util.SM
+import com.focos_dengue.ui.util.SecondaryText
+import com.focos_dengue.ui.util.TEXT_MD
 import com.focos_dengue.ui.util.XL
 import com.focos_dengue.ui.util.XS
 
 @Composable
 fun LoginScreenContent(
     modifier: Modifier = Modifier,
-    toSignUpScreen: (() -> Unit)? = null,
+    toSignUpScreen: () -> Unit,
+    toForgotPasswordScreen: () -> Unit,
     state: LoginUIState,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
@@ -34,7 +36,7 @@ fun LoginScreenContent(
     Column(modifier = modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(2 * MD)) {
         TitleText("Bem-vindo", marginTop = XS)
 
-        ParagraphText("Faça login para continuar", marginTop = SM, marginBottom = LG)
+        SecondaryText("Faça login para continuar", fontSize = TEXT_MD, marginTop = SM, marginBottom = LG)
 
         PrimaryTextField(
             value = state.email,
@@ -46,12 +48,9 @@ fun LoginScreenContent(
 
         Spacer(Modifier.height(LG))
 
-        PrimaryTextField(
+        PasswordTextField(
             value = state.password,
-            onValueChange = onPasswordChange,
-            label = "Senha",
-            visualTransformation = PasswordVisualTransformation(), // Esconde o texto com bolinhas
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+            onValueChange = onPasswordChange
         )
 
         Spacer(Modifier.height(XL))
@@ -60,8 +59,8 @@ fun LoginScreenContent(
 
         Spacer(Modifier.height(XS))
 
-        ClickHereLink("Ainda não tem uma conta? ", "navigation") { toSignUpScreen?.invoke() }
-        ClickHereLink("Esqueceu a senha? ", "redirect") {}
+        ClickHereLink("Ainda não tem uma conta? ", "navigation") { toSignUpScreen() }
+        ClickHereLink("Esqueceu a senha? ", "redirect") { toForgotPasswordScreen() }
     }
 }
 
@@ -72,6 +71,8 @@ fun LoginScreenContentPreview() {
         Surface(color = MaterialTheme.colorScheme.background) {
             LoginScreenContent(
                 state = LoginUIState(),
+                toSignUpScreen = {},
+                toForgotPasswordScreen = {},
                 onEmailChange = {},
                 onPasswordChange = {},
                 onLogin = {}

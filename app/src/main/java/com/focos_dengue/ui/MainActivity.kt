@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.focos_dengue.ui.auth_screen.forgot_password.ForgotPasswordScreen
 import com.focos_dengue.ui.navigation.ScreenName
 import com.focos_dengue.ui.auth_screen.login.LoginScreen
 import com.focos_dengue.ui.auth_screen.signup.SignUpScreen
@@ -29,12 +30,22 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-                    NavHost(navController, ScreenName.REPORT.route) {
+                    NavHost(navController, ScreenName.FORGOT_PASSWORD.route) {
                         composable(route = ScreenName.LOGIN.route) {
-                            LoginScreen({ navController.navigate(ScreenName.SIGNUP.route) })
+                            LoginScreen(
+                                toSignUpScreen = {
+                                    navController.navigate(ScreenName.SIGNUP.route)
+                                },
+                                toForgotPasswordScreen = {
+                                    navController.navigate(ScreenName.FORGOT_PASSWORD.route)
+                                }
+                            )
                         }
                         composable(route = ScreenName.SIGNUP.route) {
                             SignUpScreen({ navController.navigate(ScreenName.LOGIN.route) })
+                        }
+                        composable(route = ScreenName.FORGOT_PASSWORD.route) {
+                            ForgotPasswordScreen({ navController.navigate(ScreenName.LOGIN.route) })
                         }
                         composable(route = ScreenName.REPORT.route) {
                             ReportScreen({ navController.navigate(ScreenName.ACCOUNT.route) })

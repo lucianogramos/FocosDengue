@@ -24,7 +24,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -38,23 +37,22 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.times
 import coil.compose.AsyncImage
 import com.focos_dengue.R
-import com.focos_dengue.ui.util.ParagraphText
 import com.focos_dengue.ui.util.PrimaryCard
 import com.focos_dengue.ui.util.PrimaryIcon
 import com.focos_dengue.ui.util.SecondaryCard
 import com.focos_dengue.ui.util.DP_0
 import com.focos_dengue.ui.util.MD
+import com.focos_dengue.ui.util.PrimaryText
 import com.focos_dengue.ui.util.ROUNDED_MD
 import com.focos_dengue.ui.util.SM
-import com.focos_dengue.ui.util.TEXT_SM
+import com.focos_dengue.ui.util.SecondaryText
+import com.focos_dengue.ui.util.TEXT_MD
 import com.focos_dengue.ui.util.XL
 import com.focos_dengue.ui.util.XS
 import com.focos_dengue.ui.util.dashedBorder
 
 @Composable
 fun LocationCard() {
-    val colorScheme = MaterialTheme.colorScheme
-
     PrimaryCard {
         Spacer(Modifier.height(SM))
 
@@ -66,10 +64,10 @@ fun LocationCard() {
             Row {
                 PrimaryIcon(R.drawable.location_icon, "Localização")
                 Spacer(Modifier.width(XS))
-                Text("Localização", color = colorScheme.onBackground)
+                PrimaryText("Localização")
             }
 
-            Text("Alterar", color = colorScheme.onBackground, textDecoration = TextDecoration.Underline)
+            PrimaryText("Alterar", textDecoration = TextDecoration.Underline)
         }
 
         Spacer(Modifier.height(SM))
@@ -79,14 +77,10 @@ fun LocationCard() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text("Mapa do Google", color = colorScheme.onBackground)
+            PrimaryText("Mapa do Google")
         }
 
-        ParagraphText(
-            text = "Bairro Alcides Junqueira\nItuiutaba - MG",
-            fontSize = TEXT_SM,
-            marginTop = SM
-        )
+        SecondaryText(text = "Bairro Alcides Junqueira\nItuiutaba - MG", marginTop = SM)
     }
 }
 
@@ -177,8 +171,8 @@ fun PhotoCard(
 
             Spacer(Modifier.height(MD))
 
-            Text("Adicionar Foto", color = colorScheme.onBackground)
-            ParagraphText("Adicione uma foto jpg/jpeg", fontSize = TEXT_SM)
+            PrimaryText("Adicionar Foto", fontSize = TEXT_MD)
+            SecondaryText("Adicione uma foto jpg/jpeg")
         }
     }
 }

@@ -21,12 +21,12 @@ import com.focos_dengue.ui.util.MD
 import com.focos_dengue.ui.util.SM
 import com.focos_dengue.ui.util.XS
 import com.focos_dengue.ui.util.XL
-import com.focos_dengue.ui.util.TEXT_SM
-import com.focos_dengue.ui.util.ParagraphText
 import com.focos_dengue.ui.util.PrimaryButton
 import com.focos_dengue.ui.util.PrimaryCard
 import com.focos_dengue.ui.util.PrimaryTextFieldWithCounter
+import com.focos_dengue.ui.util.SecondaryText
 import com.focos_dengue.ui.util.SubtitleText
+import com.focos_dengue.ui.util.TEXT_MD
 import com.focos_dengue.ui.util.TitleText
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -44,8 +44,9 @@ fun ReportScreenContent(
     Column(modifier = modifier.fillMaxSize().verticalScroll(scrollState).padding(2 * MD)) {
         TitleText("Novo reporte", marginTop = XS)
 
-        ParagraphText(
+        SecondaryText(
             text = "Envie fotos do problema para os orgãos públicos",
+            fontSize = TEXT_MD,
             marginTop = SM,
             marginBottom = MD
         )
@@ -70,12 +71,11 @@ fun ReportScreenContent(
         Spacer(Modifier.height(MD))
 
         PrimaryCard {
-            ParagraphText(
+            SecondaryText(
                 text = "Essa denúncia será enviada para o seguinte destinatário:",
-                fontSize = TEXT_SM,
                 marginBottom = XS
             )
-            ParagraphText("Centro de Controle de Zoonoses", fontSize = TEXT_SM)
+            SecondaryText("Centro de Controle de Zoonoses")
         }
 
         Spacer(Modifier.height(LG))
