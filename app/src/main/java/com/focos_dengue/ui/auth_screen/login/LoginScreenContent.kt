@@ -1,42 +1,46 @@
 package com.focos_dengue.ui.auth_screen.login
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.times
-import com.focos_dengue.data.remote.auth.loginUsuario
-import com.focos_dengue.ui.auth_screen.AuthTextField
 import com.focos_dengue.ui.auth_screen.ClickHereLink
-import com.focos_dengue.ui.components.ParagraphText
-import com.focos_dengue.ui.components.PrimaryButton
-import com.focos_dengue.ui.components.TitleText
-import com.focos_dengue.ui.utils.LG
-import com.focos_dengue.ui.utils.MD
-import com.focos_dengue.ui.utils.SM
-import com.focos_dengue.ui.utils.XL
-import com.focos_dengue.ui.utils.XS
-import kotlinx.coroutines.launch
+import com.focos_dengue.ui.auth_screen.PasswordTextField
+import com.focos_dengue.ui.util.PrimaryButton
+import com.focos_dengue.ui.util.TitleText
+import com.focos_dengue.ui.util.LG
+import com.focos_dengue.ui.util.MD
+import com.focos_dengue.ui.util.PrimaryTextField
+import com.focos_dengue.ui.util.SM
+import com.focos_dengue.ui.util.SecondaryText
+import com.focos_dengue.ui.util.TEXT_MD
+import com.focos_dengue.ui.util.XL
+import com.focos_dengue.ui.util.XS
 
 @Composable
-fun LoginScreenContent(modifier: Modifier = Modifier, toSignUpScreen: (() -> Unit)? = null) {
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-
-    val scope = rememberCoroutineScope()
-
-    Column(modifier = modifier.fillMaxSize().padding(2 * MD)) {
+fun LoginScreenContent(
+    modifier: Modifier = Modifier,
+    toSignUpScreen: () -> Unit,
+    toForgotPasswordScreen: () -> Unit,
+    state: LoginUIState,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onLogin: () -> Unit
+) {
+    Column(modifier = modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(2 * MD)) {
         TitleText("Bem-vindo", marginTop = XS)
 
-        ParagraphText("Faça login para continuar", marginTop = SM, marginBottom = LG)
+        SecondaryText("Faça login para continuar", fontSize = TEXT_MD, marginTop = SM, marginBottom = LG)
 
-        AuthTextField(
-            value = email,
-            onValueChange = { email = it },
+        PrimaryTextField(
+            value = state.email,
+            onValueChange = onEmailChange,
             label = "E-mail",
             placeholder = "email@exemplo.com",
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
@@ -44,26 +48,19 @@ fun LoginScreenContent(modifier: Modifier = Modifier, toSignUpScreen: (() -> Uni
 
         Spacer(Modifier.height(LG))
 
-        AuthTextField(
-            value = password,
-            onValueChange = { password = it },
-            label = "Senha",
-            visualTransformation = PasswordVisualTransformation(), // Esconde o texto com bolinhas
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+        PasswordTextField(
+            value = state.password,
+            onValueChange = onPasswordChange
         )
 
         Spacer(Modifier.height(XL))
 
-        PrimaryButton("Entrar")  {
-            scope.launch {
-                loginUsuario(email, password)
-            }
-        }
+        PrimaryButton(text = "Entrar", onClick = onLogin)
 
         Spacer(Modifier.height(XS))
 
-        ClickHereLink("Ainda não tem uma conta? ", "navigation") { toSignUpScreen?.invoke() }
-        ClickHereLink("Esqueceu a senha? ", "redirect") {}
+        ClickHereLink("Ainda não tem uma conta? ", "navigation") { toSignUpScreen() }
+        ClickHereLink("Esqueceu a senha? ", "redirect") { toForgotPasswordScreen() }
     }
 }
 
@@ -72,7 +69,14 @@ fun LoginScreenContent(modifier: Modifier = Modifier, toSignUpScreen: (() -> Uni
 fun LoginScreenContentPreview() {
     MaterialTheme {
         Surface(color = MaterialTheme.colorScheme.background) {
-            LoginScreenContent()
+            LoginScreenContent(
+                state = LoginUIState(),
+                toSignUpScreen = {},
+                toForgotPasswordScreen = {},
+                onEmailChange = {},
+                onPasswordChange = {},
+                onLogin = {}
+            )
         }
     }
 }

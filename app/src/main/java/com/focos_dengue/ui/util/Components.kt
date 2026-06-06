@@ -1,9 +1,12 @@
-package com.focos_dengue.ui.components
+package com.focos_dengue.ui.util
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
@@ -24,6 +28,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -39,18 +44,13 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
-import com.focos_dengue.ui.utils.BORDER_WIDTH
-import com.focos_dengue.ui.utils.DP_0
-import com.focos_dengue.ui.utils.MD
-import com.focos_dengue.ui.utils.ROUNDED_MD
-import com.focos_dengue.ui.utils.SM
-import com.focos_dengue.ui.utils.TEXT_MD
-import com.focos_dengue.ui.utils.TEXT_SM
-import com.focos_dengue.ui.utils.TEXT_XL
 
 @Composable
 fun VerticalMargin(margintTop: Dp, marginBottom: Dp, content: @Composable () -> Unit) {
@@ -74,9 +74,34 @@ fun PrimaryButton(text: String, modifier: Modifier = Modifier, onClick: () -> Un
 }
 
 @Composable
+fun PrimaryIconButton(
+    iconId: Int,
+    contentDescription: String?,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    val interactionSource = remember { MutableInteractionSource() }
+
+    Box(
+        modifier = modifier
+            .clickable(
+                interactionSource = interactionSource,
+                indication = null,
+                onClick = onClick
+            ),
+        contentAlignment = Alignment.Center
+    ) {
+        PrimaryIcon(iconId, contentDescription)
+    }
+}
+
+@Composable
 fun TitleText(text: String, modifier: Modifier = Modifier, fontSize: TextUnit = TEXT_XL, marginTop: Dp = DP_0, marginBottom: Dp = DP_0) {
     VerticalMargin(marginTop, marginBottom) {
-        Text(text, modifier, MaterialTheme.colorScheme.onBackground, fontSize = fontSize, fontWeight = FontWeight.Bold)
+        Text(
+            text = text, modifier = modifier, color = MaterialTheme.colorScheme.onBackground,
+            fontSize = fontSize, fontWeight = FontWeight.Bold, lineHeight = TEXT_XL * 1.2
+        )
     }
 }
 
@@ -88,16 +113,24 @@ fun SubtitleText(text: String, modifier: Modifier = Modifier, fontSize: TextUnit
 }
 
 @Composable
-fun ParagraphText(text: String, modifier: Modifier = Modifier, fontSize: TextUnit = TEXT_MD, marginTop: Dp = DP_0, marginBottom: Dp = DP_0) {
+fun PrimaryText(
+    text: String,
+    modifier: Modifier = Modifier,
+    fontSize: TextUnit = TEXT_MD,
+    textDecoration: TextDecoration? = null,
+    marginTop: Dp = DP_0,
+    marginBottom: Dp = DP_0
+) {
     VerticalMargin(marginTop, marginBottom) {
-        Text(text, modifier, MaterialTheme.colorScheme.onSecondary, fontSize = fontSize)
+        Text(text, modifier, MaterialTheme.colorScheme.onBackground, fontSize = fontSize, textDecoration = textDecoration)
     }
 }
 
 @Composable
-fun PrimaryText(text: String, modifier: Modifier = Modifier, fontSize: TextUnit = TEXT_SM, marginTop: Dp = DP_0, marginBottom: Dp = DP_0) {
+fun SecondaryText(
+    text: String, modifier: Modifier = Modifier, fontSize: TextUnit = TEXT_SM, marginTop: Dp = DP_0, marginBottom: Dp = DP_0) {
     VerticalMargin(marginTop, marginBottom) {
-        Text(text, modifier, MaterialTheme.colorScheme.onBackground, fontSize = fontSize)
+        Text(text, modifier, MaterialTheme.colorScheme.onSecondary, fontSize = fontSize, lineHeight = fontSize * 1.5)
     }
 }
 
@@ -154,16 +187,18 @@ fun SecondaryCard(
 }
 
 @Composable
-fun PrimaryDivider() {
+fun PrimaryDivider(colors: List<Color> = emptyList()) {
     val colorScheme = MaterialTheme.colorScheme
 
-    val gradientColors = listOf(
-        Color.Transparent,
-        colorScheme.outline,
-        colorScheme.outline,
-        colorScheme.outline,
-        Color.Transparent
-    )
+    val gradientColors = colors.ifEmpty {
+        listOf(
+            Color.Transparent,
+            colorScheme.outline,
+            colorScheme.outline,
+            colorScheme.outline,
+            Color.Transparent
+        )
+    }
 
     HorizontalDivider(
         thickness = 1.5.dp,
@@ -174,14 +209,55 @@ fun PrimaryDivider() {
     )
 }
 
+@Composable
+fun PrimaryTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    singleLine: Boolean = true,
+    maxLines: Int = 1,
+    label: String = "",
+    placeholder: String = "",
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    visualTransformation: VisualTransformation = VisualTransformation.None
+) {
+    val colorScheme = MaterialTheme.colorScheme
+
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        modifier = modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(ROUNDED_MD),
+        singleLine = singleLine,
+        maxLines = maxLines,
+        label = if (label.isNotEmpty()) { { Text(label) } } else null,
+        placeholder = if (placeholder.isNotEmpty()) { { Text(placeholder) } } else null,
+        keyboardOptions = keyboardOptions,
+        visualTransformation = visualTransformation,
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedContainerColor = colorScheme.background,
+            unfocusedContainerColor = colorScheme.background,
+            focusedLabelColor = colorScheme.onBackground,
+            unfocusedLabelColor = colorScheme.onSecondary,
+            focusedPlaceholderColor = colorScheme.onSecondary,
+            unfocusedPlaceholderColor = colorScheme.onSecondary,
+            focusedTextColor = colorScheme.onBackground,
+            unfocusedTextColor = colorScheme.onBackground,
+            focusedBorderColor = colorScheme.primary,
+            unfocusedBorderColor = colorScheme.outline
+        )
+    )
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TextFieldWithCounter(
+fun PrimaryTextFieldWithCounter(
     value: String,
     onValueChange: (String) -> Unit,
     maxChar: Int,
     modifier: Modifier = Modifier,
     height: Dp,
+    singleLine: Boolean = false,
     maxLines: Int = 1,
     placeholder: String = ""
 ) {
@@ -193,7 +269,8 @@ fun TextFieldWithCounter(
 
     Column(
         modifier = modifier
-            .fillMaxWidth().height(height)
+            .fillMaxWidth()
+            .height(height)
             .border(BorderStroke(borderWidth, borderColor), RoundedCornerShape(ROUNDED_MD))
             .background(colorScheme.background, RoundedCornerShape(ROUNDED_MD))
             .padding(bottom = SM)
@@ -203,7 +280,11 @@ fun TextFieldWithCounter(
             onValueChange = {
                 if (it.length <= maxChar) onValueChange(it)
             },
-            modifier = Modifier.fillMaxWidth().weight(1f).onFocusChanged { isFocused = it.isFocused },
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+                .onFocusChanged { isFocused = it.isFocused },
+            singleLine = singleLine,
             maxLines = maxLines,
             placeholder = if (placeholder.isNotEmpty()) { { Text(placeholder) } } else null,
             colors = TextFieldDefaults.colors(
@@ -224,9 +305,42 @@ fun TextFieldWithCounter(
             text = "${value.length} / $maxChar",
             color = colorScheme.onSecondary,
             style = MaterialTheme.typography.bodySmall,
-            modifier = Modifier.align(Alignment.End).padding(end = MD)
+            modifier = Modifier
+                .align(Alignment.End)
+                .padding(end = MD)
         )
     }
+}
+
+@Composable
+fun NumericField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val colorScheme = MaterialTheme.colorScheme
+
+    OutlinedTextField(
+        value = value,
+        onValueChange = { input ->
+            if (input.isEmpty())
+                onValueChange(input)
+            else if (input[input.length - 1].isDigit())
+                onValueChange(input)
+        },
+        modifier = modifier,
+        shape = RoundedCornerShape(ROUNDED_MD),
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedContainerColor = colorScheme.background,
+            unfocusedContainerColor = colorScheme.background,
+            focusedTextColor = colorScheme.onBackground,
+            unfocusedTextColor = colorScheme.onBackground,
+            focusedBorderColor = colorScheme.primary,
+            unfocusedBorderColor = colorScheme.outline
+        )
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -251,10 +365,12 @@ fun Select(
             readOnly = true, // Torna o campo imutável via teclado
             label = if (!label.isEmpty()) { { Text(label, color = colorScheme.onBackground) } } else null,
             // O menuAnchor() liga fisicamente o menu a este campo de texto
-            modifier = Modifier.fillMaxWidth().menuAnchor(
-                type = ExposedDropdownMenuAnchorType.PrimaryEditable,
-                enabled = true
-            ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .menuAnchor(
+                    type = ExposedDropdownMenuAnchorType.PrimaryEditable,
+                    enabled = true
+                ),
             shape = RoundedCornerShape(ROUNDED_MD),
             trailingIcon = {
                 ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)

@@ -5,64 +5,63 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.times
-import com.focos_dengue.data.remote.auth.cadastrarUsuario
-import com.focos_dengue.ui.auth_screen.AuthTextField
 import com.focos_dengue.ui.auth_screen.ClickHereLink
-import com.focos_dengue.ui.components.ParagraphText
-import com.focos_dengue.ui.components.PrimaryButton
-import com.focos_dengue.ui.components.TitleText
-import com.focos_dengue.ui.utils.LG
-import com.focos_dengue.ui.utils.MD
-import com.focos_dengue.ui.utils.SM
-import com.focos_dengue.ui.utils.XL
-import com.focos_dengue.ui.utils.XS
-import kotlinx.coroutines.launch
+import com.focos_dengue.ui.auth_screen.PasswordTextField
+import com.focos_dengue.ui.util.PrimaryButton
+import com.focos_dengue.ui.util.TitleText
+import com.focos_dengue.ui.util.LG
+import com.focos_dengue.ui.util.MD
+import com.focos_dengue.ui.util.PrimaryTextField
+import com.focos_dengue.ui.util.SM
+import com.focos_dengue.ui.util.SecondaryText
+import com.focos_dengue.ui.util.TEXT_MD
+import com.focos_dengue.ui.util.XL
+import com.focos_dengue.ui.util.XS
 
 @Composable
-fun SignUpScreenContent(modifier: Modifier = Modifier, toLoginScreen: (() -> Unit)? = null) {
-    var name by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-
-    val scope = rememberCoroutineScope()
-
-    Column(modifier = modifier.fillMaxSize().padding(2 * MD)) {
+fun SignUpScreenContent(
+    modifier: Modifier = Modifier,
+    toLoginScreen: (() -> Unit)? = null,
+    state: SignUpUIState,
+    onNameChange: (String) -> Unit,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onSignUp: () -> Unit
+) {
+    Column(modifier = modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(2 * MD)) {
         TitleText(
             text = "Bem-vindo",
             marginTop = XS
         )
 
-        ParagraphText(
+        SecondaryText(
             text = "Faça seu cadastro para poder denunciar locais com foco de dengue e falta de acessibilidade",
+            fontSize = TEXT_MD,
             marginTop = SM,
             marginBottom = XL
         )
 
-        AuthTextField(
-            value = name,
-            onValueChange = { name = it },
+        PrimaryTextField(
+            value = state.name,
+            onValueChange = onNameChange,
             label = "Nome"
         )
 
         Spacer(Modifier.height(LG))
 
-        AuthTextField(
-            value = email,
-            onValueChange = { email = it },
+        PrimaryTextField(
+            value = state.email,
+            onValueChange = onEmailChange,
             label = "E-mail",
             placeholder = "email@exemplo.com",
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
@@ -70,21 +69,14 @@ fun SignUpScreenContent(modifier: Modifier = Modifier, toLoginScreen: (() -> Uni
 
         Spacer(Modifier.height(LG))
 
-        AuthTextField(
-            value = password,
-            onValueChange = { password = it },
-            label = "Senha",
-            visualTransformation = PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+        PasswordTextField(
+            value = state.password,
+            onValueChange = onPasswordChange
         )
 
         Spacer(Modifier.height(XL))
 
-        PrimaryButton("Cadastrar") {
-            scope.launch {
-                cadastrarUsuario(email, password)
-            }
-        }
+        PrimaryButton(text = "Cadastrar", onClick = onSignUp)
 
         Spacer(Modifier.height(XS))
 
@@ -97,7 +89,13 @@ fun SignUpScreenContent(modifier: Modifier = Modifier, toLoginScreen: (() -> Uni
 private fun SignUpScreenContentPreview() {
     MaterialTheme {
         Surface(color = MaterialTheme.colorScheme.background) {
-            SignUpScreenContent()
+            SignUpScreenContent(
+                state = SignUpUIState(),
+                onNameChange = {},
+                onEmailChange = {},
+                onPasswordChange = {},
+                onSignUp = {}
+            )
         }
     }
 }
