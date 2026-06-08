@@ -6,11 +6,14 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.focos_dengue.data.remote.auth.loginUsuario
+import com.focos_dengue.domain.validation.PasswordRequirements
+import com.focos_dengue.domain.validation.PasswordValidator
 import kotlinx.coroutines.launch
 
 data class LoginUIState(
     val email: String = "",
-    val password: String = ""
+    val password: String = "",
+    val passwordRequirements: PasswordRequirements = PasswordRequirements()
 )
 
 class LoginViewModel : ViewModel() {
@@ -22,7 +25,10 @@ class LoginViewModel : ViewModel() {
     }
 
     fun updatePassword(password: String) {
-        uiState = uiState.copy(password = password)
+        uiState = uiState.copy(
+            password = password,
+            passwordRequirements = PasswordValidator.validate(password)
+        )
     }
 
     fun onLogin() {

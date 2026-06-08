@@ -50,7 +50,12 @@ fun LoginScreenContent(
 
         PasswordTextField(
             value = state.password,
-            onValueChange = onPasswordChange
+            onValueChange = onPasswordChange,
+            hasMinChars = state.passwordRequirements.hasMinChars,
+            hasUpperCase = state.passwordRequirements.hasUpperCase,
+            hasLowerCase = state.passwordRequirements.hasLowerCase,
+            hasNumber = state.passwordRequirements.hasNumber,
+            hasSpecialChar = state.passwordRequirements.hasSpecialChar
         )
 
         Spacer(Modifier.height(XL))

@@ -8,11 +8,13 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -51,6 +53,16 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
+
+@Composable
+fun MarginTop(marginTop: Dp) {
+    if (marginTop > DP_0) Spacer(Modifier.height(marginTop))
+}
+
+@Composable
+fun MarginBottom(margintBottom: Dp) {
+    if (margintBottom > DP_0) Spacer(Modifier.height(margintBottom))
+}
 
 @Composable
 fun VerticalMargin(margintTop: Dp, marginBottom: Dp, content: @Composable () -> Unit) {
@@ -132,6 +144,40 @@ fun SecondaryText(
     VerticalMargin(marginTop, marginBottom) {
         Text(text, modifier, MaterialTheme.colorScheme.onSecondary, fontSize = fontSize, lineHeight = fontSize * 1.5)
     }
+}
+
+@Composable
+fun IconText(
+    iconId: Int,text: String,
+    modifier: Modifier = Modifier,
+    iconSize: Dp = 2 * MD,
+    iconTint: Color = MaterialTheme.colorScheme.primary,
+    textColor: Color = MaterialTheme.colorScheme.onBackground,
+    fontSize: TextUnit = TEXT_MD,
+    gap: Dp = SM,
+    marginTop: Dp = DP_0,
+    marginBottom: Dp = DP_0
+) {
+    MarginTop(marginTop)
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(gap)
+    ) {
+        Icon(
+            painter = painterResource(id = iconId),
+            contentDescription = null,
+            modifier = Modifier.size(iconSize),
+            tint = iconTint
+        )
+        Text(
+            text = text,
+            color = textColor,
+            fontSize = fontSize,
+            lineHeight = fontSize * 1.5
+        )
+    }
+    MarginBottom(marginBottom)
 }
 
 @Composable

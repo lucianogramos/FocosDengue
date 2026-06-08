@@ -1,5 +1,6 @@
 package com.focos_dengue.ui.auth_screen.signup
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,6 +13,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.times
@@ -36,8 +38,10 @@ fun SignUpScreenContent(
     onNameChange: (String) -> Unit,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
-    onSignUp: () -> Unit
+    onSignUp: () -> SignUpResult
 ) {
+    val context = LocalContext.current
+
     Column(modifier = modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(2 * MD)) {
         TitleText(
             text = "Bem-vindo",
@@ -71,12 +75,22 @@ fun SignUpScreenContent(
 
         PasswordTextField(
             value = state.password,
-            onValueChange = onPasswordChange
+            onValueChange = onPasswordChange,
+            hasMinChars = state.passwordRequirements.hasMinChars,
+            hasUpperCase = state.passwordRequirements.hasUpperCase,
+            hasLowerCase = state.passwordRequirements.hasLowerCase,
+            hasNumber = state.passwordRequirements.hasNumber,
+            hasSpecialChar = state.passwordRequirements.hasSpecialChar
         )
 
         Spacer(Modifier.height(XL))
 
-        PrimaryButton(text = "Cadastrar", onClick = onSignUp)
+        PrimaryButton(text = "Cadastrar", onClick = {
+            val result = onSignUp()
+            if (result is SignUpResult.Error) {
+                Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
+            }
+        })
 
         Spacer(Modifier.height(XS))
 
@@ -94,7 +108,7 @@ private fun SignUpScreenContentPreview() {
                 onNameChange = {},
                 onEmailChange = {},
                 onPasswordChange = {},
-                onSignUp = {}
+                onSignUp = { SignUpResult.Success }
             )
         }
     }

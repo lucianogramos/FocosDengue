@@ -4,11 +4,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import com.focos_dengue.domain.validation.PasswordRequirements
+import com.focos_dengue.domain.validation.PasswordValidator
 
 data class ForgotPasswordUIState(
     val password: String = "",
     val code: String = "",
-    val codeSent: Boolean = false
+    val codeSent: Boolean = false,
+    val passwordRequirements: PasswordRequirements = PasswordRequirements()
 )
 
 class ForgotPasswordViewModel : ViewModel() {
@@ -16,7 +19,10 @@ class ForgotPasswordViewModel : ViewModel() {
         private set
 
     fun updatePassword(password: String) {
-        uiState = uiState.copy(password = password)
+        uiState = uiState.copy(
+            password = password,
+            passwordRequirements = PasswordValidator.validate(password)
+        )
     }
 
     fun updateCode(code: String) {

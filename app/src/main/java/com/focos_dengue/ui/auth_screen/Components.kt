@@ -15,8 +15,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withLink
+import com.focos_dengue.R
+import com.focos_dengue.ui.util.IconText
+import com.focos_dengue.ui.util.LG
 import com.focos_dengue.ui.util.PrimaryTextField
-import com.focos_dengue.ui.util.SecondaryText
 import com.focos_dengue.ui.util.TEXT_XS
 import com.focos_dengue.ui.util.XS
 
@@ -24,10 +26,16 @@ import com.focos_dengue.ui.util.XS
 fun PasswordTextField(
     value: String,
     onValueChange: (String) -> Unit,
+    hasMinChars: Boolean,
+    hasUpperCase: Boolean,
+    hasLowerCase: Boolean,
+    hasNumber: Boolean,
+    hasSpecialChar: Boolean,
     modifier: Modifier = Modifier,
     label: String = "Senha",
     placeholder: String = "Digite sua senha..."
 ) {
+
     PrimaryTextField(
         value = value,
         onValueChange = onValueChange,
@@ -38,11 +46,35 @@ fun PasswordTextField(
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
     )
 
-    SecondaryText(text = "Contém no mínimo 8 caracteres", fontSize = TEXT_XS, marginTop = XS)
-    SecondaryText(text = "Contém pelo menos uma letra maiúscula", fontSize = TEXT_XS)
-    SecondaryText(text = "Contém pelo menos uma letra minúscula", fontSize = TEXT_XS)
-    SecondaryText(text = "Contém pelo menos um número", fontSize = TEXT_XS)
-    SecondaryText(text = "Contém pelo menos um caractere especial", fontSize = TEXT_XS)
+    val color = @Composable { isValid: Boolean ->
+        if (isValid) MaterialTheme.colorScheme.inversePrimary else MaterialTheme.colorScheme.error
+    }
+
+    IconText(
+        text = "Contém no mínimo 8 caracteres", iconId = R.drawable.check_circle,
+        iconTint = color(hasMinChars), textColor = color(hasMinChars),
+        fontSize = TEXT_XS, iconSize = LG, marginTop = XS
+    )
+    IconText(
+        text = "Contém no mínimo uma letra maiúscula", iconId = R.drawable.check_circle,
+        iconTint = color(hasUpperCase), textColor = color(hasUpperCase),
+        fontSize = TEXT_XS, iconSize = LG
+    )
+    IconText(
+        text = "Contém no mínimo uma letra minúscula", iconId = R.drawable.check_circle,
+        iconTint = color(hasLowerCase), textColor = color(hasLowerCase),
+        fontSize = TEXT_XS, iconSize = LG
+    )
+    IconText(
+        text = "Contém no mínimo um número", iconId = R.drawable.check_circle,
+        iconTint = color(hasNumber), textColor = color(hasNumber),
+        fontSize = TEXT_XS, iconSize = LG
+    )
+    IconText(
+        text = "Contém no mínimo um caractere especial", iconId = R.drawable.check_circle,
+        iconTint = color(hasSpecialChar), textColor = color(hasSpecialChar),
+        fontSize = TEXT_XS, iconSize = LG
+    )
 }
 
 @Composable
