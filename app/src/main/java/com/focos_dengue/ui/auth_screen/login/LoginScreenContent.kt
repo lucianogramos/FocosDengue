@@ -31,7 +31,8 @@ fun LoginScreenContent(
     state: LoginUIState,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
-    onLogin: () -> Unit
+    onLogin: () -> Unit,
+    onForgotPassword: () -> Unit
 ) {
     Column(modifier = modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(2 * MD)) {
         TitleText("Bem-vindo", marginTop = XS)
@@ -65,7 +66,7 @@ fun LoginScreenContent(
         Spacer(Modifier.height(XS))
 
         ClickHereLink("Ainda não tem uma conta? ", "navigation") { toSignUpScreen() }
-        ClickHereLink("Esqueceu a senha? ", "redirect") { toForgotPasswordScreen() }
+        ClickHereLink("Esqueceu a senha? ", "redirect") { onForgotPassword() }
     }
 }
 
@@ -80,7 +81,8 @@ fun LoginScreenContentPreview() {
                 toForgotPasswordScreen = {},
                 onEmailChange = {},
                 onPasswordChange = {},
-                onLogin = {}
+                onLogin = {},
+                onForgotPassword = {}
             )
         }
     }
