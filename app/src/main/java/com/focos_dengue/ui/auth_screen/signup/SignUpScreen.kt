@@ -8,7 +8,11 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
-fun SignUpScreen(toLoginScreen: () -> Unit, viewModel: SignUpViewModel = viewModel()) {
+fun SignUpScreen(
+    toLoginScreen: () -> Unit,
+    toReportScreen: () -> Unit,
+    viewModel: SignUpViewModel = viewModel()
+) {
     Scaffold(
         modifier = Modifier.fillMaxWidth(),
         topBar = {
@@ -18,6 +22,7 @@ fun SignUpScreen(toLoginScreen: () -> Unit, viewModel: SignUpViewModel = viewMod
         SignUpScreenContent(
             modifier = Modifier.padding(innerPadding),
             toLoginScreen = toLoginScreen,
+            toReportScreen = toReportScreen,
             state = viewModel.uiState,
             onNameChange = viewModel::updateName,
             onEmailChange = viewModel::updateEmail,

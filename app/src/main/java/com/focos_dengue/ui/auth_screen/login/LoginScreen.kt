@@ -11,6 +11,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 fun LoginScreen(
     toSignUpScreen: () -> Unit,
     toForgotPasswordScreen: () -> Unit,
+    toReportScreen: () -> Unit,
     viewModel: LoginViewModel = viewModel()
 ) {
     Scaffold(
@@ -23,6 +24,7 @@ fun LoginScreen(
             modifier = Modifier.padding(innerPadding),
             toSignUpScreen = toSignUpScreen,
             toForgotPasswordScreen = toForgotPasswordScreen,
+            toReportScreen = toReportScreen,
             state = viewModel.uiState,
             onEmailChange = viewModel::updateEmail,
             onPasswordChange = viewModel::updatePassword,

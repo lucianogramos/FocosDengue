@@ -1,14 +1,14 @@
 package com.focos_dengue.ui.auth_screen.login
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.times
 import com.focos_dengue.ui.auth_screen.ClickHereLink
 import com.focos_dengue.ui.auth_screen.PasswordTextField
@@ -28,11 +28,14 @@ fun LoginScreenContent(
     modifier: Modifier = Modifier,
     toSignUpScreen: () -> Unit,
     toForgotPasswordScreen: () -> Unit,
+    toReportScreen: () -> Unit,
     state: LoginUIState,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
-    onLogin: () -> Unit
+    onLogin: (() -> Unit) -> Result<Unit>
 ) {
+    val context = LocalContext.current
+
     Column(modifier = modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(2 * MD)) {
         TitleText("Bem-vindo", marginTop = XS)
 
@@ -60,28 +63,17 @@ fun LoginScreenContent(
 
         Spacer(Modifier.height(XL))
 
-        PrimaryButton(text = "Entrar", onClick = onLogin)
+        PrimaryButton(text = "Entrar", onClick = {
+            onLogin {
+                toReportScreen()
+            }.onFailure {
+                Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+            }
+        })
 
         Spacer(Modifier.height(XS))
 
         ClickHereLink("Ainda não tem uma conta? ", "navigation") { toSignUpScreen() }
         ClickHereLink("Esqueceu a senha? ", "redirect") { toForgotPasswordScreen() }
-    }
-}
-
-@Preview(showSystemUi = true)
-@Composable
-fun LoginScreenContentPreview() {
-    MaterialTheme {
-        Surface(color = MaterialTheme.colorScheme.background) {
-            LoginScreenContent(
-                state = LoginUIState(),
-                toSignUpScreen = {},
-                toForgotPasswordScreen = {},
-                onEmailChange = {},
-                onPasswordChange = {},
-                onLogin = {}
-            )
-        }
     }
 }

@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-                    NavHost(navController, ScreenName.FORGOT_PASSWORD.route) {
+                    NavHost(navController, ScreenName.LOGIN.route) {
                         composable(route = ScreenName.LOGIN.route) {
                             LoginScreen(
                                 toSignUpScreen = {
@@ -38,11 +38,21 @@ class MainActivity : ComponentActivity() {
                                 },
                                 toForgotPasswordScreen = {
                                     navController.navigate(ScreenName.FORGOT_PASSWORD.route)
+                                },
+                                toReportScreen =  {
+                                    navController.navigate(ScreenName.REPORT.route)
                                 }
                             )
                         }
                         composable(route = ScreenName.SIGNUP.route) {
-                            SignUpScreen({ navController.navigate(ScreenName.LOGIN.route) })
+                            SignUpScreen(
+                                toLoginScreen = {
+                                    navController.navigate(ScreenName.LOGIN.route)
+                                },
+                                toReportScreen = {
+                                    navController.navigate(ScreenName.REPORT.route)
+                                }
+                            )
                         }
                         composable(route = ScreenName.FORGOT_PASSWORD.route) {
                             ForgotPasswordScreen({ navController.navigate(ScreenName.LOGIN.route) })
