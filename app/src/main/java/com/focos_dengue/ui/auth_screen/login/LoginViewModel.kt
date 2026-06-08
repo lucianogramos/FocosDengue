@@ -31,9 +31,16 @@ class LoginViewModel : ViewModel() {
         )
     }
 
-    fun onLogin() {
+    fun onLogin(onSucess: () -> Unit): Result<Unit> {
+        if (!uiState.passwordRequirements.isValid)
+            return Result.failure(Exception("Senha inválida. Verifique os requisitos"))
+
         viewModelScope.launch {
-            loginUsuario(uiState.email, uiState.password)
+            loginUsuario(uiState.email, uiState.password).onSuccess {
+                onSucess()
+            }
         }
+
+        return Result.success(Unit)
     }
 }

@@ -9,13 +9,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.times
 import com.focos_dengue.ui.auth_screen.ClickHereLink
 import com.focos_dengue.ui.auth_screen.PasswordTextField
@@ -33,12 +30,13 @@ import com.focos_dengue.ui.util.XS
 @Composable
 fun SignUpScreenContent(
     modifier: Modifier = Modifier,
-    toLoginScreen: (() -> Unit)? = null,
+    toLoginScreen: () -> Unit,
+    toReportScreen: () -> Unit,
     state: SignUpUIState,
     onNameChange: (String) -> Unit,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
-    onSignUp: () -> SignUpResult
+    onSignUp: (() -> Unit) -> Result<Unit>
 ) {
     val context = LocalContext.current
 
@@ -86,30 +84,15 @@ fun SignUpScreenContent(
         Spacer(Modifier.height(XL))
 
         PrimaryButton(text = "Cadastrar", onClick = {
-            val result = onSignUp()
-            if (result is SignUpResult.Error) {
-                Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
+            onSignUp {
+                toReportScreen()
+            }.onFailure {
+                Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
             }
         })
 
         Spacer(Modifier.height(XS))
 
-        ClickHereLink("Já tem uma conta? ", "navigation") { toLoginScreen?.invoke() }
-    }
-}
-
-@Preview
-@Composable
-private fun SignUpScreenContentPreview() {
-    MaterialTheme {
-        Surface(color = MaterialTheme.colorScheme.background) {
-            SignUpScreenContent(
-                state = SignUpUIState(),
-                onNameChange = {},
-                onEmailChange = {},
-                onPasswordChange = {},
-                onSignUp = { SignUpResult.Success }
-            )
-        }
+        ClickHereLink("Já tem uma conta? ", "navigation") { toLoginScreen() }
     }
 }

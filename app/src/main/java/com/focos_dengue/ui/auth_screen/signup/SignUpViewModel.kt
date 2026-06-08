@@ -35,14 +35,16 @@ class SignUpViewModel : ViewModel() {
         )
     }
 
-    fun onSignUp(): SignUpResult {
-        if (!uiState.passwordRequirements.isValid) {
-            return SignUpResult.Error("Senha inválida. Verifique os requisitos")
-        }
+    fun onSignUp(onSucess: () -> Unit): Result<Unit> {
+        if (!uiState.passwordRequirements.isValid)
+            return Result.failure(Exception("Senha inválida. Verifique os requisitos"))
 
         viewModelScope.launch {
-            cadastrarUsuario(uiState.email, uiState.password)
+            cadastrarUsuario(uiState.email, uiState.password).onSuccess {
+                onSucess()
+            }
         }
-        return SignUpResult.Success
+
+        return Result.success(Unit)
     }
 }
