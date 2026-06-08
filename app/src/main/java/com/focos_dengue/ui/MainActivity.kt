@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-                    NavHost(navController, ScreenName.FORGOT_PASSWORD.route) {
+                    NavHost(navController, ScreenName.LOGIN.route) {
                         composable(route = ScreenName.LOGIN.route) {
                             LoginScreen(
                                 toSignUpScreen = {
