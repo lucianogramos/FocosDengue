@@ -15,20 +15,10 @@ class ForgotPasswordViewModel : ViewModel() {
     var uiState by mutableStateOf(ForgotPasswordUIState())
         private set
 
-    fun updatePassword(password: String) {
+    fun onPasswordChange(password: String) {
         uiState = uiState.copy(password = password)
     }
+    fun updatePassword() {
 
-    fun updateCode(code: String) {
-        uiState = uiState.copy(code = code)
-    }
-
-    fun onSendCode() {
-        // TODO: Implementar a lógica de envio do código
-        uiState = uiState.copy(codeSent = true)
-    }
-
-    fun onVerifyCode() {
-        // TODO: Implementar a lógica de verificação do código
     }
 }
