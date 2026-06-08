@@ -25,7 +25,7 @@ fun ForgotPasswordContent(
     toLoginScreen: () -> Unit,
     state: ForgotPasswordUIState,
     onPasswordChange: (String) -> Unit,
-    onUpdatePassword: () -> Unit
+    updatePassword: () -> Unit
 ) {
     Column(modifier = modifier.fillMaxSize().padding(2 * MD)) {
         PrimaryIconButton(
@@ -50,7 +50,7 @@ fun ForgotPasswordContent(
 
         Spacer(Modifier.height(MD))
 
-        PrimaryButton(text = "Alterar senha", onClick = onUpdatePassword)
+        PrimaryButton(text = "Alterar Senha", onClick = updatePassword)
 
 //        if (state.codeSent) {
 //            SubtitleText("Digite o código de 6 dígitos", marginTop = LG)
@@ -82,7 +82,7 @@ fun ForgotPasswordContentPreview() {
                 toLoginScreen = {},
                 state = ForgotPasswordUIState(),
                 onPasswordChange = {},
-                onUpdatePassword = {}
+                updatePassword = {}
             )
         }
     }
