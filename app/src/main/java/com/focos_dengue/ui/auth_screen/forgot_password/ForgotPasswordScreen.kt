@@ -16,10 +16,8 @@ fun ForgotPasswordScreen(toLoginScreen: () -> Unit, viewModel: ForgotPasswordVie
             modifier = Modifier.padding(innerPadding),
             toLoginScreen = toLoginScreen,
             state = viewModel.uiState,
-            onPasswordChange = viewModel::updatePassword,
-            onCodeChange = viewModel::updateCode,
-            onSendCode = viewModel::onSendCode,
-            onVerifyCode = viewModel::onVerifyCode
+            onPasswordChange = viewModel::onPasswordChange,
+            updatePassword = viewModel::updatePassword
         )
     }
 }
