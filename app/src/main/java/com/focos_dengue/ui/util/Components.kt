@@ -264,6 +264,7 @@ fun PrimaryTextField(
     maxLines: Int = 1,
     label: String = "",
     placeholder: String = "",
+    supportingText: @Composable (() -> Unit)? = null,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     visualTransformation: VisualTransformation = VisualTransformation.None
 ) {
@@ -280,6 +281,7 @@ fun PrimaryTextField(
         placeholder = if (placeholder.isNotEmpty()) { { Text(placeholder) } } else null,
         keyboardOptions = keyboardOptions,
         visualTransformation = visualTransformation,
+        supportingText = supportingText,
         colors = OutlinedTextFieldDefaults.colors(
             focusedContainerColor = colorScheme.background,
             unfocusedContainerColor = colorScheme.background,

@@ -15,16 +15,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.times
 import com.focos_dengue.ui.auth_screen.ClickHereLink
-import com.focos_dengue.ui.auth_screen.PasswordTextField
 import com.focos_dengue.ui.util.PrimaryButton
 import com.focos_dengue.ui.util.TitleText
 import com.focos_dengue.ui.util.LG
 import com.focos_dengue.ui.util.MD
+import com.focos_dengue.ui.util.PasswordTextField
 import com.focos_dengue.ui.util.PrimaryTextField
 import com.focos_dengue.ui.util.SM
 import com.focos_dengue.ui.util.SecondaryText
 import com.focos_dengue.ui.util.TEXT_MD
-import com.focos_dengue.ui.util.XL
 import com.focos_dengue.ui.util.XS
 
 @Composable
@@ -36,21 +35,19 @@ fun SignUpScreenContent(
     onNameChange: (String) -> Unit,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
+    onConfirmationPasswordChange: (String) -> Unit,
     onSignUp: (() -> Unit) -> Result<Unit>
 ) {
     val context = LocalContext.current
 
     Column(modifier = modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(2 * MD)) {
-        TitleText(
-            text = "Bem-vindo",
-            marginTop = XS
-        )
+        TitleText(text = "Bem-vindo")
 
         SecondaryText(
             text = "Faça seu cadastro para poder denunciar locais com foco de dengue e falta de acessibilidade",
             fontSize = TEXT_MD,
             marginTop = SM,
-            marginBottom = XL
+            marginBottom = LG
         )
 
         PrimaryTextField(
@@ -59,7 +56,7 @@ fun SignUpScreenContent(
             label = "Nome"
         )
 
-        Spacer(Modifier.height(LG))
+        Spacer(Modifier.height(XS))
 
         PrimaryTextField(
             value = state.email,
@@ -69,7 +66,7 @@ fun SignUpScreenContent(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
         )
 
-        Spacer(Modifier.height(LG))
+        Spacer(Modifier.height(XS))
 
         PasswordTextField(
             value = state.password,
@@ -81,7 +78,16 @@ fun SignUpScreenContent(
             hasSpecialChar = state.passwordRequirements.hasSpecialChar
         )
 
-        Spacer(Modifier.height(XL))
+        Spacer(Modifier.height(XS))
+
+        PasswordTextField(
+            value = state.confirmationPassword,
+            onValueChange = onConfirmationPasswordChange,
+            label = "Confirmar Senha",
+            placeholder = "Digite sua senha novamente..."
+        )
+
+        Spacer(Modifier.height(LG))
 
         PrimaryButton(text = "Cadastrar", onClick = {
             onSignUp {

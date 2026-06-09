@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.focos_dengue.ui.auth_screen.forgot_password.ForgotPasswordScreen
+import com.focos_dengue.ui.auth_screen.reset_password.ForgotPasswordScreen
 import com.focos_dengue.ui.navigation.ScreenName
 import com.focos_dengue.ui.auth_screen.login.LoginScreen
 import com.focos_dengue.ui.auth_screen.signup.SignUpScreen

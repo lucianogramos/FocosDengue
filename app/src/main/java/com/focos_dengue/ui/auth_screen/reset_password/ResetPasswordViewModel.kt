@@ -1,4 +1,4 @@
-package com.focos_dengue.ui.auth_screen.forgot_password
+package com.focos_dengue.ui.auth_screen.reset_password
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

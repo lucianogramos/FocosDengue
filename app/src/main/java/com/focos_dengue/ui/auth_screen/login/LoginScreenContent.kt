@@ -11,16 +11,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.times
 import com.focos_dengue.ui.auth_screen.ClickHereLink
-import com.focos_dengue.ui.auth_screen.PasswordTextField
 import com.focos_dengue.ui.util.PrimaryButton
 import com.focos_dengue.ui.util.TitleText
 import com.focos_dengue.ui.util.LG
 import com.focos_dengue.ui.util.MD
+import com.focos_dengue.ui.util.PasswordTextField
 import com.focos_dengue.ui.util.PrimaryTextField
 import com.focos_dengue.ui.util.SM
 import com.focos_dengue.ui.util.SecondaryText
 import com.focos_dengue.ui.util.TEXT_MD
-import com.focos_dengue.ui.util.XL
 import com.focos_dengue.ui.util.XS
 
 @Composable
@@ -37,9 +36,12 @@ fun LoginScreenContent(
     val context = LocalContext.current
 
     Column(modifier = modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(2 * MD)) {
-        TitleText("Bem-vindo", marginTop = XS)
+        TitleText("Bem-vindo")
 
-        SecondaryText("Faça login para continuar", fontSize = TEXT_MD, marginTop = SM, marginBottom = LG)
+        SecondaryText(
+            text = "Faça login para continuar", fontSize = TEXT_MD,
+            marginTop = SM, marginBottom = LG
+        )
 
         PrimaryTextField(
             value = state.email,
@@ -49,7 +51,7 @@ fun LoginScreenContent(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
         )
 
-        Spacer(Modifier.height(LG))
+        Spacer(Modifier.height(XS))
 
         PasswordTextField(
             value = state.password,
@@ -61,7 +63,7 @@ fun LoginScreenContent(
             hasSpecialChar = state.passwordRequirements.hasSpecialChar
         )
 
-        Spacer(Modifier.height(XL))
+        Spacer(Modifier.height(LG))
 
         PrimaryButton(text = "Entrar", onClick = {
             onLogin {

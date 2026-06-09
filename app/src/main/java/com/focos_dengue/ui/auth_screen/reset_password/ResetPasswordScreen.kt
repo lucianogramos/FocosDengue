@@ -1,4 +1,4 @@
-package com.focos_dengue.ui.auth_screen.forgot_password
+package com.focos_dengue.ui.auth_screen.reset_password
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
