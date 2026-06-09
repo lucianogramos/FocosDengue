@@ -1,6 +1,5 @@
 package com.focos_dengue.ui.auth_screen.signup
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,7 +10,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.times
 import com.focos_dengue.ui.auth_screen.ClickHereLink
@@ -36,10 +34,8 @@ fun SignUpScreenContent(
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onConfirmationPasswordChange: (String) -> Unit,
-    onSignUp: (() -> Unit) -> Result<Unit>
+    onSignUp: (() -> Unit) -> Unit
 ) {
-    val context = LocalContext.current
-
     Column(modifier = modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(2 * MD)) {
         TitleText(text = "Bem-vindo")
 
@@ -90,11 +86,7 @@ fun SignUpScreenContent(
         Spacer(Modifier.height(LG))
 
         PrimaryButton(text = "Cadastrar", onClick = {
-            onSignUp {
-                toReportScreen()
-            }.onFailure {
-                Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
-            }
+            onSignUp { toReportScreen() }
         })
 
         Spacer(Modifier.height(XS))

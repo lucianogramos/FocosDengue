@@ -13,7 +13,8 @@ import kotlinx.coroutines.launch
 data class LoginUIState(
     val email: String = "",
     val password: String = "",
-    val passwordRequirements: PasswordRequirements = PasswordRequirements()
+    val passwordRequirements: PasswordRequirements = PasswordRequirements(),
+    val errorMessage: String = ""
 )
 
 class LoginViewModel : ViewModel() {
@@ -31,16 +32,32 @@ class LoginViewModel : ViewModel() {
         )
     }
 
-    fun onLogin(onSucess: () -> Unit): Result<Unit> {
-        if (!uiState.passwordRequirements.isValid)
-            return Result.failure(Exception("Senha inválida. Verifique os requisitos"))
+    fun updateErrorMessage(errorMessage: String) {
+        uiState = uiState.copy(errorMessage = errorMessage)
+    }
+
+    fun onLogin(onSucess: () -> Unit) {
+        updateErrorMessage("")
+
+        val email = uiState.email
+        val password = uiState.password
+
+        val errorMessage = when {
+            email.isBlank() -> "Digite um e-mail"
+            password.isBlank() -> "Digite uma senha"
+            !uiState.passwordRequirements.isValid -> "Senha inválida. Verifique os requisitos"
+            else -> null
+        }
+
+        if (errorMessage != null) {
+            updateErrorMessage(errorMessage)
+            return
+        }
 
         viewModelScope.launch {
             loginUsuario(uiState.email, uiState.password).onSuccess {
                 onSucess()
             }
         }
-
-        return Result.success(Unit)
     }
 }

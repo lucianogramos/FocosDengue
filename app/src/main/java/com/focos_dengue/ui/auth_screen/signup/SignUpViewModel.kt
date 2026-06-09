@@ -15,7 +15,8 @@ data class SignUpUIState(
     val email: String = "",
     val password: String = "",
     val confirmationPassword: String = "",
-    val passwordRequirements: PasswordRequirements = PasswordRequirements()
+    val passwordRequirements: PasswordRequirements = PasswordRequirements(),
+    val errorMessage: String = ""
 )
 
 class SignUpViewModel : ViewModel() {
@@ -40,19 +41,36 @@ class SignUpViewModel : ViewModel() {
         uiState = uiState.copy(confirmationPassword = password)
     }
 
-    fun onSignUp(onSucess: () -> Unit): Result<Unit> {
-        if (!uiState.passwordRequirements.isValid)
-            return Result.failure(Exception("Senha inválida. Verifique os requisitos"))
+    fun updateErrorMessage(errorMessage: String) {
+        uiState = uiState.copy(errorMessage = errorMessage)
+    }
 
-        if (uiState.password != uiState.confirmationPassword)
-            return Result.failure(Exception("As senhas não coincidem"))
+    fun onSignUp(onSucess: () -> Unit) {
+        updateErrorMessage("")
+
+        val name = uiState.name
+        val email = uiState.email
+        val password = uiState.password
+
+        val errorMessage = when {
+            name.isBlank() -> "Digite um nome"
+            email.isBlank() -> "Digite um e-mail"
+            password.isBlank() -> "Digite uma senha"
+            uiState.confirmationPassword.isBlank() -> "Confirme sua senha"
+            !uiState.passwordRequirements.isValid -> "Senha inválida. Verifique os requisitos"
+            password != uiState.confirmationPassword -> "As senhas não coincidem"
+            else -> null
+        }
+
+        if (errorMessage != null) {
+            updateErrorMessage(errorMessage)
+            return
+        }
 
         viewModelScope.launch {
-            cadastrarUsuario(uiState.email, uiState.password).onSuccess {
+            cadastrarUsuario(email, password).onSuccess {
                 onSucess()
             }
         }
-
-        return Result.success(Unit)
     }
 }

@@ -9,7 +9,8 @@ import com.focos_dengue.domain.validation.PasswordValidator
 
 data class ForgotPasswordUIState(
     val password: String = "",
-    val passwordRequirements: PasswordRequirements = PasswordRequirements()
+    val passwordRequirements: PasswordRequirements = PasswordRequirements(),
+    val errorMessage: String = ""
 )
 
 class ForgotPasswordViewModel : ViewModel() {
@@ -21,6 +22,10 @@ class ForgotPasswordViewModel : ViewModel() {
             password = password,
             passwordRequirements = PasswordValidator.validate(password)
         )
+    }
+
+    fun updateErrorMessage(errorMessage: String) {
+        uiState = uiState.copy(errorMessage = errorMessage)
     }
 
     fun updatePassword() {

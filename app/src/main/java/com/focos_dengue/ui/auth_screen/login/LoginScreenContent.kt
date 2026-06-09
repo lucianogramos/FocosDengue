@@ -31,7 +31,7 @@ fun LoginScreenContent(
     state: LoginUIState,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
-    onLogin: (() -> Unit) -> Result<Unit>
+    onLogin: (() -> Unit) -> Unit
 ) {
     val context = LocalContext.current
 
@@ -66,11 +66,7 @@ fun LoginScreenContent(
         Spacer(Modifier.height(LG))
 
         PrimaryButton(text = "Entrar", onClick = {
-            onLogin {
-                toReportScreen()
-            }.onFailure {
-                Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
-            }
+            onLogin { toReportScreen() }
         })
 
         Spacer(Modifier.height(XS))
