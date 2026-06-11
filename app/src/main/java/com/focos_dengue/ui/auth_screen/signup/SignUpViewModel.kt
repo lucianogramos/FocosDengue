@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.focos_dengue.data.remote.auth.cadastrarUsuario
+import com.focos_dengue.data.remote.auth.singUser
 import com.focos_dengue.domain.validation.PasswordRequirements
 import com.focos_dengue.domain.validation.PasswordValidator
 import kotlinx.coroutines.launch
@@ -41,7 +41,7 @@ class SignUpViewModel : ViewModel() {
         }
 
         viewModelScope.launch {
-            cadastrarUsuario(uiState.email, uiState.password)
+            singUser(uiState.email, uiState.password)
         }
         return SignUpResult.Success
     }

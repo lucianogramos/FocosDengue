@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.focos_dengue.data.remote.auth.loginUsuario
+import com.focos_dengue.data.remote.auth.loginUser
 import com.focos_dengue.data.remote.auth.recoverPassword
 import com.focos_dengue.domain.validation.PasswordRequirements
 import com.focos_dengue.domain.validation.PasswordValidator
@@ -34,7 +34,7 @@ class LoginViewModel : ViewModel() {
 
     fun onLogin() {
         viewModelScope.launch {
-            loginUsuario(uiState.email, uiState.password)
+            loginUser(uiState.email, uiState.password)
         }
     }
 
