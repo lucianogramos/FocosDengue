@@ -70,6 +70,29 @@ suspend fun recoverPassword(email: String): Result<Unit> {
     }
 }
 
+suspend fun updateUser(newPassword: String): Result<Unit> {
+
+    if (newPassword.isBlank()) {
+        return Result.failure(Exception("Digite uma senha!"))
+    }
+
+    if (newPassword.length < 6) {
+        return Result.failure(Exception("A senha deve conter pelo menos 6 caracteres"))
+    }
+
+    return try {
+
+        supabase.auth.modifyUser {
+            password = newPassword
+        }
+
+        Result.success(Unit)
+
+    } catch (e: Exception) {
+        Result.failure(e)
+    }
+}
+
 suspend fun logoutUsuario() {
     supabase.auth.signOut()
 }
