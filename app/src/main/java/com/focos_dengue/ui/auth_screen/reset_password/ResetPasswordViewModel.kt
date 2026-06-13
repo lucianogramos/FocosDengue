@@ -4,8 +4,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.focos_dengue.data.remote.auth.recoverPassword
+import com.focos_dengue.data.remote.report.ReportRepository
 import com.focos_dengue.domain.validation.PasswordRequirements
 import com.focos_dengue.domain.validation.PasswordValidator
+import kotlinx.coroutines.launch
 
 data class ForgotPasswordUIState(
     val password: String = "",
@@ -29,6 +33,8 @@ class ForgotPasswordViewModel : ViewModel() {
     }
 
     fun updatePassword() {
-
+        viewModelScope.launch {
+            // recoverPassword()
+        }
     }
 }
