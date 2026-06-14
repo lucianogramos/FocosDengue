@@ -4,6 +4,6 @@ data class Report(
     val type: ReportType,
     val description: String,
     val location: Location,
-    val imageUrl: String,
+    val imageUrl: List<String>,
     val createdAt: Long = System.currentTimeMillis()
 )

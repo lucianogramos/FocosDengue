@@ -1,16 +1,20 @@
 package com.focos_dengue.domain.usecase
 
-import android.content.Context
-import android.location.Geocoder
-import java.util.Locale
+import com.focos_dengue.domain.model.Location
+import com.focos_dengue.domain.repository.LocationRepository
 
 class GetAddressFromLatLngUseCase(
-    private val context: Context
+    private val repository: LocationRepository
 ) {
-    suspend operator fun invoke(latitude: Double, longitude: Double): String? {
-        // Rodar em IO thread na prática
-        val geocoder = Geocoder(context, Locale.getDefault())
-        val addresses = geocoder.getFromLocation(latitude, longitude, 1)
-        return addresses?.firstOrNull()?.getAddressLine(0)
+
+    suspend operator fun invoke(
+        latitude: Double,
+        longitude: Double
+    ): Location {
+
+        return repository.getLocation(
+            latitude,
+            longitude
+        )
     }
 }
