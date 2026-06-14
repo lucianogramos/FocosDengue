@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.foco_acessibilidade_dengue"
+    namespace = "com.focos_dengue"
     compileSdk {
         version = release(36) {
             minorApiLevel = 1
@@ -12,30 +12,46 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.foco_acessibilidade_dengue"
+        applicationId = "com.focos_dengue"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField(
+            "String",
+            "SUPABASE_URL",
+            "\"${project.findProperty("SUPABASE_URL")}\""
+        )
+
+        buildConfigField(
+            "String",
+            "SUPABASE_KEY",
+            "\"${project.findProperty("SUPABASE_KEY")}\""
+        )
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
+
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -56,6 +72,7 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     implementation("androidx.navigation:navigation-compose:2.9.8")
+    implementation("io.coil-kt:coil-compose:2.6.0")
     implementation("io.github.jan-tennert.supabase:postgrest-kt:2.0.4")
     implementation("io.github.jan-tennert.supabase:gotrue-kt:2.0.4")
     implementation("io.github.jan-tennert.supabase:storage-kt:2.0.4")
