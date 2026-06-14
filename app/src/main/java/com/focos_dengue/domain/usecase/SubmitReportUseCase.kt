@@ -7,7 +7,7 @@ import com.focos_dengue.domain.repository.ImageRepository
 import com.focos_dengue.domain.repository.ReportRepository
 
 class SubmitReportUseCase(
-    private val repository: ReportRepository,
+    private val reportRepository: ReportRepository,
     private val imageRepository: ImageRepository
 ) {
 
@@ -15,22 +15,17 @@ class SubmitReportUseCase(
         type: ReportType,
         description: String,
         location: Location,
-        localImagePaths: List<String>
-    ): Result<Report> {
-
-        val imageResult = imageRepository.uploadImages(localImagePaths)
-
-        val imageUrls = imageResult.getOrElse {
-            emptyList()
-        }
+        localImagePath: String
+    ): Result<Unit> {
+        val imageUrl = imageRepository.uploadImage(localImagePath)
 
         val report = Report(
             type = type,
             description = description,
             location = location,
-            imageUrls = imageUrls
+            imageUrl = imageUrl
         )
 
-        return repository.submitReport(report)
+        return reportRepository.submitReport(report)
     }
 }
