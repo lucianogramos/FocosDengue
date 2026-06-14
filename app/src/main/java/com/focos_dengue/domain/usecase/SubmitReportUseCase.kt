@@ -18,13 +18,13 @@ class SubmitReportUseCase(
     ): Result<Report> {
         // Upload de imagens
         val imageResult = imageRepository.uploadImages(localImagePaths)
-        val imageUrls = imageResult.getOrElse { emptyList() }
+        val imageUrl = imageResult.getOrElse { emptyList() }
 
         val report = Report(
             type = type,
             description = description,
             location = location.copy(address = location.address ?: location.address),
-            imageUrls = imageUrls
+            imageUrl = imageUrl
         )
 
         return repository.submitReport(report)

@@ -5,13 +5,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.focos_dengue.data.remote.auth.cadastrarUsuario
+import com.focos_dengue.domain.repository.AuthRepository
 import com.focos_dengue.domain.validation.PasswordRequirements
 import com.focos_dengue.domain.validation.PasswordValidator
 import kotlinx.coroutines.launch
 
 data class SignUpUIState(
-    val name: String = "",
     val email: String = "",
     val password: String = "",
     val confirmationPassword: String = "",
@@ -19,12 +18,10 @@ data class SignUpUIState(
     val errorMessage: String = ""
 )
 
-class SignUpViewModel : ViewModel() {
+class SignUpViewModel(
+    private val authRepository: AuthRepository
+) : ViewModel() {
     var uiState by mutableStateOf(SignUpUIState())
-
-    fun onNameChange(name: String) {
-        uiState = uiState.copy(name = name)
-    }
 
     fun onEmailChange(email: String) {
         uiState = uiState.copy(email = email)
@@ -48,12 +45,10 @@ class SignUpViewModel : ViewModel() {
     fun onSignUp(onSucess: () -> Unit) {
         updateErrorMessage("")
 
-        val name = uiState.name
         val email = uiState.email
         val password = uiState.password
 
         val errorMessage = when {
-            name.isBlank() -> "Digite um nome"
             email.isBlank() -> "Digite um e-mail"
             password.isBlank() -> "Digite uma senha"
             uiState.confirmationPassword.isBlank() -> "Confirme sua senha"
@@ -68,7 +63,7 @@ class SignUpViewModel : ViewModel() {
         }
 
         viewModelScope.launch {
-            cadastrarUsuario(email, password).onSuccess {
+            authRepository.signUp(email, password).onSuccess {
                 onSucess()
             }
         }
