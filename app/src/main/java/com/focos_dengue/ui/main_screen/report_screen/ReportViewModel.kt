@@ -5,10 +5,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import com.focos_dengue.domain.model.Location
 
 data class ReportUIState (
     val description: String = "",
-    val photoUri: Uri? = null
+    val photoUri: Uri? = null,
+    val location: Location? = null
 )
 
 class ReportViewModel : ViewModel() {

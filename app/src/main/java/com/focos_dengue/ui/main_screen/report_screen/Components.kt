@@ -50,6 +50,7 @@ import com.focos_dengue.ui.util.TEXT_MD
 import com.focos_dengue.ui.util.XL
 import com.focos_dengue.ui.util.XS
 import com.focos_dengue.ui.util.dashedBorder
+import com.focos_dengue.ui.main_screen.report_screen.map.MapPicker
 
 @Composable
 fun LocationCard() {
@@ -72,12 +73,17 @@ fun LocationCard() {
 
         Spacer(Modifier.height(SM))
 
-        SecondaryCard(
-            modifier = Modifier.fillMaxWidth().height(8 * XL),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(8 * XL)
         ) {
-            PrimaryText("Mapa do Google")
+            MapPicker(
+                onLocationSelected = { latitude, longitude ->
+                    println("Latitude: $latitude")
+                    println("Longitude: $longitude")
+                }
+            )
         }
 
         SecondaryText(text = "Bairro Alcides Junqueira\nItuiutaba - MG", marginTop = SM)
