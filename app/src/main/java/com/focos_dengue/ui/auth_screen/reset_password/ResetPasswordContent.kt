@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.times
@@ -24,7 +26,7 @@ fun ForgotPasswordContent(
     onPasswordChange: (String) -> Unit,
     updatePassword: () -> Unit
 ) {
-    Column(modifier = modifier.fillMaxSize().padding(2 * MD)) {
+    Column(modifier = modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(2 * MD)) {
         PrimaryIconButton(
             iconId = R.drawable.arrow_back,
             contentDescription = "Voltar para a tela de Login",

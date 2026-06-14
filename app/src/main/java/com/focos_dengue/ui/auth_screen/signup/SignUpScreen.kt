@@ -37,7 +37,6 @@ fun SignUpScreen(
             toLoginScreen = toLoginScreen,
             toReportScreen = toReportScreen,
             state = state,
-            onNameChange = viewModel::onNameChange,
             onEmailChange = viewModel::onEmailChange,
             onPasswordChange = viewModel::onPasswordChange,
             onConfirmationPasswordChange = viewModel::onConfirmationPasswordChange,

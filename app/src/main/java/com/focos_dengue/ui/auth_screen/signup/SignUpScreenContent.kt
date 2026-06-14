@@ -30,7 +30,6 @@ fun SignUpScreenContent(
     toLoginScreen: () -> Unit,
     toReportScreen: () -> Unit,
     state: SignUpUIState,
-    onNameChange: (String) -> Unit,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onConfirmationPasswordChange: (String) -> Unit,
@@ -44,12 +43,6 @@ fun SignUpScreenContent(
             fontSize = TEXT_MD,
             marginTop = SM,
             marginBottom = LG
-        )
-
-        PrimaryTextField(
-            value = state.name,
-            onValueChange = onNameChange,
-            label = "Nome"
         )
 
         Spacer(Modifier.height(XS))

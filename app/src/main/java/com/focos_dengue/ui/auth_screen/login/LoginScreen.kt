@@ -40,8 +40,7 @@ fun LoginScreen(
             state = state,
             onEmailChange = viewModel::updateEmail,
             onPasswordChange = viewModel::updatePassword,
-            onLogin = viewModel::onLogin,
-            onForgotPassword = viewModel::onForgotPassword
+            onLogin = viewModel::onLogin
         )
     }
 }
