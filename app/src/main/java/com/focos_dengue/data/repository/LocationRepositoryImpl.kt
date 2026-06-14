@@ -1,6 +1,6 @@
 package com.focos_dengue.data.repository
 
-import com.focos_dengue.data.remote.location.MapsLocationDataSource
+import com.focos_dengue.data.remote.MapsLocationDataSource
 import com.focos_dengue.domain.model.Location
 import com.focos_dengue.domain.repository.LocationRepository
 

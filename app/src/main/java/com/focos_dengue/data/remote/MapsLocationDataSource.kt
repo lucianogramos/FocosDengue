@@ -1,4 +1,4 @@
-package com.focos_dengue.data.remote.location
+package com.focos_dengue.data.remote
 
 import android.content.Context
 import android.location.Geocoder

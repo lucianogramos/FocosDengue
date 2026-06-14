@@ -4,9 +4,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.focos_dengue.data.remote.auth.recoverPassword
-import com.focos_dengue.data.remote.report.ReportRepository
+import com.focos_dengue.domain.repository.AuthRepository
 import com.focos_dengue.domain.validation.PasswordRequirements
 import com.focos_dengue.domain.validation.PasswordValidator
 import kotlinx.coroutines.launch
@@ -17,7 +17,9 @@ data class ForgotPasswordUIState(
     val errorMessage: String = ""
 )
 
-class ForgotPasswordViewModel : ViewModel() {
+class ForgotPasswordViewModel(
+    private val authRepository: AuthRepository
+) : ViewModel() {
     var uiState by mutableStateOf(ForgotPasswordUIState())
         private set
 
@@ -34,7 +36,16 @@ class ForgotPasswordViewModel : ViewModel() {
 
     fun updatePassword() {
         viewModelScope.launch {
-            // recoverPassword()
+            authRepository.updatePassword(uiState.password)
         }
+    }
+}
+
+class ResetPasswordViewModelFactory(
+    private val authRepository: AuthRepository
+) : ViewModelProvider.Factory {
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        return ForgotPasswordViewModel(authRepository) as T
     }
 }
