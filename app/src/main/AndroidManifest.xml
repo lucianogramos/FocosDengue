@@ -30,9 +30,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data
-                    android:scheme="focosdengue"
-                    android:host="reset-password" />
+                <data android:scheme="focosdengue" android:host="reset-password" />
             </intent-filter>
         </activity>
     </application>

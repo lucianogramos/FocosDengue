@@ -4,10 +4,10 @@ import android.app.Application
 import com.focos_dengue.di.AppContainer
 
 class FocosDengueApplication : Application() {
-    lateinit var appContainer: AppContainer
+    lateinit var container: AppContainer
 
     override fun onCreate() {
         super.onCreate()
-        appContainer = AppContainer(this)
+        container = AppContainer(this)
     }
 }

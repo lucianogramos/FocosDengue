@@ -11,16 +11,18 @@ import com.focos_dengue.domain.validation.PasswordRequirements
 import com.focos_dengue.domain.validation.PasswordValidator
 import kotlinx.coroutines.launch
 
-data class ForgotPasswordUIState(
+data class ResetPasswordUIState(
     val password: String = "",
     val passwordRequirements: PasswordRequirements = PasswordRequirements(),
     val errorMessage: String = ""
 )
 
-class ForgotPasswordViewModel(
-    private val authRepository: AuthRepository
+class ResetPasswordViewModel(
+    private val authRepository: AuthRepository,
+    private val accessToken: String,
+    private val refreshToken: String
 ) : ViewModel() {
-    var uiState by mutableStateOf(ForgotPasswordUIState())
+    var uiState by mutableStateOf(ResetPasswordUIState())
         private set
 
     fun onPasswordChange(password: String) {
@@ -42,10 +44,12 @@ class ForgotPasswordViewModel(
 }
 
 class ResetPasswordViewModelFactory(
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val accessToken: String,
+    private val refreshToken: String
 ) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return ForgotPasswordViewModel(authRepository) as T
+        return ResetPasswordViewModel(authRepository, accessToken, refreshToken) as T
     }
 }

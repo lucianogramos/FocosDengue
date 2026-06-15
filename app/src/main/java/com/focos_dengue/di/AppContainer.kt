@@ -29,7 +29,7 @@ class AppContainer(private val context: Context) {
     private val mapsLocationDataSource = MapsLocationDataSource(context)
 
     // Repositories
-    private val authRepository = AuthRepositoryImpl(authDataSource)
+    val authRepository = AuthRepositoryImpl(authDataSource)
     private val reportRepository = ReportRepositoryImpl(reportDataSource)
     private val locationRepository = LocationRepositoryImpl(mapsLocationDataSource)
 

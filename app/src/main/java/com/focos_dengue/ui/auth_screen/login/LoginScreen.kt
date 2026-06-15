@@ -12,7 +12,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 @Composable
 fun LoginScreen(
     toSignUpScreen: () -> Unit,
-    toForgotPasswordScreen: () -> Unit,
     toReportScreen: () -> Unit,
     viewModel: LoginViewModel = viewModel()
 ) {
@@ -35,12 +34,12 @@ fun LoginScreen(
         LoginScreenContent(
             modifier = Modifier.padding(innerPadding),
             toSignUpScreen = toSignUpScreen,
-            toForgotPasswordScreen = toForgotPasswordScreen,
             toReportScreen = toReportScreen,
             state = state,
             onEmailChange = viewModel::updateEmail,
             onPasswordChange = viewModel::updatePassword,
-            onLogin = viewModel::onLogin
+            onLogin = viewModel::onLogin,
+            onForgotPassword = viewModel::onForgotPassword
         )
     }
 }

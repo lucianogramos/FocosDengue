@@ -63,6 +63,14 @@ class LoginViewModel(
             }
         }
     }
+
+    fun onForgotPassword() {
+        viewModelScope.launch {
+            authRepository.recoverPassword(uiState.email).onSuccess {
+                updateErrorMessage("Um e-mail foi enviado para ${uiState.email}")
+            }
+        }
+    }
 }
 
 class LoginViewModelFactory(private val authRepository: AuthRepository) : ViewModelProvider.Factory {

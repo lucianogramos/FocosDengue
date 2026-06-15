@@ -19,10 +19,10 @@ import com.focos_dengue.ui.util.PrimaryIconButton
 import com.focos_dengue.ui.util.TitleText
 
 @Composable
-fun ForgotPasswordContent(
+fun ResetPasswordContent(
     modifier: Modifier = Modifier,
     toLoginScreen: () -> Unit,
-    state: ForgotPasswordUIState,
+    state: ResetPasswordUIState,
     onPasswordChange: (String) -> Unit,
     updatePassword: () -> Unit
 ) {

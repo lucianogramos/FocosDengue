@@ -24,12 +24,12 @@ import com.focos_dengue.ui.util.XS
 fun LoginScreenContent(
     modifier: Modifier = Modifier,
     toSignUpScreen: () -> Unit,
-    toForgotPasswordScreen: () -> Unit,
     toReportScreen: () -> Unit,
     state: LoginUIState,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
-    onLogin: (() -> Unit) -> Unit
+    onLogin: (() -> Unit) -> Unit,
+    onForgotPassword: () -> Unit
 ) {
     Column(modifier = modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(2 * MD)) {
         TitleText("Bem-vindo")
@@ -68,6 +68,6 @@ fun LoginScreenContent(
         Spacer(Modifier.height(XS))
 
         ClickHereLink("Ainda não tem uma conta? ", "navigation") { toSignUpScreen() }
-        ClickHereLink("Esqueceu a senha? ", "redirect") { toForgotPasswordScreen() }
+        ClickHereLink("Esqueceu a senha? ", "redirect") { onForgotPassword() }
     }
 }
