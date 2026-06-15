@@ -10,7 +10,7 @@ interface AuthRepository {
 
     suspend fun recoverPassword(email: String, redirectUrl: String): Result<Unit>
 
-    suspend fun updatePassword(accesToken: String?, refreshToken: String?, newPassword: String): Result<Unit>
+    suspend fun updatePassword(accesToken: String? = null, refreshToken: String? = null, newPassword: String): Result<Unit>
 
     suspend fun updateEmail(newEmail: String): Result<Unit>
 
