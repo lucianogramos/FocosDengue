@@ -46,11 +46,24 @@ class AuthRepositoryImpl(private val authDataSource: AuthDataSource) : AuthRepos
 
     }
 
-    override suspend fun updatePassword(accesToken: String, refreshToken: String, newPassword: String): Result<Unit> {
+    override suspend fun updateEmail(redirectUrl: String, newEmail: String): Result<Unit> {
 
         return try {
 
-            authDataSource.updatePassword(accesToken, refreshToken, newPassword)
+            authDataSource.updateEmail(redirectUrl, newEmail)
+
+            Result.success(Unit)
+
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun updatePassword(accesToken: String?, refreshToken: String?, redirectUrl: String, newPassword: String): Result<Unit> {
+
+        return try {
+
+            authDataSource.updatePassword(accesToken, refreshToken, redirectUrl, newPassword)
 
             Result.success(Unit)
 

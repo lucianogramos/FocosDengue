@@ -25,11 +25,22 @@ class AuthDataSource(
         auth.resetPasswordForEmail(email = email, redirectUrl = redirectUrl)
     }
 
-    suspend fun updatePassword(accesToken: String, refreshToken: String, newPassword: String) {
-        auth.importAuthToken(accesToken, refreshToken)
-        auth.modifyUser {
+    suspend fun updateEmail(redirectUrl: String, newEmail: String) {
+        auth.modifyUser(redirectUrl = redirectUrl) {
+            email = newEmail
+        }
+        this.logout()
+    }
+
+    suspend fun updatePassword(accesToken: String? = null, refreshToken: String? = null, redirectUrl: String, newPassword: String) {
+
+        if (accesToken != null && refreshToken != null) {
+            auth.importAuthToken(accesToken, refreshToken)
+        }
+        auth.modifyUser(redirectUrl = redirectUrl) {
             password = newPassword
         }
+        this.logout()
     }
 
     suspend fun logout() {
