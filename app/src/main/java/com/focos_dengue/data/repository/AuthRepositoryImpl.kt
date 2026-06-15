@@ -1,10 +1,7 @@
 package com.focos_dengue.data.repository
 
 import com.focos_dengue.data.remote.AuthDataSource
-import com.focos_dengue.data.remote.supabase
 import com.focos_dengue.domain.repository.AuthRepository
-import io.github.jan.supabase.gotrue.auth
-import io.github.jan.supabase.gotrue.providers.builtin.Email
 
 class AuthRepositoryImpl(private val authDataSource: AuthDataSource) : AuthRepository {
 
@@ -35,11 +32,11 @@ class AuthRepositoryImpl(private val authDataSource: AuthDataSource) : AuthRepos
 
     }
 
-    override suspend fun recoverPassword(email: String): Result<Unit> {
+    override suspend fun recoverPassword(email: String, redirectUrl: String): Result<Unit> {
 
         return try {
 
-            authDataSource.recoverPassword(email)
+            authDataSource.recoverPassword(email, redirectUrl)
 
             Result.success(Unit)
 
