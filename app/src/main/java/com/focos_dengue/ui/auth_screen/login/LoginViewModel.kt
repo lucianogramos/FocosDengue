@@ -15,7 +15,7 @@ data class LoginUIState(
     val email: String = "",
     val password: String = "",
     val passwordRequirements: PasswordRequirements = PasswordRequirements(),
-    val errorMessage: String = ""
+    val message: String = ""
 )
 
 class LoginViewModel(
@@ -35,39 +35,45 @@ class LoginViewModel(
         )
     }
 
-    fun updateErrorMessage(errorMessage: String) {
-        uiState = uiState.copy(errorMessage = errorMessage)
+    fun updateMessage(message: String) {
+        uiState = uiState.copy(message = message)
     }
 
-    fun onLogin(onSucess: () -> Unit) {
-        updateErrorMessage("")
+    fun onLogin(onSuccess: () -> Unit, onFailure: (String) -> Unit) {
+        updateMessage("")
 
         val email = uiState.email
         val password = uiState.password
 
-        val errorMessage = when {
+        val message = when {
             email.isBlank() -> "Digite um e-mail"
             password.isBlank() -> "Digite uma senha"
             !uiState.passwordRequirements.isValid -> "Senha inválida. Verifique os requisitos"
             else -> null
         }
 
-        if (errorMessage != null) {
-            updateErrorMessage(errorMessage)
+        if (message != null) {
+            updateMessage(message)
             return
         }
 
         viewModelScope.launch {
-            authRepository.signIn(uiState.email, uiState.password).onSuccess {
-                onSucess()
-            }
+            authRepository.signIn(uiState.email, uiState.password).fold(
+                onSuccess = { onSuccess() },
+                onFailure = { t -> onFailure(t.message ?: "Ocorreu um erro") }
+            )
         }
     }
 
-    fun onForgotPassword() {
+    fun onForgotPassword(redirectUrl: String) {
+        if (uiState.email.isBlank()) {
+            updateMessage("Digite um e-mail que você quer recuperar a senha")
+            return
+        }
+
         viewModelScope.launch {
-            authRepository.recoverPassword(uiState.email).onSuccess {
-                updateErrorMessage("Um e-mail foi enviado para ${uiState.email}")
+            authRepository.recoverPassword(uiState.email, redirectUrl).onSuccess {
+                updateMessage("Um e-mail foi enviado para ${uiState.email}")
             }
         }
     }

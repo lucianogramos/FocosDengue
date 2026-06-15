@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.focos_dengue.ui.main_screen.VerticalScrollableContent
+import com.focos_dengue.ui.navigation.ScreenName
 
 @Composable
 fun AccountScreen(toReportScreen: () -> Unit, viewModel: AccountViewModel = viewModel()) {
@@ -21,14 +22,13 @@ fun AccountScreen(toReportScreen: () -> Unit, viewModel: AccountViewModel = view
             modifier = Modifier.padding(innerPadding),
             scrollState = scrollState,
             state = viewModel.uiState,
-            onNameChange = viewModel::updateNewName,
             onOldEmailChange = viewModel::updateOldEmail,
             onNewEmailChange = viewModel::updateNewEmail,
             onOldPasswordChange = viewModel::updateOldPassword,
             onNewPasswordChange = viewModel::updateNewPassword,
             onConfirmationPasswordChange = viewModel::updateConfirmationPassword,
             onSave = {
-                viewModel.onSave { result ->
+                viewModel.onSave("focosdengue://${ScreenName.LOGIN.route}") { result ->
                     when (result) {
                         is SaveResult.Success ->
                             Toast.makeText(context, "Configurações Salvas", Toast.LENGTH_LONG).show()
@@ -36,6 +36,10 @@ fun AccountScreen(toReportScreen: () -> Unit, viewModel: AccountViewModel = view
                             Toast.makeText(context, result.message, Toast.LENGTH_LONG).show()
                     }
                 }
+            },
+            onLogout = {
+                viewModel.onLogout()
+                Toast.makeText(context, "Logout realizado", Toast.LENGTH_LONG).show()
             }
         )
     }

@@ -8,7 +8,7 @@ fun Report.toDto(): ReportDto {
     return ReportDto(
         description = this.description,
         location = this.location,
-        imageUrl = this.imageUrl,
+        imageUrl = this.imageUrl.toString(),
         type = this.type,
         createdAt = this.createdAt
     )

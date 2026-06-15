@@ -18,11 +18,11 @@ class AuthRepositoryImpl(private val authDataSource: AuthDataSource) : AuthRepos
 
     }
 
-    override suspend fun signIn(redirectUrl: String, email: String, password: String): Result<Unit> {
+    override suspend fun signIn(email: String, password: String): Result<Unit> {
 
 
         return try {
-            authDataSource.signIn(redirectUrl, email, password)
+            authDataSource.signIn(email, password)
 
             Result.success(Unit)
 
@@ -59,11 +59,11 @@ class AuthRepositoryImpl(private val authDataSource: AuthDataSource) : AuthRepos
         }
     }
 
-    override suspend fun updatePassword(accesToken: String?, refreshToken: String?, redirectUrl: String, newPassword: String): Result<Unit> {
+    override suspend fun updatePassword(accessToken: String?, refreshToken: String?, redirectUrl: String, newPassword: String): Result<Unit> {
 
         return try {
 
-            authDataSource.updatePassword(accesToken, refreshToken, redirectUrl, newPassword)
+            authDataSource.updatePassword(accessToken, refreshToken, redirectUrl, newPassword)
 
             Result.success(Unit)
 

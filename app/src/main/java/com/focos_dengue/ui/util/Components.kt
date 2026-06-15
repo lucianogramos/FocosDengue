@@ -108,6 +108,20 @@ fun PrimaryIconButton(
 }
 
 @Composable
+fun PrimaryAlertButton(text: String, modifier: Modifier = Modifier, onClick: () -> Unit) {
+    Button(
+        onClick = onClick,
+        modifier = modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(ROUNDED_MD),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.error
+        )
+    ) {
+        Text(text = text, color = MaterialTheme.colorScheme.onPrimary)
+    }
+}
+
+@Composable
 fun TitleText(text: String, modifier: Modifier = Modifier, fontSize: TextUnit = TEXT_XL, marginTop: Dp = DP_0, marginBottom: Dp = DP_0) {
     VerticalMargin(marginTop, marginBottom) {
         Text(
@@ -233,7 +247,7 @@ fun SecondaryCard(
 }
 
 @Composable
-fun PrimaryDivider(colors: List<Color> = emptyList()) {
+fun PrimaryDivider(colors: List<Color> = emptyList(), marginTop: Dp = DP_0, marginBottom: Dp = DP_0) {
     val colorScheme = MaterialTheme.colorScheme
 
     val gradientColors = colors.ifEmpty {
@@ -246,6 +260,8 @@ fun PrimaryDivider(colors: List<Color> = emptyList()) {
         )
     }
 
+    MarginTop(marginTop)
+
     HorizontalDivider(
         thickness = 1.5.dp,
         modifier = Modifier.background(
@@ -253,6 +269,8 @@ fun PrimaryDivider(colors: List<Color> = emptyList()) {
         ),
         color = Color.Transparent
     )
+
+    MarginBottom(marginBottom)
 }
 
 @Composable

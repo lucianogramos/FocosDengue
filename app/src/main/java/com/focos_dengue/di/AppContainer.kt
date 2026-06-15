@@ -30,8 +30,9 @@ class AppContainer(private val context: Context) {
 
     // Repositories
     val authRepository = AuthRepositoryImpl(authDataSource)
-    private val reportRepository = ReportRepositoryImpl(reportDataSource)
+    val reportRepository = ReportRepositoryImpl(reportDataSource)
     private val locationRepository = LocationRepositoryImpl(mapsLocationDataSource)
 
-    //
+    // Use Cases
+
 }

@@ -10,12 +10,11 @@ fun MapPicker(
 ) {
 
     var markerPosition by remember {
-        mutableStateOf<LatLng?>(null)
+        mutableStateOf(LatLng(-18.96889, -49.46500))
     }
 
     GoogleMap(
         onMapClick = { latLng ->
-
             markerPosition = latLng
 
             onLocationSelected(
@@ -24,14 +23,10 @@ fun MapPicker(
             )
         }
     ) {
-
-        markerPosition?.let {
-
-            Marker(
-                state = MarkerState(
-                    position = it
-                )
+        Marker(
+            state = rememberMarkerState(
+                position = markerPosition
             )
-        }
+        )
     }
 }

@@ -24,11 +24,10 @@ import com.focos_dengue.ui.util.XS
 fun LoginScreenContent(
     modifier: Modifier = Modifier,
     toSignUpScreen: () -> Unit,
-    toReportScreen: () -> Unit,
     state: LoginUIState,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
-    onLogin: (() -> Unit) -> Unit,
+    onLogin: () -> Unit,
     onForgotPassword: () -> Unit
 ) {
     Column(modifier = modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(2 * MD)) {
@@ -61,9 +60,7 @@ fun LoginScreenContent(
 
         Spacer(Modifier.height(LG))
 
-        PrimaryButton(text = "Entrar", onClick = {
-            onLogin { toReportScreen() }
-        })
+        PrimaryButton(text = "Entrar", onClick = onLogin)
 
         Spacer(Modifier.height(XS))
 

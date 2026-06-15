@@ -13,17 +13,16 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 @Composable
 fun SignUpScreen(
     toLoginScreen: () -> Unit,
-    toReportScreen: () -> Unit,
     viewModel: SignUpViewModel = viewModel()
 ) {
     val state = viewModel.uiState
     val context = LocalContext.current
 
-    LaunchedEffect(state.errorMessage) {
-        if (state.errorMessage.isEmpty())
+    LaunchedEffect(state.message) {
+        if (state.message.isEmpty())
             return@LaunchedEffect
-        Toast.makeText(context, state.errorMessage, Toast.LENGTH_LONG).show()
-        viewModel.updateErrorMessage("")
+        Toast.makeText(context, state.message, Toast.LENGTH_LONG).show()
+        viewModel.updateMessage("")
     }
 
     Scaffold(
@@ -35,7 +34,6 @@ fun SignUpScreen(
         SignUpScreenContent(
             modifier = Modifier.padding(innerPadding),
             toLoginScreen = toLoginScreen,
-            toReportScreen = toReportScreen,
             state = state,
             onEmailChange = viewModel::onEmailChange,
             onPasswordChange = viewModel::onPasswordChange,

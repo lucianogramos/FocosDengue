@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 
 data class ResetPasswordUIState(
     val password: String = "",
+    val confirmationPassword: String = "",
     val passwordRequirements: PasswordRequirements = PasswordRequirements(),
     val errorMessage: String = ""
 )
@@ -36,9 +37,31 @@ class ResetPasswordViewModel(
         uiState = uiState.copy(errorMessage = errorMessage)
     }
 
-    fun updatePassword() {
+    fun updatePassword(redirectUrl: String) {
+        val password = uiState.password
+
+        if (password.isBlank()) {
+            updateErrorMessage("Digite uma senha")
+            return
+        }
+
+        if (uiState.passwordRequirements.isValid) {
+            updateErrorMessage("Senha inválida. Verifique os requisitos")
+            return
+        }
+
+        if (password != uiState.confirmationPassword) {
+            updateErrorMessage("As senhas não coincidem")
+            return
+        }
+
         viewModelScope.launch {
-            authRepository.updatePassword(uiState.password)
+            authRepository.updatePassword(
+                accessToken = accessToken,
+                refreshToken = refreshToken,
+                redirectUrl = redirectUrl,
+                newPassword = uiState.password
+            )
         }
     }
 }

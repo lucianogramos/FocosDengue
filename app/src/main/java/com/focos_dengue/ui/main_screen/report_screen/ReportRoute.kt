@@ -1,4 +1,4 @@
-package com.focos_dengue.ui.auth_screen.login
+package com.focos_dengue.ui.main_screen.report_screen
 
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -9,25 +9,24 @@ import androidx.navigation.navDeepLink
 import com.focos_dengue.FocosDengueApplication
 import com.focos_dengue.ui.navigation.ScreenName
 
-fun NavGraphBuilder.loginRoute(navController: NavHostController) {
+fun NavGraphBuilder.reportRoute(navController: NavHostController) {
     composable(
-        route = ScreenName.LOGIN.route,
+        route = ScreenName.REPORT.route,
         deepLinks = listOf(
             navDeepLink {
-                uriPattern = "focosdengue://${ScreenName.LOGIN.route}"
+                uriPattern = "focosdengue://report-screen"
             }
         )
     ) {
         val app = LocalContext.current.applicationContext as FocosDengueApplication
 
-        LoginScreen(
-            toSignUpScreen = {
-                navController.navigate(ScreenName.SIGNUP.route)
+        ReportScreen(
+            toAccountScreen = {
+                navController.navigate(ScreenName.ACCOUNT.route)
             },
-            toReportScreen = {
-                navController.navigate(ScreenName.REPORT.route)
-            },
-            viewModel = viewModel(factory = LoginViewModelFactory(app.container.authRepository))
+            viewModel = viewModel(
+                factory = ReportViewModelFactory(app.container.reportRepository)
+            )
         )
     }
 }

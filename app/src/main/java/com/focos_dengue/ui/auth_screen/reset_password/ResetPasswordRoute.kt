@@ -17,7 +17,7 @@ fun NavGraphBuilder.resetPasswordRoute(navController: NavController) {
         route = ScreenName.RESET_PASSWORD.route,
         deepLinks = listOf(
             navDeepLink {
-                uriPattern = "focosdengue://reset-password"
+                uriPattern = "focosdengue://${ScreenName.RESET_PASSWORD.route}"
             }
         )
     ) { backStackEntry ->

@@ -14,8 +14,8 @@ class AuthDataSource(
         }
     }
 
-    suspend fun signIn(redirectUrl: String, email: String, password: String) {
-        auth.signInWith(Email, redirectUrl) {
+    suspend fun signIn(email: String, password: String) {
+        auth.signInWith(Email) {
             this.email = email
             this.password = password
         }
@@ -32,10 +32,10 @@ class AuthDataSource(
         this.logout()
     }
 
-    suspend fun updatePassword(accesToken: String? = null, refreshToken: String? = null, redirectUrl: String, newPassword: String) {
+    suspend fun updatePassword(accessToken: String? = null, refreshToken: String? = null, redirectUrl: String, newPassword: String) {
 
-        if (accesToken != null && refreshToken != null) {
-            auth.importAuthToken(accesToken, refreshToken)
+        if (accessToken != null && refreshToken != null) {
+            auth.importAuthToken(accessToken, refreshToken)
         }
         auth.modifyUser(redirectUrl = redirectUrl) {
             password = newPassword

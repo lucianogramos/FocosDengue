@@ -79,4 +79,5 @@ dependencies {
     implementation("io.ktor:ktor-client-android:2.3.4")
     implementation("com.google.android.gms:play-services-maps:19.0.0")
     implementation("com.google.maps.android:maps-compose:6.1.0")
+    implementation("io.github.alfikri-rizky:avifkit:0.3.1")
 }

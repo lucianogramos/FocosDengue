@@ -2,10 +2,8 @@ package com.focos_dengue.data.repository
 
 import com.focos_dengue.data.mapper.toDto
 import com.focos_dengue.data.remote.ReportDataSource
-import com.focos_dengue.data.remote.supabase
 import com.focos_dengue.domain.model.Report
 import com.focos_dengue.domain.repository.ReportRepository
-import io.github.jan.supabase.postgrest.from
 
 class ReportRepositoryImpl(private val reportDataSource: ReportDataSource) : ReportRepository {
 

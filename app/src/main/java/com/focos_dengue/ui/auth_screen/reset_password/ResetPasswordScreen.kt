@@ -9,6 +9,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.focos_dengue.ui.navigation.ScreenName
 
 @Composable
 fun ResetPasswordScreen(toLoginScreen: () -> Unit, viewModel: ResetPasswordViewModel = viewModel()) {
@@ -30,7 +31,7 @@ fun ResetPasswordScreen(toLoginScreen: () -> Unit, viewModel: ResetPasswordViewM
             toLoginScreen = toLoginScreen,
             state = state,
             onPasswordChange = viewModel::onPasswordChange,
-            updatePassword = viewModel::updatePassword
+            updatePassword = { viewModel.updatePassword("focosdengue://${ScreenName.LOGIN.route}") }
         )
     }
 }

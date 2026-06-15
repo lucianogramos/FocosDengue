@@ -9,14 +9,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.focos_dengue.ui.navigation.ScreenName
 import com.focos_dengue.ui.auth_screen.login.loginRoute
 import com.focos_dengue.ui.auth_screen.reset_password.resetPasswordRoute
 import com.focos_dengue.ui.auth_screen.signup.signUpRoute
-import com.focos_dengue.ui.main_screen.account_screen.AccountScreen
-import com.focos_dengue.ui.main_screen.report_screen.ReportScreen
+import com.focos_dengue.ui.main_screen.account_screen.accountRoute
+import com.focos_dengue.ui.main_screen.report_screen.reportRoute
 import com.focos_dengue.ui.theme.FocosDengueTheme
 
 class MainActivity : ComponentActivity() {
@@ -34,12 +33,8 @@ class MainActivity : ComponentActivity() {
                         loginRoute(navController)
                         signUpRoute(navController)
                         resetPasswordRoute(navController)
-                        composable(route = ScreenName.REPORT.route) {
-                            ReportScreen({ navController.navigate(ScreenName.ACCOUNT.route) })
-                        }
-                        composable(route = ScreenName.ACCOUNT.route) {
-                            AccountScreen({ navController.navigate(ScreenName.REPORT.route) })
-                        }
+                        reportRoute(navController)
+                        accountRoute(navController)
                     }
                 }
             }
