@@ -25,6 +25,10 @@ class AuthDataSource(
         auth.resetPasswordForEmail(email = email)
     }
 
+    suspend fun importAuthToken(accesToken: String, refreshToken: String) {
+        auth.importAuthToken(accesToken, refreshToken)
+    }
+
     suspend fun updatePassword(newPassword: String) {
         auth.modifyUser {
             password = newPassword
