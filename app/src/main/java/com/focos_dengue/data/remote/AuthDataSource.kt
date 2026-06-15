@@ -21,12 +21,8 @@ class AuthDataSource(
         }
     }
 
-    suspend fun recoverPassword(email: String) {
-        auth.resetPasswordForEmail(email = email)
-    }
-
-    suspend fun importAuthToken(accesToken: String, refreshToken: String) {
-
+    suspend fun recoverPassword(email: String, redirectUrl: String) {
+        auth.resetPasswordForEmail(email = email, redirectUrl = redirectUrl)
     }
 
     suspend fun updatePassword(accesToken: String, refreshToken: String, newPassword: String) {
