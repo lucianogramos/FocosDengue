@@ -6,7 +6,7 @@ interface AuthRepository {
 
     suspend fun signUp(email: String, password: String): Result<Unit>
 
-    suspend fun signIn(email: String, password: String): Result<Unit>
+    suspend fun signIn(redirectUrl: String, email: String, password: String): Result<Unit>
 
     suspend fun recoverPassword(email: String, redirectUrl: String): Result<Unit>
 

@@ -18,11 +18,11 @@ class AuthRepositoryImpl(private val authDataSource: AuthDataSource) : AuthRepos
 
     }
 
-    override suspend fun signIn(email: String, password: String): Result<Unit> {
+    override suspend fun signIn(redirectUrl: String, email: String, password: String): Result<Unit> {
 
 
         return try {
-            authDataSource.signIn(email, password)
+            authDataSource.signIn(redirectUrl, email, password)
 
             Result.success(Unit)
 

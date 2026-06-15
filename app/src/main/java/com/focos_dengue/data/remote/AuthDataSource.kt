@@ -14,8 +14,8 @@ class AuthDataSource(
         }
     }
 
-    suspend fun signIn(email: String, password: String) {
-        auth.signInWith(Email) {
+    suspend fun signIn(redirectUrl: String, email: String, password: String) {
+        auth.signInWith(Email, redirectUrl) {
             this.email = email
             this.password = password
         }
