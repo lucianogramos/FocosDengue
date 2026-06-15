@@ -26,10 +26,11 @@ class AuthDataSource(
     }
 
     suspend fun importAuthToken(accesToken: String, refreshToken: String) {
-        auth.importAuthToken(accesToken, refreshToken)
+
     }
 
-    suspend fun updatePassword(newPassword: String) {
+    suspend fun updatePassword(accesToken: String, refreshToken: String, newPassword: String) {
+        auth.importAuthToken(accesToken, refreshToken)
         auth.modifyUser {
             password = newPassword
         }

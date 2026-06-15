@@ -48,24 +48,12 @@ class AuthRepositoryImpl(private val authDataSource: AuthDataSource) : AuthRepos
         }
 
     }
-    override suspend fun importAuthToken(accesToken: String, refreshToken: String): Result<Unit> {
+
+    override suspend fun updatePassword(accesToken: String, refreshToken: String, newPassword: String): Result<Unit> {
 
         return try {
 
-            authDataSource.importAuthToken(accesToken, refreshToken)
-
-            Result.success(Unit)
-
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
-
-    override suspend fun updatePassword(newPassword: String): Result<Unit> {
-
-        return try {
-
-            authDataSource.updatePassword(newPassword)
+            authDataSource.updatePassword(accesToken, refreshToken, newPassword)
 
             Result.success(Unit)
 
