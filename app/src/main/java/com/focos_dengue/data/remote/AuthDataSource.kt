@@ -2,9 +2,12 @@ package com.focos_dengue.data.remote
 
 import io.github.jan.supabase.gotrue.Auth
 import io.github.jan.supabase.gotrue.providers.builtin.Email
+import io.github.jan.supabase.postgrest.Postgrest
+import io.github.jan.supabase.postgrest.rpc
 
 class AuthDataSource(
-    private val auth: Auth
+    private val auth: Auth,
+    private val postgrest: Postgrest
 ) {
 
     suspend fun signUp(email: String, password: String) {
@@ -41,6 +44,10 @@ class AuthDataSource(
             password = newPassword
         }
         this.logout()
+    }
+
+    suspend fun deleteAccount() {
+        postgrest.rpc("delete_account")
     }
 
     suspend fun logout() {

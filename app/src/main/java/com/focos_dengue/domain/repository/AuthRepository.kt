@@ -14,6 +14,8 @@ interface AuthRepository {
 
     suspend fun updateEmail(redirectUrl: String, newEmail: String): Result<Unit>
 
+    suspend fun deleteAccount(): Result<Unit>
+
     suspend fun logout(): Result<Unit>
 
     fun getCurrentUser(): UserInfo?

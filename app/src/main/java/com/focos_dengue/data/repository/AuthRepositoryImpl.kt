@@ -73,8 +73,29 @@ class AuthRepositoryImpl(private val authDataSource: AuthDataSource) : AuthRepos
 
     }
 
-    override suspend fun logout() {
-        authDataSource.logout()
+    override suspend fun deleteAccount(): Result<Unit> {
+        return try {
+
+            authDataSource.deleteAccount()
+
+            Result.success(Unit)
+
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun logout(): Result<Unit> {
+
+        return try {
+
+            authDataSource.logout()
+
+            Result.success(Unit)
+
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
     }
 
     override fun getCurrentUser() = authDataSource.currentUser()
