@@ -15,7 +15,7 @@ import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.storage.Storage
 
-class AppContainer(private val context: Context) {
+class AppContainer(context: Context) {
     // Supabase Client
     private val supabaseClient = createSupabaseClient(supabaseUrl = BuildConfig.SUPABASE_URL, supabaseKey = BuildConfig.SUPABASE_KEY) {
         install(Auth)

@@ -1,6 +1,7 @@
 package com.focos_dengue.ui.auth_screen.reset_password
 
 import android.content.Intent
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.os.BundleCompat
@@ -30,7 +31,7 @@ fun NavGraphBuilder.resetPasswordRoute(navController: NavController) {
         val intentData = intent?.data
         val fragment = intentData?.fragment
         val arr = fragment?.split("&")
-        val accessToken = arr?.find { it.startsWith("acess_token=") }?.substringAfter("=")
+        val accessToken = arr?.find { it.startsWith("access_token=") }?.substringAfter("=")
         val refreshToken = arr?.find { it.startsWith("refresh_token=") }?.substringAfter("=")
 
         if (accessToken == null || refreshToken == null) {
