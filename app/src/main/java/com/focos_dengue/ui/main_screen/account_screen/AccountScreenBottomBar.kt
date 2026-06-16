@@ -6,12 +6,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.times
 import com.focos_dengue.ui.main_screen.BottomBarButton
+import com.focos_dengue.ui.theme.AppTheme
 import com.focos_dengue.ui.util.LG
 import com.focos_dengue.ui.util.MD
 import com.focos_dengue.ui.util.PrimaryDivider
@@ -19,22 +19,22 @@ import com.focos_dengue.ui.util.SM
 
 @Composable
 fun AccountScreenBottomBar(toReportScreen: () -> Unit) {
-    val colorScheme = MaterialTheme.colorScheme
+    val colors = AppTheme.colors
 
     Column(modifier = Modifier.navigationBarsPadding()) {
         PrimaryDivider(listOf(
             Color.Transparent,
-            colorScheme.outline,
-            colorScheme.outline,
-            colorScheme.outlineVariant,
-            colorScheme.outline,
-            colorScheme.outline,
+            colors.outline,
+            colors.outline,
+            colors.outlineVariant,
+            colors.outline,
+            colors.outline,
             Color.Transparent
         ))
 
         BottomAppBar(
             modifier = Modifier.height(4 * MD),
-            containerColor = colorScheme.background,
+            containerColor = colors.background,
             contentPadding = PaddingValues(horizontal = LG)
         ) {
             BottomBarButton(

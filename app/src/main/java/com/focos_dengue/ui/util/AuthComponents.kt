@@ -1,16 +1,20 @@
 package com.focos_dengue.ui.util
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import com.focos_dengue.R
+import androidx.compose.ui.tooling.preview.Preview
+import com.focos_dengue.ui.theme.AppTheme
 
 @Composable
 fun PasswordTextField(
@@ -27,6 +31,33 @@ fun PasswordTextField(
 ) {
     val maxChar = 20
 
+    val requirements = listOf(hasMinChars, hasUpperCase, hasLowerCase, hasNumber, hasSpecialChar)
+    var requirementsCompleted = 0
+    for (i in requirements) {
+        if (i) requirementsCompleted++
+    }
+
+    val supportingText = @Composable {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            if (requirementsCompleted == requirements.size)
+                SuccessText("Sua senha é forte", fontSize = TEXT_XS)
+            else if (requirementsCompleted > 2)
+                WarningText("Sua senha é média", fontSize = TEXT_XS)
+            else
+                ErrorText("Sua senha é fraca", fontSize = TEXT_XS)
+
+            Text(
+                text = "${value.length} / $maxChar caracteres",
+                color = AppTheme.colors.onSecondary,
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
+    }
+
     PrimaryTextField(
         value = value,
         onValueChange = {
@@ -37,46 +68,26 @@ fun PasswordTextField(
         placeholder = placeholder,
         visualTransformation = PasswordVisualTransformation(), // Esconde o texto com bolinhas
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-        supportingText = {
-            Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd) {
-                Text(
-                    text = "${value.length} / $maxChar caracteres",
-                    color = MaterialTheme.colorScheme.onSecondary,
-                    style = MaterialTheme.typography.bodySmall
-                )
-            }
+        supportingText = supportingText
+    )
+}
+
+@Preview
+@Composable
+fun PasswordTextFieldPreview() {
+    MaterialTheme {
+        Surface(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
+            PasswordTextField(
+                "",
+                {},
+                true,
+                true,
+                true,
+                true,
+                true
+            )
         }
-    )
-
-    val color = @Composable { isValid: Boolean ->
-        if (isValid) MaterialTheme.colorScheme.inversePrimary else MaterialTheme.colorScheme.error
     }
-
-    IconText(
-        text = "Contém no mínimo 8 caracteres", iconId = R.drawable.check_circle,
-        iconTint = color(hasMinChars), textColor = color(hasMinChars),
-        fontSize = TEXT_XS, iconSize = LG, marginTop = XS
-    )
-    IconText(
-        text = "Contém no mínimo uma letra maiúscula", iconId = R.drawable.check_circle,
-        iconTint = color(hasUpperCase), textColor = color(hasUpperCase),
-        fontSize = TEXT_XS, iconSize = LG
-    )
-    IconText(
-        text = "Contém no mínimo uma letra minúscula", iconId = R.drawable.check_circle,
-        iconTint = color(hasLowerCase), textColor = color(hasLowerCase),
-        fontSize = TEXT_XS, iconSize = LG
-    )
-    IconText(
-        text = "Contém no mínimo um número", iconId = R.drawable.check_circle,
-        iconTint = color(hasNumber), textColor = color(hasNumber),
-        fontSize = TEXT_XS, iconSize = LG
-    )
-    IconText(
-        text = "Contém no mínimo um caractere especial", iconId = R.drawable.check_circle,
-        iconTint = color(hasSpecialChar), textColor = color(hasSpecialChar),
-        fontSize = TEXT_XS, iconSize = LG
-    )
 }
 
 @Composable

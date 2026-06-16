@@ -7,14 +7,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.focos_dengue.domain.repository.AuthRepository
-import com.focos_dengue.domain.validation.PasswordRequirements
-import com.focos_dengue.domain.validation.PasswordValidator
 import kotlinx.coroutines.launch
 
 data class LoginUIState(
     val email: String = "",
     val password: String = "",
-    val passwordRequirements: PasswordRequirements = PasswordRequirements(),
     val message: String = ""
 )
 
@@ -29,10 +26,7 @@ class LoginViewModel(
     }
 
     fun updatePassword(password: String) {
-        uiState = uiState.copy(
-            password = password,
-            passwordRequirements = PasswordValidator.validate(password)
-        )
+        uiState = uiState.copy(password = password)
     }
 
     fun updateMessage(message: String) {
@@ -48,7 +42,6 @@ class LoginViewModel(
         val message = when {
             email.isBlank() -> "Digite um e-mail"
             password.isBlank() -> "Digite uma senha"
-            !uiState.passwordRequirements.isValid -> "Senha inválida. Verifique os requisitos"
             else -> null
         }
 

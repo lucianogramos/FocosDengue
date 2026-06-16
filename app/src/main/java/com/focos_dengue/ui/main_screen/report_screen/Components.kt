@@ -24,7 +24,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -38,6 +37,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.times
 import coil.compose.AsyncImage
 import com.focos_dengue.R
+import com.focos_dengue.ui.theme.AppTheme
 import com.focos_dengue.ui.util.BORDER_WIDTH
 import com.focos_dengue.ui.util.PrimaryCard
 import com.focos_dengue.ui.util.PrimaryIcon
@@ -100,7 +100,7 @@ fun MapPicker(
     GoogleMap(
         modifier = Modifier.fillMaxSize().border(
             width = BORDER_WIDTH,
-            color = MaterialTheme.colorScheme.outlineVariant
+            color = AppTheme.colors.outlineVariant
         ),
         mapColorScheme = ComposeMapColorScheme.FOLLOW_SYSTEM,
         uiSettings = MapUiSettings(tiltGesturesEnabled = false),
@@ -127,7 +127,7 @@ fun PhotoCard(
     gapLength: Dp = XS,
     onClick: ((Uri?) -> Unit)? = null
 ) {
-    val colorScheme = MaterialTheme.colorScheme
+    val colors = AppTheme.colors
     val context = LocalContext.current
     var photoUri: Uri? by remember { mutableStateOf(null) }
 
@@ -154,7 +154,7 @@ fun PhotoCard(
         .fillMaxWidth()
         .height(height)
         .dashedBorder(
-            color = colorScheme.outline,
+            color = colors.outline,
             shape = RoundedCornerShape(ROUNDED_MD),
             dashLength = dashLength,
             gapLength = gapLength
@@ -167,7 +167,7 @@ fun PhotoCard(
     if (photoUri != null) {
         Box(
             modifier = modifier.background(
-                color = colorScheme.secondary,
+                color = colors.secondary,
                 shape = RoundedCornerShape(ROUNDED_MD)
             )
         ) {
@@ -193,7 +193,7 @@ fun PhotoCard(
                         onClick?.invoke(null)
                     },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = colorScheme.background
+                        containerColor = colors.background
                     )
                 ) {
                     PrimaryIcon(R.drawable.remove_icon, "Remover Foto")

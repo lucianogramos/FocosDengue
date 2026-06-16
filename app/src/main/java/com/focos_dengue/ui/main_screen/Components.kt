@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
+import com.focos_dengue.ui.theme.AppTheme
 import kotlin.math.abs
 
 @SuppressLint("FrequentlyChangingValue")
@@ -71,9 +71,9 @@ fun VerticalScrollableContent(
 
 @Composable
 fun RowScope.BottomBarButton(text: String, shape: Shape, isActive: Boolean, onClick: (() -> Unit)? = null) {
-    val colorScheme = MaterialTheme.colorScheme
+    val colors = AppTheme.colors
     var modifier = Modifier.fillMaxSize().weight(1f).background(
-        color = if (isActive) colorScheme.secondary else colorScheme.background,
+        color = if (isActive) colors.secondary else colors.background,
         shape = shape
     )
 
@@ -84,6 +84,6 @@ fun RowScope.BottomBarButton(text: String, shape: Shape, isActive: Boolean, onCl
         modifier = modifier,
         contentAlignment = Alignment.Center
     ) {
-        Text(text, color = colorScheme.onBackground)
+        Text(text, color = colors.onBackground)
     }
 }
