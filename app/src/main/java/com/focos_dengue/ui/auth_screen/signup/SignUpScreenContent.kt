@@ -28,12 +28,11 @@ import com.focos_dengue.ui.util.XS
 fun SignUpScreenContent(
     modifier: Modifier = Modifier,
     toLoginScreen: () -> Unit,
-    toReportScreen: () -> Unit,
     state: SignUpUIState,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onConfirmationPasswordChange: (String) -> Unit,
-    onSignUp: (() -> Unit) -> Unit
+    onSignUp: () -> Unit
 ) {
     Column(modifier = modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(2 * MD)) {
         TitleText(text = "Bem-vindo")
@@ -78,9 +77,7 @@ fun SignUpScreenContent(
 
         Spacer(Modifier.height(LG))
 
-        PrimaryButton(text = "Cadastrar", onClick = {
-            onSignUp { toReportScreen() }
-        })
+        PrimaryButton(text = "Cadastrar", onClick = onSignUp)
 
         Spacer(Modifier.height(XS))
 

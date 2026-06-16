@@ -7,14 +7,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.times
 import com.focos_dengue.ui.util.LG
 import com.focos_dengue.ui.util.MD
@@ -28,6 +24,8 @@ import com.focos_dengue.ui.util.SecondaryText
 import com.focos_dengue.ui.util.SubtitleText
 import com.focos_dengue.ui.util.TEXT_MD
 import com.focos_dengue.ui.util.TitleText
+import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.compose.rememberCameraPositionState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -40,8 +38,12 @@ fun ReportScreenContent(
     onSendReport: () -> Unit
 ) {
     val maxCharsOfDescription = 200
+    val cameraPositionState = rememberCameraPositionState()
 
-    Column(modifier = modifier.fillMaxSize().verticalScroll(scrollState).padding(2 * MD)) {
+    Column(modifier = modifier.fillMaxSize()
+        .verticalScroll(scrollState, !cameraPositionState.isMoving)
+        .padding(2 * MD)
+    ) {
         TitleText("Novo reporte", marginTop = XS)
 
         SecondaryText(
@@ -51,7 +53,7 @@ fun ReportScreenContent(
             marginBottom = MD
         )
 
-        LocationCard()
+        LocationCard(cameraPositionState, LatLng(-18.96889, -49.46500))
 
         SubtitleText("Descrição", marginTop = MD, marginBottom = MD)
 
@@ -81,21 +83,5 @@ fun ReportScreenContent(
         Spacer(Modifier.height(LG))
 
         PrimaryButton(text = "Enviar Denúncia", onClick = onSendReport)
-    }
-}
-
-@Preview
-@Composable
-fun ReportScreenContentPreview() {
-    MaterialTheme {
-        Surface(color = MaterialTheme.colorScheme.background) {
-            ReportScreenContent(
-                scrollState = rememberScrollState(),
-                state = ReportUIState(),
-                onDescriptionChange = {},
-                onPhotoUriChange = {},
-                onSendReport = {}
-            )
-        }
     }
 }

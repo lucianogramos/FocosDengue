@@ -9,9 +9,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.focos_dengue.ui.navigation.ScreenName
 
 @Composable
-fun ForgotPasswordScreen(toLoginScreen: () -> Unit, viewModel: ForgotPasswordViewModel = viewModel()) {
+fun ResetPasswordScreen(toLoginScreen: () -> Unit, viewModel: ResetPasswordViewModel = viewModel()) {
     val state = viewModel.uiState
     val context = LocalContext.current
 
@@ -25,12 +26,12 @@ fun ForgotPasswordScreen(toLoginScreen: () -> Unit, viewModel: ForgotPasswordVie
     Scaffold(
         modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
-        ForgotPasswordContent(
+        ResetPasswordContent(
             modifier = Modifier.padding(innerPadding),
             toLoginScreen = toLoginScreen,
             state = state,
             onPasswordChange = viewModel::onPasswordChange,
-            updatePassword = viewModel::updatePassword
+            updatePassword = { viewModel.updatePassword("focosdengue://${ScreenName.LOGIN.route}") }
         )
     }
 }

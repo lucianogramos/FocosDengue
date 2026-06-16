@@ -4,6 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.focos_dengue.domain.repository.AuthRepository
 import com.focos_dengue.domain.validation.PasswordRequirements
@@ -15,7 +16,7 @@ data class SignUpUIState(
     val password: String = "",
     val confirmationPassword: String = "",
     val passwordRequirements: PasswordRequirements = PasswordRequirements(),
-    val errorMessage: String = ""
+    val message: String = ""
 )
 
 class SignUpViewModel(
@@ -38,17 +39,17 @@ class SignUpViewModel(
         uiState = uiState.copy(confirmationPassword = password)
     }
 
-    fun updateErrorMessage(errorMessage: String) {
-        uiState = uiState.copy(errorMessage = errorMessage)
+    fun updateMessage(message: String) {
+        uiState = uiState.copy(message = message)
     }
 
-    fun onSignUp(onSucess: () -> Unit) {
-        updateErrorMessage("")
+    fun onSignUp() {
+        updateMessage("")
 
         val email = uiState.email
         val password = uiState.password
 
-        val errorMessage = when {
+        val message = when {
             email.isBlank() -> "Digite um e-mail"
             password.isBlank() -> "Digite uma senha"
             uiState.confirmationPassword.isBlank() -> "Confirme sua senha"
@@ -57,15 +58,21 @@ class SignUpViewModel(
             else -> null
         }
 
-        if (errorMessage != null) {
-            updateErrorMessage(errorMessage)
+        if (message != null) {
+            updateMessage(message)
             return
         }
 
         viewModelScope.launch {
-            authRepository.signUp(email, password).onSuccess {
-                onSucess()
-            }
+            authRepository.signUp(email, password)
+            updateMessage("Enviamos um e-mail para você confirmar sua conta. Verifique sua caixa de e-mails")
         }
+    }
+}
+
+class SignUpViewModelFactory(private val authRepository: AuthRepository) : ViewModelProvider.Factory {
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        return SignUpViewModel(authRepository) as T
     }
 }

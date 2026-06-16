@@ -53,6 +53,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
+import com.focos_dengue.ui.theme.AppTheme
 
 @Composable
 fun MarginTop(marginTop: Dp) {
@@ -78,10 +79,10 @@ fun PrimaryButton(text: String, modifier: Modifier = Modifier, onClick: () -> Un
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(ROUNDED_MD),
         colors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.primary
+            containerColor = AppTheme.colors.primary
         )
     ) {
-        Text(text = text, color = MaterialTheme.colorScheme.onPrimary)
+        Text(text = text, color = AppTheme.colors.onPrimary)
     }
 }
 
@@ -108,10 +109,24 @@ fun PrimaryIconButton(
 }
 
 @Composable
+fun PrimaryAlertButton(text: String, modifier: Modifier = Modifier, onClick: () -> Unit) {
+    Button(
+        onClick = onClick,
+        modifier = modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(ROUNDED_MD),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = AppTheme.colors.error
+        )
+    ) {
+        Text(text = text, color = AppTheme.colors.onPrimary)
+    }
+}
+
+@Composable
 fun TitleText(text: String, modifier: Modifier = Modifier, fontSize: TextUnit = TEXT_XL, marginTop: Dp = DP_0, marginBottom: Dp = DP_0) {
     VerticalMargin(marginTop, marginBottom) {
         Text(
-            text = text, modifier = modifier, color = MaterialTheme.colorScheme.onBackground,
+            text = text, modifier = modifier, color = AppTheme.colors.onBackground,
             fontSize = fontSize, fontWeight = FontWeight.Bold, lineHeight = TEXT_XL * 1.2
         )
     }
@@ -120,7 +135,7 @@ fun TitleText(text: String, modifier: Modifier = Modifier, fontSize: TextUnit = 
 @Composable
 fun SubtitleText(text: String, modifier: Modifier = Modifier, fontSize: TextUnit = TEXT_MD, marginTop: Dp = DP_0, marginBottom: Dp = DP_0) {
     VerticalMargin(marginTop, marginBottom) {
-        Text(text, modifier, MaterialTheme.colorScheme.onBackground, fontSize = fontSize)
+        Text(text, modifier, AppTheme.colors.onBackground, fontSize = fontSize)
     }
 }
 
@@ -134,25 +149,45 @@ fun PrimaryText(
     marginBottom: Dp = DP_0
 ) {
     VerticalMargin(marginTop, marginBottom) {
-        Text(text, modifier, MaterialTheme.colorScheme.onBackground, fontSize = fontSize, textDecoration = textDecoration)
+        Text(text, modifier, AppTheme.colors.onBackground, fontSize = fontSize, textDecoration = textDecoration)
     }
 }
 
 @Composable
-fun SecondaryText(
-    text: String, modifier: Modifier = Modifier, fontSize: TextUnit = TEXT_SM, marginTop: Dp = DP_0, marginBottom: Dp = DP_0) {
+fun SecondaryText(text: String, modifier: Modifier = Modifier, fontSize: TextUnit = TEXT_SM, marginTop: Dp = DP_0, marginBottom: Dp = DP_0) {
     VerticalMargin(marginTop, marginBottom) {
-        Text(text, modifier, MaterialTheme.colorScheme.onSecondary, fontSize = fontSize, lineHeight = fontSize * 1.5)
+        Text(text, modifier, AppTheme.colors.onSecondary, fontSize = fontSize, lineHeight = fontSize * 1.5)
+    }
+}
+
+@Composable
+fun SuccessText(text: String, modifier: Modifier = Modifier, fontSize: TextUnit = TEXT_MD, marginTop: Dp = DP_0, marginBottom: Dp = DP_0) {
+    VerticalMargin(marginTop, marginBottom) {
+        Text(text, modifier, AppTheme.colors.onSuccess, fontSize = fontSize, lineHeight = fontSize * 1.5)
+    }
+}
+
+@Composable
+fun WarningText(text: String, modifier: Modifier = Modifier, fontSize: TextUnit = TEXT_MD, marginTop: Dp = DP_0, marginBottom: Dp = DP_0) {
+    VerticalMargin(marginTop, marginBottom) {
+        Text(text, modifier, AppTheme.colors.onWarning, fontSize = fontSize, lineHeight = fontSize * 1.5)
+    }
+}
+
+@Composable
+fun ErrorText(text: String, modifier: Modifier = Modifier, fontSize: TextUnit = TEXT_MD, marginTop: Dp = DP_0, marginBottom: Dp = DP_0) {
+    VerticalMargin(marginTop, marginBottom) {
+        Text(text, modifier, AppTheme.colors.onError, fontSize = fontSize, lineHeight = fontSize * 1.5)
     }
 }
 
 @Composable
 fun IconText(
-    iconId: Int,text: String,
+    iconId: Int, text: String,
     modifier: Modifier = Modifier,
     iconSize: Dp = 2 * MD,
-    iconTint: Color = MaterialTheme.colorScheme.primary,
-    textColor: Color = MaterialTheme.colorScheme.onBackground,
+    iconTint: Color = AppTheme.colors.primary,
+    textColor: Color = AppTheme.colors.onBackground,
     fontSize: TextUnit = TEXT_MD,
     gap: Dp = SM,
     marginTop: Dp = DP_0,
@@ -187,14 +222,14 @@ fun PrimaryCard(
     verticalPadding: Dp = SM,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = MaterialTheme.colorScheme
+    val colors = AppTheme.colors
 
     OutlinedCard(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(ROUNDED_MD),
-        border = BorderStroke(BORDER_WIDTH, colorScheme.outline),
+        border = BorderStroke(BORDER_WIDTH, colors.outline),
         colors = CardDefaults.outlinedCardColors(
-            containerColor = colorScheme.secondary
+            containerColor = colors.secondary
         )
     ) {
         Column(
@@ -212,14 +247,14 @@ fun SecondaryCard(
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = MaterialTheme.colorScheme
+    val colors = AppTheme.colors
 
     OutlinedCard(
         modifier = modifier,
         shape = RoundedCornerShape(ROUNDED_MD),
-        border = BorderStroke(BORDER_WIDTH, colorScheme.outline),
+        border = BorderStroke(BORDER_WIDTH, colors.outline),
         colors = CardDefaults.outlinedCardColors(
-            containerColor = colorScheme.tertiary
+            containerColor = colors.tertiary
         )
     ) {
         Column(
@@ -233,18 +268,20 @@ fun SecondaryCard(
 }
 
 @Composable
-fun PrimaryDivider(colors: List<Color> = emptyList()) {
-    val colorScheme = MaterialTheme.colorScheme
+fun PrimaryDivider(colors: List<Color> = emptyList(), marginTop: Dp = DP_0, marginBottom: Dp = DP_0) {
+    val themeColors = AppTheme.colors
 
     val gradientColors = colors.ifEmpty {
         listOf(
             Color.Transparent,
-            colorScheme.outline,
-            colorScheme.outline,
-            colorScheme.outline,
+            themeColors.outline,
+            themeColors.outlineVariant,
+            themeColors.outline,
             Color.Transparent
         )
     }
+
+    MarginTop(marginTop)
 
     HorizontalDivider(
         thickness = 1.5.dp,
@@ -253,6 +290,8 @@ fun PrimaryDivider(colors: List<Color> = emptyList()) {
         ),
         color = Color.Transparent
     )
+
+    MarginBottom(marginBottom)
 }
 
 @Composable
@@ -268,7 +307,7 @@ fun PrimaryTextField(
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     visualTransformation: VisualTransformation = VisualTransformation.None
 ) {
-    val colorScheme = MaterialTheme.colorScheme
+    val colors = AppTheme.colors
 
     OutlinedTextField(
         value = value,
@@ -283,16 +322,16 @@ fun PrimaryTextField(
         visualTransformation = visualTransformation,
         supportingText = supportingText,
         colors = OutlinedTextFieldDefaults.colors(
-            focusedContainerColor = colorScheme.background,
-            unfocusedContainerColor = colorScheme.background,
-            focusedLabelColor = colorScheme.onBackground,
-            unfocusedLabelColor = colorScheme.onSecondary,
-            focusedPlaceholderColor = colorScheme.onSecondary,
-            unfocusedPlaceholderColor = colorScheme.onSecondary,
-            focusedTextColor = colorScheme.onBackground,
-            unfocusedTextColor = colorScheme.onBackground,
-            focusedBorderColor = colorScheme.primary,
-            unfocusedBorderColor = colorScheme.outline
+            focusedContainerColor = colors.background,
+            unfocusedContainerColor = colors.background,
+            focusedLabelColor = colors.onBackground,
+            unfocusedLabelColor = colors.onSecondary,
+            focusedPlaceholderColor = colors.onSecondary,
+            unfocusedPlaceholderColor = colors.onSecondary,
+            focusedTextColor = colors.onBackground,
+            unfocusedTextColor = colors.onBackground,
+            focusedBorderColor = colors.primary,
+            unfocusedBorderColor = colors.outline
         )
     )
 }
@@ -309,10 +348,10 @@ fun PrimaryTextFieldWithCounter(
     maxLines: Int = 1,
     placeholder: String = ""
 ) {
-    val colorScheme = MaterialTheme.colorScheme
+    val colors = AppTheme.colors
     var isFocused by remember { mutableStateOf(false) }
 
-    val borderColor = if (isFocused) colorScheme.primary else colorScheme.outline
+    val borderColor = if (isFocused) colors.primary else colors.outline
     val borderWidth = if (isFocused) 2 * BORDER_WIDTH else BORDER_WIDTH
 
     Column(
@@ -320,7 +359,7 @@ fun PrimaryTextFieldWithCounter(
             .fillMaxWidth()
             .height(height)
             .border(BorderStroke(borderWidth, borderColor), RoundedCornerShape(ROUNDED_MD))
-            .background(colorScheme.background, RoundedCornerShape(ROUNDED_MD))
+            .background(colors.background, RoundedCornerShape(ROUNDED_MD))
             .padding(bottom = SM)
     ) {
         TextField(
@@ -342,16 +381,16 @@ fun PrimaryTextFieldWithCounter(
                 unfocusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent,
                 errorIndicatorColor = Color.Transparent,
-                focusedPlaceholderColor = colorScheme.onSecondary,
-                unfocusedPlaceholderColor = colorScheme.onSecondary,
-                focusedTextColor = colorScheme.onBackground,
-                unfocusedTextColor = colorScheme.onBackground
+                focusedPlaceholderColor = colors.onSecondary,
+                unfocusedPlaceholderColor = colors.onSecondary,
+                focusedTextColor = colors.onBackground,
+                unfocusedTextColor = colors.onBackground
             )
         )
 
         Text(
             text = "${value.length} / $maxChar",
-            color = colorScheme.onSecondary,
+            color = colors.onSecondary,
             style = MaterialTheme.typography.bodySmall,
             modifier = Modifier
                 .align(Alignment.End)
@@ -366,7 +405,7 @@ fun NumericField(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val colorScheme = MaterialTheme.colorScheme
+    val colors = AppTheme.colors
 
     OutlinedTextField(
         value = value,
@@ -381,12 +420,12 @@ fun NumericField(
         singleLine = true,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
         colors = OutlinedTextFieldDefaults.colors(
-            focusedContainerColor = colorScheme.background,
-            unfocusedContainerColor = colorScheme.background,
-            focusedTextColor = colorScheme.onBackground,
-            unfocusedTextColor = colorScheme.onBackground,
-            focusedBorderColor = colorScheme.primary,
-            unfocusedBorderColor = colorScheme.outline
+            focusedContainerColor = colors.background,
+            unfocusedContainerColor = colors.background,
+            focusedTextColor = colors.onBackground,
+            unfocusedTextColor = colors.onBackground,
+            focusedBorderColor = colors.primary,
+            unfocusedBorderColor = colors.outline
         )
     )
 }
@@ -401,7 +440,7 @@ fun Select(
     options: List<String> = emptyList(),
     label: String = "",
 ) {
-    val colorScheme = MaterialTheme.colorScheme
+    val colors = AppTheme.colors
 
     ExposedDropdownMenuBox(
         expanded = expanded,
@@ -411,7 +450,7 @@ fun Select(
             value = selectedValue,
             onValueChange = {},
             readOnly = true, // Torna o campo imutável via teclado
-            label = if (!label.isEmpty()) { { Text(label, color = colorScheme.onBackground) } } else null,
+            label = if (!label.isEmpty()) { { Text(label, color = colors.onBackground) } } else null,
             // O menuAnchor() liga fisicamente o menu a este campo de texto
             modifier = Modifier
                 .fillMaxWidth()
@@ -424,23 +463,23 @@ fun Select(
                 ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
             },
             colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(
-                focusedBorderColor = colorScheme.primary,
-                unfocusedBorderColor = colorScheme.outline,
-                focusedTrailingIconColor = colorScheme.onBackground,
-                unfocusedTrailingIconColor = colorScheme.onBackground,
-                focusedLabelColor = colorScheme.onBackground,
-                unfocusedLabelColor = colorScheme.onBackground,
-                focusedContainerColor = colorScheme.background,
-                unfocusedContainerColor = colorScheme.background
+                focusedBorderColor = colors.primary,
+                unfocusedBorderColor = colors.outline,
+                focusedTrailingIconColor = colors.onBackground,
+                unfocusedTrailingIconColor = colors.onBackground,
+                focusedLabelColor = colors.onBackground,
+                unfocusedLabelColor = colors.onBackground,
+                focusedContainerColor = colors.background,
+                unfocusedContainerColor = colors.background
             )
         )
 
         ExposedDropdownMenu(
             expanded = expanded,
             onDismissRequest = { setExpanded(false) },
-            containerColor = colorScheme.background,
+            containerColor = colors.background,
             shape = RoundedCornerShape(ROUNDED_MD),
-            border = BorderStroke(BORDER_WIDTH, colorScheme.outline)
+            border = BorderStroke(BORDER_WIDTH, colors.outline)
         ) {
             options.forEach { option ->
                 DropdownMenuItem(
@@ -461,6 +500,6 @@ fun PrimaryIcon(iconId: Int, contentDescription: String?) {
     Icon(
         painter = painterResource(iconId),
         contentDescription = contentDescription,
-        tint = MaterialTheme.colorScheme.onBackground
+        tint = AppTheme.colors.onBackground
     )
 }

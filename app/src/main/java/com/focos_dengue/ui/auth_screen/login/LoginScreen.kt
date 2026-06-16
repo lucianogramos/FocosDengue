@@ -8,22 +8,22 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.focos_dengue.ui.navigation.ScreenName
 
 @Composable
 fun LoginScreen(
     toSignUpScreen: () -> Unit,
-    toForgotPasswordScreen: () -> Unit,
     toReportScreen: () -> Unit,
     viewModel: LoginViewModel = viewModel()
 ) {
     val state = viewModel.uiState
     val context = LocalContext.current
 
-    LaunchedEffect(state.errorMessage) {
-        if (state.errorMessage.isEmpty())
+    LaunchedEffect(state.message) {
+        if (state.message.isEmpty())
             return@LaunchedEffect
-        Toast.makeText(context, state.errorMessage, Toast.LENGTH_LONG).show()
-        viewModel.updateErrorMessage("")
+        Toast.makeText(context, state.message, Toast.LENGTH_LONG).show()
+        viewModel.updateMessage("")
     }
 
     Scaffold(
@@ -35,12 +35,23 @@ fun LoginScreen(
         LoginScreenContent(
             modifier = Modifier.padding(innerPadding),
             toSignUpScreen = toSignUpScreen,
-            toForgotPasswordScreen = toForgotPasswordScreen,
-            toReportScreen = toReportScreen,
             state = state,
             onEmailChange = viewModel::updateEmail,
             onPasswordChange = viewModel::updatePassword,
-            onLogin = viewModel::onLogin
+            onLogin = {
+                viewModel.onLogin(
+                    onSuccess = {
+                        Toast.makeText(context, "Login realizado com sucesso", Toast.LENGTH_LONG).show()
+                        toReportScreen()
+                    },
+                    onFailure = {
+                        Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+                    }
+                )
+            },
+            onForgotPassword = {
+                viewModel.onForgotPassword("focosdengue://${ScreenName.RESET_PASSWORD.route}")
+            }
         )
     }
 }

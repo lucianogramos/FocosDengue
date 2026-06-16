@@ -24,12 +24,11 @@ import com.focos_dengue.ui.util.XS
 fun LoginScreenContent(
     modifier: Modifier = Modifier,
     toSignUpScreen: () -> Unit,
-    toForgotPasswordScreen: () -> Unit,
-    toReportScreen: () -> Unit,
     state: LoginUIState,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
-    onLogin: (() -> Unit) -> Unit
+    onLogin: () -> Unit,
+    onForgotPassword: () -> Unit
 ) {
     Column(modifier = modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(2 * MD)) {
         TitleText("Bem-vindo")
@@ -51,23 +50,16 @@ fun LoginScreenContent(
 
         PasswordTextField(
             value = state.password,
-            onValueChange = onPasswordChange,
-            hasMinChars = state.passwordRequirements.hasMinChars,
-            hasUpperCase = state.passwordRequirements.hasUpperCase,
-            hasLowerCase = state.passwordRequirements.hasLowerCase,
-            hasNumber = state.passwordRequirements.hasNumber,
-            hasSpecialChar = state.passwordRequirements.hasSpecialChar
+            onValueChange = onPasswordChange
         )
 
         Spacer(Modifier.height(LG))
 
-        PrimaryButton(text = "Entrar", onClick = {
-            onLogin { toReportScreen() }
-        })
+        PrimaryButton(text = "Entrar", onClick = onLogin)
 
         Spacer(Modifier.height(XS))
 
         ClickHereLink("Ainda não tem uma conta? ", "navigation") { toSignUpScreen() }
-        ClickHereLink("Esqueceu a senha? ", "redirect") { toForgotPasswordScreen() }
+        ClickHereLink("Esqueceu a senha? ", "redirect") { onForgotPassword() }
     }
 }

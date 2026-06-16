@@ -4,20 +4,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.focos_dengue.data.remote.auth.loginUsuario
-import com.focos_dengue.domain.validation.PasswordRequirements
-import com.focos_dengue.domain.validation.PasswordValidator
+import com.focos_dengue.domain.repository.AuthRepository
 import kotlinx.coroutines.launch
 
 data class LoginUIState(
     val email: String = "",
     val password: String = "",
-    val passwordRequirements: PasswordRequirements = PasswordRequirements(),
-    val errorMessage: String = ""
+    val message: String = ""
 )
 
-class LoginViewModel : ViewModel() {
+class LoginViewModel(
+    private val authRepository: AuthRepository
+) : ViewModel() {
     var uiState by mutableStateOf(LoginUIState())
         private set
 
@@ -26,38 +26,55 @@ class LoginViewModel : ViewModel() {
     }
 
     fun updatePassword(password: String) {
-        uiState = uiState.copy(
-            password = password,
-            passwordRequirements = PasswordValidator.validate(password)
-        )
+        uiState = uiState.copy(password = password)
     }
 
-    fun updateErrorMessage(errorMessage: String) {
-        uiState = uiState.copy(errorMessage = errorMessage)
+    fun updateMessage(message: String) {
+        uiState = uiState.copy(message = message)
     }
 
-    fun onLogin(onSucess: () -> Unit) {
-        updateErrorMessage("")
+    fun onLogin(onSuccess: () -> Unit, onFailure: (String) -> Unit) {
+        updateMessage("")
 
         val email = uiState.email
         val password = uiState.password
 
-        val errorMessage = when {
+        val message = when {
             email.isBlank() -> "Digite um e-mail"
             password.isBlank() -> "Digite uma senha"
-            !uiState.passwordRequirements.isValid -> "Senha inválida. Verifique os requisitos"
             else -> null
         }
 
-        if (errorMessage != null) {
-            updateErrorMessage(errorMessage)
+        if (message != null) {
+            updateMessage(message)
             return
         }
 
         viewModelScope.launch {
-            loginUsuario(uiState.email, uiState.password).onSuccess {
-                onSucess()
+            authRepository.signIn(uiState.email, uiState.password).fold(
+                onSuccess = { onSuccess() },
+                onFailure = { t -> onFailure(t.message ?: "Ocorreu um erro") }
+            )
+        }
+    }
+
+    fun onForgotPassword(redirectUrl: String) {
+        if (uiState.email.isBlank()) {
+            updateMessage("Digite um e-mail que você quer recuperar a senha")
+            return
+        }
+
+        viewModelScope.launch {
+            authRepository.recoverPassword(uiState.email, redirectUrl).onSuccess {
+                updateMessage("Um e-mail foi enviado para ${uiState.email}")
             }
         }
+    }
+}
+
+class LoginViewModelFactory(private val authRepository: AuthRepository) : ViewModelProvider.Factory {
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        return LoginViewModel(authRepository) as T
     }
 }

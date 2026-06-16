@@ -1,10 +1,12 @@
 package com.focos_dengue.data.remote
 
 import com.focos_dengue.data.remote.dto.ReportDto
-import io.github.jan.supabase.postgrest.from
+import io.github.jan.supabase.postgrest.Postgrest
 
-class ReportDataSource {
+class ReportDataSource(
+    private val postgrest: Postgrest
+) {
     suspend fun insertReport(reportDto: ReportDto) {
-        supabase.from("reports").insert(reportDto)
+        postgrest.from("reports").insert(reportDto)
     }
 }

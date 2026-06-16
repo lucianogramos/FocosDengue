@@ -26,7 +26,7 @@ fun ReportScreen(toAccountScreen: () -> Unit, viewModel: ReportViewModel = viewM
             onSendReport = {
                 viewModel.onSendReport { result ->
                     when (result) {
-                        is SendResult.Sucess ->
+                        is SendResult.Success ->
                             Toast.makeText(context, "Denúncia enviada", Toast.LENGTH_LONG).show()
                         is SendResult.Error ->
                             Toast.makeText(context, result.message, Toast.LENGTH_LONG).show()

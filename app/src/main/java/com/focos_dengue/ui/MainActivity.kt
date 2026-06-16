@@ -9,14 +9,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.focos_dengue.ui.auth_screen.reset_password.ForgotPasswordScreen
 import com.focos_dengue.ui.navigation.ScreenName
-import com.focos_dengue.ui.auth_screen.login.LoginScreen
-import com.focos_dengue.ui.auth_screen.signup.SignUpScreen
-import com.focos_dengue.ui.main_screen.account_screen.AccountScreen
-import com.focos_dengue.ui.main_screen.report_screen.ReportScreen
+import com.focos_dengue.ui.auth_screen.login.loginRoute
+import com.focos_dengue.ui.auth_screen.reset_password.resetPasswordRoute
+import com.focos_dengue.ui.auth_screen.signup.signUpRoute
+import com.focos_dengue.ui.main_screen.account_screen.accountRoute
+import com.focos_dengue.ui.main_screen.report_screen.reportRoute
 import com.focos_dengue.ui.theme.FocosDengueTheme
 
 class MainActivity : ComponentActivity() {
@@ -31,38 +30,11 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val navController = rememberNavController()
                     NavHost(navController, ScreenName.LOGIN.route) {
-                        composable(route = ScreenName.LOGIN.route) {
-                            LoginScreen(
-                                toSignUpScreen = {
-                                    navController.navigate(ScreenName.SIGNUP.route)
-                                },
-                                toForgotPasswordScreen = {
-                                    navController.navigate(ScreenName.FORGOT_PASSWORD.route)
-                                },
-                                toReportScreen =  {
-                                    navController.navigate(ScreenName.REPORT.route)
-                                }
-                            )
-                        }
-                        composable(route = ScreenName.SIGNUP.route) {
-                            SignUpScreen(
-                                toLoginScreen = {
-                                    navController.navigate(ScreenName.LOGIN.route)
-                                },
-                                toReportScreen = {
-                                    navController.navigate(ScreenName.REPORT.route)
-                                }
-                            )
-                        }
-                        composable(route = ScreenName.FORGOT_PASSWORD.route) {
-                            ForgotPasswordScreen({ navController.navigate(ScreenName.LOGIN.route) })
-                        }
-                        composable(route = ScreenName.REPORT.route) {
-                            ReportScreen({ navController.navigate(ScreenName.ACCOUNT.route) })
-                        }
-                        composable(route = ScreenName.ACCOUNT.route) {
-                            AccountScreen({ navController.navigate(ScreenName.REPORT.route) })
-                        }
+                        loginRoute(navController)
+                        signUpRoute(navController)
+                        resetPasswordRoute(navController)
+                        reportRoute(navController)
+                        accountRoute(navController)
                     }
                 }
             }

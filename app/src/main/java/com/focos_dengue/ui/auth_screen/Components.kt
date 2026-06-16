@@ -1,6 +1,5 @@
 package com.focos_dengue.ui.auth_screen
 
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.LinkAnnotation
@@ -11,6 +10,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withLink
+import com.focos_dengue.ui.theme.AppTheme
 
 @Composable
 fun ClickHereLink(text: String, tag: String, onClick: LinkInteractionListener?) {
@@ -21,7 +21,7 @@ fun ClickHereLink(text: String, tag: String, onClick: LinkInteractionListener?) 
                 tag = tag,
                 styles = TextLinkStyles(
                     style = SpanStyle(
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        color = AppTheme.colors.onSurfaceVariant,
                         fontWeight = FontWeight.Bold,
                         textDecoration = TextDecoration.Underline
                     )
@@ -33,5 +33,5 @@ fun ClickHereLink(text: String, tag: String, onClick: LinkInteractionListener?) 
         }
     }
 
-    Text(link, color = MaterialTheme.colorScheme.onSecondary)
+    Text(link, color = AppTheme.colors.onSecondary)
 }
