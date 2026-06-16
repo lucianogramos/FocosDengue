@@ -22,6 +22,7 @@ fun ReportScreen(toAccountScreen: () -> Unit, viewModel: ReportViewModel = viewM
             scrollState = scrollState,
             state = viewModel.uiState,
             onDescriptionChange = viewModel::updateDescription,
+            onTypeChange = viewModel::updateSelectedType,
             onPhotoUriChange = viewModel::updatePhotoUri,
             onSendReport = {
                 viewModel.onSendReport { result ->

@@ -21,9 +21,8 @@ fun NavGraphBuilder.loginRoute(navController: NavHostController) {
         val app = LocalContext.current.applicationContext as FocosDengueApplication
         val authRepository = app.container.authRepository
 
-        if (authRepository.getCurrentUser() != null) {
+        if (authRepository.isAuthenticated())
             navController.navigate(ScreenName.REPORT.route)
-        }
 
         LoginScreen(
             toSignUpScreen = {

@@ -10,23 +10,30 @@ import androidx.lifecycle.viewModelScope
 import com.focos_dengue.domain.model.Location
 import com.focos_dengue.domain.model.Report
 import com.focos_dengue.domain.model.ReportType
+import com.focos_dengue.domain.model.toReportType
 import com.focos_dengue.domain.repository.ReportRepository
+import com.focos_dengue.domain.usecase.SubmitReportUseCase
 import kotlinx.coroutines.launch
 
 data class ReportUIState (
     val description: String = "",
+    val selectedType: String = "",
     val photoUri: Uri? = null,
     val location: Location = Location(0.0, 0.0)
 )
 
 class ReportViewModel(
-    private val reportRepository: ReportRepository
+    private val submitReportUseCase: SubmitReportUseCase
 ) : ViewModel() {
     var uiState by mutableStateOf(ReportUIState())
         private set
 
     fun updateDescription(description: String) {
         uiState = uiState.copy(description = description)
+    }
+
+    fun updateSelectedType(selectedType: String) {
+        uiState = uiState.copy(selectedType = selectedType)
     }
 
     fun updatePhotoUri(uri: Uri?) {
@@ -37,11 +44,11 @@ class ReportViewModel(
         viewModelScope.launch {
             val report = Report(
                 description = uiState.description,
-                type = ReportType.TIRES_DISCARDED,
+                type = uiState.selectedType.toReportType() ?: ReportType.OTHER,
                 imageUrl = uiState.photoUri,
                 location = uiState.location
             )
-            reportRepository.submitReport(report).fold(
+            submitReportUseCase(report).fold(
                 onSuccess = {
                     callback(SendResult.Success)
                 },
@@ -54,10 +61,10 @@ class ReportViewModel(
 }
 
 class ReportViewModelFactory(
-    private val reportRepository: ReportRepository
+    private val submitReportUseCase: SubmitReportUseCase
 ) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return ReportViewModel(reportRepository) as T
+        return ReportViewModel(submitReportUseCase) as T
     }
 }

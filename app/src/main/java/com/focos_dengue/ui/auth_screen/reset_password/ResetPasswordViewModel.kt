@@ -45,7 +45,7 @@ class ResetPasswordViewModel(
             return
         }
 
-        if (uiState.passwordRequirements.isValid) {
+        if (!uiState.passwordRequirements.isValid) {
             updateErrorMessage("Senha inválida. Verifique os requisitos")
             return
         }

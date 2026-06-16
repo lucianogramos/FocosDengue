@@ -10,8 +10,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.times
+import com.focos_dengue.domain.model.ReportType
 import com.focos_dengue.ui.util.LG
 import com.focos_dengue.ui.util.MD
 import com.focos_dengue.ui.util.SM
@@ -21,6 +26,7 @@ import com.focos_dengue.ui.util.PrimaryButton
 import com.focos_dengue.ui.util.PrimaryCard
 import com.focos_dengue.ui.util.PrimaryTextFieldWithCounter
 import com.focos_dengue.ui.util.SecondaryText
+import com.focos_dengue.ui.util.Select
 import com.focos_dengue.ui.util.SubtitleText
 import com.focos_dengue.ui.util.TEXT_MD
 import com.focos_dengue.ui.util.TitleText
@@ -34,10 +40,12 @@ fun ReportScreenContent(
     scrollState: ScrollState,
     state: ReportUIState,
     onDescriptionChange: (String) -> Unit,
+    onTypeChange: (String) -> Unit,
     onPhotoUriChange: (Uri?) -> Unit,
     onSendReport: () -> Unit
 ) {
     val maxCharsOfDescription = 200
+    var expanded by remember { mutableStateOf(false) }
     val cameraPositionState = rememberCameraPositionState()
 
     Column(modifier = modifier.fillMaxSize()
@@ -55,7 +63,7 @@ fun ReportScreenContent(
 
         LocationCard(cameraPositionState, LatLng(-18.96889, -49.46500))
 
-        SubtitleText("Descrição", marginTop = MD, marginBottom = MD)
+        SubtitleText("Descrição (Opcional)", marginTop = MD, marginBottom = MD)
 
         PrimaryTextFieldWithCounter(
             value = state.description,
@@ -64,6 +72,16 @@ fun ReportScreenContent(
             height = 4 * XL,
             maxLines = 5,
             placeholder = "Descreva o problema encontrado..."
+        )
+
+        SubtitleText("Tipo", marginTop = MD, marginBottom = MD)
+        Select(
+            expanded = expanded,
+            setExpanded = { expanded = it },
+            selectedValue = state.selectedType,
+            setSelectedValue = onTypeChange,
+            options = ReportType.entries.map { it.type },
+            label = "Selecione o tipo de problema"
         )
 
         SubtitleText("Fotos do Problema", marginTop = MD, marginBottom = MD)
