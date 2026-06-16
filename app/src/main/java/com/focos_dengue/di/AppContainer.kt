@@ -24,7 +24,7 @@ class AppContainer(private val context: Context) {
     }
 
     // Data Sources
-    private val authDataSource = AuthDataSource(supabaseClient.auth)
+    private val authDataSource = AuthDataSource(supabaseClient.auth, supabaseClient.postgrest)
     private val reportDataSource = ReportDataSource(supabaseClient.postgrest)
     private val mapsLocationDataSource = MapsLocationDataSource(context)
 

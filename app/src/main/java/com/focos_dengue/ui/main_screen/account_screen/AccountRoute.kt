@@ -13,6 +13,9 @@ fun NavGraphBuilder.accountRoute(navController: NavHostController) {
         val app = LocalContext.current.applicationContext as FocosDengueApplication
 
         AccountScreen(
+            toLoginScreen = {
+                navController.navigate(ScreenName.LOGIN.route)
+            },
             toReportScreen = {
                 navController.navigate(ScreenName.REPORT.route)
             },

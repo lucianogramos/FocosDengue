@@ -28,6 +28,8 @@ import com.focos_dengue.ui.util.SecondaryText
 import com.focos_dengue.ui.util.SubtitleText
 import com.focos_dengue.ui.util.TEXT_MD
 import com.focos_dengue.ui.util.TitleText
+import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.compose.rememberCameraPositionState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -40,8 +42,12 @@ fun ReportScreenContent(
     onSendReport: () -> Unit
 ) {
     val maxCharsOfDescription = 200
+    val cameraPositionState = rememberCameraPositionState()
 
-    Column(modifier = modifier.fillMaxSize().verticalScroll(scrollState).padding(2 * MD)) {
+    Column(modifier = modifier.fillMaxSize()
+        .verticalScroll(scrollState, !cameraPositionState.isMoving)
+        .padding(2 * MD)
+    ) {
         TitleText("Novo reporte", marginTop = XS)
 
         SecondaryText(
@@ -51,7 +57,7 @@ fun ReportScreenContent(
             marginBottom = MD
         )
 
-        LocationCard()
+        LocationCard(cameraPositionState, LatLng(-18.96889, -49.46500))
 
         SubtitleText("Descrição", marginTop = MD, marginBottom = MD)
 

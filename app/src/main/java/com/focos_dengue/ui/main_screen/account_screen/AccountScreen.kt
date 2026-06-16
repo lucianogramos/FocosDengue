@@ -10,7 +10,11 @@ import com.focos_dengue.ui.main_screen.VerticalScrollableContent
 import com.focos_dengue.ui.navigation.ScreenName
 
 @Composable
-fun AccountScreen(toReportScreen: () -> Unit, viewModel: AccountViewModel = viewModel()) {
+fun AccountScreen(
+    toLoginScreen: () -> Unit,
+    toReportScreen: () -> Unit,
+    viewModel: AccountViewModel = viewModel()
+) {
     val context = LocalContext.current
 
     VerticalScrollableContent(
@@ -38,10 +42,15 @@ fun AccountScreen(toReportScreen: () -> Unit, viewModel: AccountViewModel = view
                 }
             },
             onLogout = {
-                viewModel.onLogout { text ->
-                    Toast.makeText(context, text, Toast.LENGTH_LONG).show()
-                }
-                Toast.makeText(context, "Logout realizado", Toast.LENGTH_LONG).show()
+                viewModel.onLogout(
+                    onSuccess = {
+                        Toast.makeText(context, "Logout realizado com sucesso", Toast.LENGTH_LONG).show()
+                        toLoginScreen()
+                    },
+                    onFailure = {
+                        Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+                    }
+                )
             }
         )
     }

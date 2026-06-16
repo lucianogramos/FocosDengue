@@ -92,9 +92,16 @@ class AccountViewModel(
         callback(SaveResult.Success)
     }
 
-    fun onLogout(callback: (String) -> Unit) {
+    fun onLogout(onSuccess: () -> Unit, onFailure: (String) -> Unit) {
         viewModelScope.launch {
-            authRepository.logout()
+            authRepository.logout().fold(
+                onSuccess = {
+                    onSuccess()
+                },
+                onFailure = {
+                    onFailure(it.message ?: "Ocorreu um erro")
+                }
+            )
         }
     }
 }

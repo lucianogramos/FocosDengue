@@ -26,6 +26,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -52,15 +53,15 @@ import com.focos_dengue.ui.util.XS
 import com.focos_dengue.ui.util.dashedBorder
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.ComposeMapColorScheme
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
-import com.google.maps.android.compose.rememberCameraPositionState
 
 @Composable
-fun LocationCard() {
+fun LocationCard(cameraPositionState: CameraPositionState, initialLocation: LatLng) {
     PrimaryCard {
         Spacer(Modifier.height(SM))
 
@@ -77,7 +78,7 @@ fun LocationCard() {
                 .fillMaxWidth()
                 .height(8 * XL)
         ) {
-            MapPicker {}
+            MapPicker(cameraPositionState, initialLocation) {}
         }
 
         SecondaryText(text = "Bairro Alcides Junqueira\nItuiutaba - MG", marginTop = SM)
@@ -86,38 +87,35 @@ fun LocationCard() {
 
 @Composable
 fun MapPicker(
-    initialLocation: LatLng = LatLng(-18.96889, -49.46500),
+    cameraPositionState: CameraPositionState,
+    initialLocation: LatLng,
     onLocationSelected: (LatLng) -> Unit
 ) {
-    val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(initialLocation, 15f)
+    LaunchedEffect(initialLocation) {
+        cameraPositionState.position = CameraPosition.fromLatLngZoom(initialLocation, 15f)
     }
 
     var markerPosition by remember { mutableStateOf<LatLng?>(null) }
 
-    Box(
-        modifier = Modifier.fillMaxSize()
+    GoogleMap(
+        modifier = Modifier.fillMaxSize().border(
+            width = BORDER_WIDTH,
+            color = MaterialTheme.colorScheme.outlineVariant
+        ),
+        mapColorScheme = ComposeMapColorScheme.FOLLOW_SYSTEM,
+        uiSettings = MapUiSettings(tiltGesturesEnabled = false),
+        cameraPositionState = cameraPositionState,
+        onMapClick = { latLng ->
+            markerPosition = latLng
+            onLocationSelected(latLng)
+        }
     ) {
-        GoogleMap(
-            modifier = Modifier.fillMaxSize().border(
-                width = BORDER_WIDTH,
-                color = MaterialTheme.colorScheme.outlineVariant
-            ),
-            mapColorScheme = ComposeMapColorScheme.FOLLOW_SYSTEM,
-            uiSettings = MapUiSettings(tiltGesturesEnabled = false),
-            cameraPositionState = cameraPositionState,
-            onMapClick = { latLng ->
-                markerPosition = latLng
-                onLocationSelected(latLng)
-            }
-        ) {
-            markerPosition?.let {
-                Marker(
-                    state = MarkerState(position = it),
-                    title = "Local da Denúncia",
-                    snippet = "Clique para alterar"
-                )
-            }
+        markerPosition?.let {
+            Marker(
+                state = MarkerState(position = it),
+                title = "Local da Denúncia",
+                snippet = "Clique para alterar"
+            )
         }
     }
 }
