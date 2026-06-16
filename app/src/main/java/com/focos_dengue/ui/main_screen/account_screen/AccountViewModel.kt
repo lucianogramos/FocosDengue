@@ -92,7 +92,7 @@ class AccountViewModel(
         callback(SaveResult.Success)
     }
 
-    fun onLogout() {
+    fun onLogout(callback: (String) -> Unit) {
         viewModelScope.launch {
             authRepository.logout()
         }

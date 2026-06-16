@@ -38,7 +38,9 @@ fun AccountScreen(toReportScreen: () -> Unit, viewModel: AccountViewModel = view
                 }
             },
             onLogout = {
-                viewModel.onLogout()
+                viewModel.onLogout { text ->
+                    Toast.makeText(context, text, Toast.LENGTH_LONG).show()
+                }
                 Toast.makeText(context, "Logout realizado", Toast.LENGTH_LONG).show()
             }
         )

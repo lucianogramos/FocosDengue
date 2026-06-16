@@ -254,7 +254,7 @@ fun PrimaryDivider(colors: List<Color> = emptyList(), marginTop: Dp = DP_0, marg
         listOf(
             Color.Transparent,
             colorScheme.outline,
-            colorScheme.outline,
+            colorScheme.outlineVariant,
             colorScheme.outline,
             Color.Transparent
         )

@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -32,14 +33,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.times
 import coil.compose.AsyncImage
 import com.focos_dengue.R
+import com.focos_dengue.ui.util.BORDER_WIDTH
 import com.focos_dengue.ui.util.PrimaryCard
 import com.focos_dengue.ui.util.PrimaryIcon
-import com.focos_dengue.ui.util.SecondaryCard
 import com.focos_dengue.ui.util.DP_0
 import com.focos_dengue.ui.util.MD
 import com.focos_dengue.ui.util.PrimaryText
@@ -50,25 +50,24 @@ import com.focos_dengue.ui.util.TEXT_MD
 import com.focos_dengue.ui.util.XL
 import com.focos_dengue.ui.util.XS
 import com.focos_dengue.ui.util.dashedBorder
-import com.focos_dengue.ui.main_screen.report_screen.map.MapPicker
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.compose.ComposeMapColorScheme
+import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.MapUiSettings
+import com.google.maps.android.compose.Marker
+import com.google.maps.android.compose.MarkerState
+import com.google.maps.android.compose.rememberCameraPositionState
 
 @Composable
 fun LocationCard() {
     PrimaryCard {
         Spacer(Modifier.height(SM))
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Row {
-                PrimaryIcon(R.drawable.location_icon, "Localização")
-                Spacer(Modifier.width(XS))
-                PrimaryText("Localização")
-            }
-
-            PrimaryText("Alterar", textDecoration = TextDecoration.Underline)
+        Row {
+            PrimaryIcon(R.drawable.location_icon, "Localização")
+            Spacer(Modifier.width(XS))
+            PrimaryText("Localização")
         }
 
         Spacer(Modifier.height(SM))
@@ -78,15 +77,48 @@ fun LocationCard() {
                 .fillMaxWidth()
                 .height(8 * XL)
         ) {
-            MapPicker(
-                onLocationSelected = { latitude, longitude ->
-                    println("Latitude: $latitude")
-                    println("Longitude: $longitude")
-                }
-            )
+            MapPicker {}
         }
 
         SecondaryText(text = "Bairro Alcides Junqueira\nItuiutaba - MG", marginTop = SM)
+    }
+}
+
+@Composable
+fun MapPicker(
+    initialLocation: LatLng = LatLng(-18.96889, -49.46500),
+    onLocationSelected: (LatLng) -> Unit
+) {
+    val cameraPositionState = rememberCameraPositionState {
+        position = CameraPosition.fromLatLngZoom(initialLocation, 15f)
+    }
+
+    var markerPosition by remember { mutableStateOf<LatLng?>(null) }
+
+    Box(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        GoogleMap(
+            modifier = Modifier.fillMaxSize().border(
+                width = BORDER_WIDTH,
+                color = MaterialTheme.colorScheme.outlineVariant
+            ),
+            mapColorScheme = ComposeMapColorScheme.FOLLOW_SYSTEM,
+            uiSettings = MapUiSettings(tiltGesturesEnabled = false),
+            cameraPositionState = cameraPositionState,
+            onMapClick = { latLng ->
+                markerPosition = latLng
+                onLocationSelected(latLng)
+            }
+        ) {
+            markerPosition?.let {
+                Marker(
+                    state = MarkerState(position = it),
+                    title = "Local da Denúncia",
+                    snippet = "Clique para alterar"
+                )
+            }
+        }
     }
 }
 
@@ -120,7 +152,9 @@ fun PhotoCard(
         }
     }
 
-    val modifier = Modifier.fillMaxWidth().height(height)
+    val modifier = Modifier
+        .fillMaxWidth()
+        .height(height)
         .dashedBorder(
             color = colorScheme.outline,
             shape = RoundedCornerShape(ROUNDED_MD),
@@ -146,7 +180,9 @@ fun PhotoCard(
             )
 
             Row(
-                modifier = Modifier.fillMaxWidth().padding(end = MD, top = MD),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(end = MD, top = MD),
                 horizontalArrangement = Arrangement.End
             ) {
                 Button(
