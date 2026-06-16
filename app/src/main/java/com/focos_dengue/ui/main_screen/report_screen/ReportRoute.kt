@@ -25,7 +25,7 @@ fun NavGraphBuilder.reportRoute(navController: NavHostController) {
                 navController.navigate(ScreenName.ACCOUNT.route)
             },
             viewModel = viewModel(
-                factory = ReportViewModelFactory(app.container.reportRepository)
+                factory = ReportViewModelFactory(app.container.submitReportUseCase)
             )
         )
     }

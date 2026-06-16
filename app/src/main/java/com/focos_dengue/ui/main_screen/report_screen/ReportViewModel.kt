@@ -11,7 +11,6 @@ import com.focos_dengue.domain.model.Location
 import com.focos_dengue.domain.model.Report
 import com.focos_dengue.domain.model.ReportType
 import com.focos_dengue.domain.model.toReportType
-import com.focos_dengue.domain.repository.ReportRepository
 import com.focos_dengue.domain.usecase.SubmitReportUseCase
 import kotlinx.coroutines.launch
 
@@ -28,6 +27,8 @@ class ReportViewModel(
     var uiState by mutableStateOf(ReportUIState())
         private set
 
+    var isSendingReport by mutableStateOf(false)
+
     fun updateDescription(description: String) {
         uiState = uiState.copy(description = description)
     }
@@ -41,13 +42,26 @@ class ReportViewModel(
     }
 
     fun onSendReport(callback: (SendResult) -> Unit) {
+        if (isSendingReport)
+            return
+
+        val photoUri = uiState.photoUri
+
+        if (photoUri == null) {
+            callback(SendResult.Error("Foto não selecionada"))
+            return
+        }
+
         viewModelScope.launch {
+            isSendingReport = true
+
             val report = Report(
                 description = uiState.description,
                 type = uiState.selectedType.toReportType() ?: ReportType.OTHER,
-                imageUrl = uiState.photoUri,
+                imageUri = photoUri,
                 location = uiState.location
             )
+
             submitReportUseCase(report).fold(
                 onSuccess = {
                     callback(SendResult.Success)
@@ -56,6 +70,8 @@ class ReportViewModel(
                     callback(SendResult.Error(it.message ?: "Erro desconhecido"))
                 }
             )
+
+            isSendingReport = false
         }
     }
 }

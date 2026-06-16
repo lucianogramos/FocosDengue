@@ -45,7 +45,9 @@ fun ReportScreenContent(
     onSendReport: () -> Unit
 ) {
     val maxCharsOfDescription = 200
+    val initialLocation = LatLng(-18.96889, -49.46500)
     var expanded by remember { mutableStateOf(false) }
+    var location by remember { mutableStateOf(initialLocation) }
     val cameraPositionState = rememberCameraPositionState()
 
     Column(modifier = modifier.fillMaxSize()
@@ -61,7 +63,9 @@ fun ReportScreenContent(
             marginBottom = MD
         )
 
-        LocationCard(cameraPositionState, LatLng(-18.96889, -49.46500))
+        LocationCard(cameraPositionState, initialLocation) {
+            location = it
+        }
 
         SubtitleText("Descrição (Opcional)", marginTop = MD, marginBottom = MD)
 

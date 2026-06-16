@@ -11,13 +11,12 @@ class ImageDataSource(
 ) {
 
     suspend fun uploadImage(uri: Uri): String {
-
         val bytes = context.contentResolver
             .openInputStream(uri)
             ?.readBytes()
             ?: throw Exception("Não foi possível ler a imagem")
 
-        val fileName = "${UUID.randomUUID()}.jpg"
+        val fileName = "${UUID.randomUUID()}.avif"
 
         val bucket = storage.from("reports")
 

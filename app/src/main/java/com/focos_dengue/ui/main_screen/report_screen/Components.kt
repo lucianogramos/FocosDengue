@@ -61,7 +61,11 @@ import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 
 @Composable
-fun LocationCard(cameraPositionState: CameraPositionState, initialLocation: LatLng) {
+fun LocationCard(
+    cameraPositionState: CameraPositionState,
+    initialLocation: LatLng,
+    onLocationSelected: (LatLng) -> Unit
+) {
     PrimaryCard {
         Spacer(Modifier.height(SM))
 
@@ -78,7 +82,7 @@ fun LocationCard(cameraPositionState: CameraPositionState, initialLocation: LatL
                 .fillMaxWidth()
                 .height(8 * XL)
         ) {
-            MapPicker(cameraPositionState, initialLocation) {}
+            MapPicker(cameraPositionState, initialLocation, onLocationSelected)
         }
 
         SecondaryText(text = "Bairro Alcides Junqueira\nItuiutaba - MG", marginTop = SM)
@@ -148,6 +152,7 @@ fun PhotoCard(
                 photoUri = null
             }
         }
+        onClick?.invoke(photoUri)
     }
 
     val modifier = Modifier
@@ -161,7 +166,6 @@ fun PhotoCard(
         )
         .clickable(onClick = {
             launcher.launch("image/jpeg")
-            onClick?.invoke(photoUri)
         })
 
     if (photoUri != null) {

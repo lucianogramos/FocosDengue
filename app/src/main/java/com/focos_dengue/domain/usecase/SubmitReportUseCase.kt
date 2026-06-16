@@ -1,32 +1,30 @@
 package com.focos_dengue.domain.usecase
 
-import com.focos_dengue.domain.model.Location
+import androidx.core.net.toUri
 import com.focos_dengue.domain.model.Report
-import com.focos_dengue.domain.model.ReportType
 import com.focos_dengue.domain.repository.ImageRepository
 import com.focos_dengue.domain.repository.ReportRepository
+import com.focos_dengue.domain.service.ImageCompService
+import java.io.File
 
 class SubmitReportUseCase(
-    private val repository: ReportRepository,
-    private val imageRepository: ImageRepository
+    private val reportRepository: ReportRepository,
+    private val imageRepository: ImageRepository,
+    private val imageCompService: ImageCompService
 ) {
-    suspend operator fun invoke(
-        type: ReportType,
-        description: String,
-        location: Location,
-        localImagePaths: List<String>
-    ): Result<Report> {
-        // Upload de imagens
-        val imageResult = imageRepository.uploadImages(localImagePaths)
-        val imageUrls = imageResult.getOrElse { emptyList() }
+    suspend operator fun invoke(report: Report): Result<Unit> {
+        var publicUrl: String
+        var compressedImage: File? = null
+        try {
+            compressedImage = imageCompService.compressToAvif(report.imageUri)
+            publicUrl = imageRepository.uploadImage(compressedImage.toUri())
+        } catch (_: Exception) {
+            return Result.failure(Throwable("Erro ao enviar denúncia"))
+        } finally {
+            if (compressedImage != null && compressedImage.exists())
+                compressedImage.delete()
+        }
 
-        val report = Report(
-            type = type,
-            description = description,
-            location = location.copy(address = location.address ?: location.address),
-            imageUrls = imageUrls
-        )
-
-        return repository.submitReport(report)
+        return reportRepository.submitReport(report.copy(imageUri = publicUrl.toUri()))
     }
 }

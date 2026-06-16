@@ -6,6 +6,6 @@ data class Report(
     val type: ReportType,
     val description: String?,
     val location: Location,
-    val imageUrl: Uri?,
+    val imageUri: Uri,
     val createdAt: Long? = null
 )
