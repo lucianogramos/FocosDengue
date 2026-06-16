@@ -54,5 +54,7 @@ class AuthDataSource(
         auth.signOut()
     }
 
-    fun currentUser() = auth.currentUserOrNull()
+    fun isAuthenticated(): Boolean {
+        return auth.currentUserOrNull() != null
+    }
 }

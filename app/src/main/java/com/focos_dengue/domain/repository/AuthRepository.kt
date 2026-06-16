@@ -18,5 +18,5 @@ interface AuthRepository {
 
     suspend fun logout(): Result<Unit>
 
-    fun getCurrentUser(): UserInfo?
+    fun isAuthenticated(): Boolean
 }

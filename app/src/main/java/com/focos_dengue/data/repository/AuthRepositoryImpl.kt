@@ -98,5 +98,7 @@ class AuthRepositoryImpl(private val authDataSource: AuthDataSource) : AuthRepos
         }
     }
 
-    override fun getCurrentUser() = authDataSource.currentUser()
+    override fun isAuthenticated(): Boolean {
+        return authDataSource.isAuthenticated()
+    }
 }
