@@ -1,14 +1,16 @@
 package com.focos_dengue.data.mapper
 
+import android.net.Uri
 import com.focos_dengue.data.remote.dto.ReportDto
 import com.focos_dengue.domain.model.Report
+import androidx.core.net.toUri
 
 fun Report.toDto(): ReportDto {
 
     return ReportDto(
         description = this.description,
         location = this.location,
-        imageUrl = this.imageUrl,
+        imageUrl = this.imageUrl?.toString(),
         type = this.type,
         createdAt = this.createdAt
     )
@@ -19,7 +21,7 @@ fun ReportDto.toModel(): Report {
     return Report(
         description = this.description,
         location = this.location,
-        imageUrl = this.imageUrl,
+        imageUrl = this.imageUrl?.toUri(),
         type = this.type,
         createdAt = this.createdAt
     )

@@ -11,6 +11,6 @@ data class ReportDto (
     @SerialName("type") val type: ReportType,
     @SerialName("description") val description: String,
     @SerialName("location") val location: Location,
-    @SerialName("photo") val imageUrl: Uri?,
+    @SerialName("photo") val imageUrl: String?,
     @SerialName("created_at") val createdAt: Long
 )
