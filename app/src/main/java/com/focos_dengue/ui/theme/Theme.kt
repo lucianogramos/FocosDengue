@@ -20,6 +20,7 @@ private val DarkColorScheme = darkColorScheme(
     onBackground = DarkOnBackground,
     onSurfaceVariant = DarkOnSurfaceVariant,
     outline = DarkOutline,
+    outlineVariant = DarkOutlineVariant,
     inversePrimary = DarkInversePrimary,
     error = DarkError
 )
@@ -34,6 +35,7 @@ private val LightColorScheme = lightColorScheme(
     onBackground = LightOnBackground,
     onSurfaceVariant = LightOnSurfaceVariant,
     outline = LightOutline,
+    outlineVariant = LightOutlineVariant,
     inversePrimary = LightInversePrimary,
     error = LightError
 )

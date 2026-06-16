@@ -48,15 +48,17 @@ fun AccountScreenContent(
         PrimaryTextField(
             value = state.oldEmailValue,
             onValueChange = onOldEmailChange,
+            label = "E-mail Atual",
             placeholder = "Digite seu e-mail atual...",
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
         )
 
-        Spacer(Modifier.height(MD))
+        Spacer(Modifier.height(SM))
 
         PrimaryTextField(
             value = state.newEmailValue,
             onValueChange = onNewEmailChange,
+            label = "Novo E-mail",
             placeholder = "Digite seu novo e-mail...",
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
         )
@@ -66,14 +68,16 @@ fun AccountScreenContent(
         PasswordTextField(
             value = state.oldPasswordValue,
             onValueChange = onOldPasswordChange,
+            label = "Senha Atual",
             placeholder = "Digite sua senha atual..."
         )
 
-        Spacer(Modifier.height(MD))
+        Spacer(Modifier.height(SM))
 
         PasswordTextField(
             value = state.newPasswordValue,
             onValueChange = onNewPasswordChange,
+            label = "Nova Senha",
             placeholder = "Digite sua nova senha...",
             hasMinChars = state.passwordRequirements.hasMinChars,
             hasUpperCase = state.passwordRequirements.hasUpperCase,
@@ -82,11 +86,12 @@ fun AccountScreenContent(
             hasSpecialChar = state.passwordRequirements.hasSpecialChar
         )
 
-        Spacer(Modifier.height(MD))
+        Spacer(Modifier.height(SM))
 
         PrimaryTextField(
             value = state.confirmationPasswordValue,
             onValueChange = onConfirmationPasswordChange,
+            label = "Confirmar Senha",
             placeholder = "Confirme sua nova senha...",
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)

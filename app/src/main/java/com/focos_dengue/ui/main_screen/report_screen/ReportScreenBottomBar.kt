@@ -26,7 +26,7 @@ fun ReportScreenBottomBar(toAccountScreen: () -> Unit) {
             Color.Transparent,
             colorScheme.outline,
             colorScheme.outline,
-            colorScheme.outline,
+            colorScheme.outlineVariant,
             colorScheme.outline,
             colorScheme.outline,
             Color.Transparent

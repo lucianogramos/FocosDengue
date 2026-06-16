@@ -19,6 +19,11 @@ fun NavGraphBuilder.loginRoute(navController: NavHostController) {
         )
     ) {
         val app = LocalContext.current.applicationContext as FocosDengueApplication
+        val authRepository = app.container.authRepository
+
+        if (authRepository.getCurrentUser() != null) {
+            navController.navigate(ScreenName.REPORT.route)
+        }
 
         LoginScreen(
             toSignUpScreen = {
@@ -27,7 +32,7 @@ fun NavGraphBuilder.loginRoute(navController: NavHostController) {
             toReportScreen = {
                 navController.navigate(ScreenName.REPORT.route)
             },
-            viewModel = viewModel(factory = LoginViewModelFactory(app.container.authRepository))
+            viewModel = viewModel(factory = LoginViewModelFactory(authRepository))
         )
     }
 }
