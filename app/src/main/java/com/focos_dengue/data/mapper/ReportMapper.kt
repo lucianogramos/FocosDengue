@@ -8,13 +8,13 @@ fun Report.toDto(): ReportDto {
     return ReportDto(
         description = this.description,
         location = this.location,
-        imageUrl = this.imageUrl.toString(),
+        imageUrl = this.imageUrl,
         type = this.type,
         createdAt = this.createdAt
     )
 }
 
-fun Report.toModel(): Report {
+fun ReportDto.toModel(): Report {
 
     return Report(
         description = this.description,
