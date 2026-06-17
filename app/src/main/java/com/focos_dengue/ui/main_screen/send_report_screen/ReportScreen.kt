@@ -1,4 +1,4 @@
-package com.focos_dengue.ui.main_screen.report_screen
+package com.focos_dengue.ui.main_screen.send_report_screen
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.padding

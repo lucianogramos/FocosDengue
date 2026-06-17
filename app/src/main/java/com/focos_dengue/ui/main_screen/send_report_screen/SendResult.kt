@@ -1,4 +1,4 @@
-package com.focos_dengue.ui.main_screen.report_screen
+package com.focos_dengue.ui.main_screen.send_report_screen
 
 sealed class SendResult {
     object Success : SendResult()

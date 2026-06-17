@@ -15,7 +15,7 @@ import com.focos_dengue.ui.auth_screen.login.loginRoute
 import com.focos_dengue.ui.auth_screen.reset_password.resetPasswordRoute
 import com.focos_dengue.ui.auth_screen.signup.signUpRoute
 import com.focos_dengue.ui.main_screen.account_screen.accountRoute
-import com.focos_dengue.ui.main_screen.report_screen.reportRoute
+import com.focos_dengue.ui.main_screen.send_report_screen.reportRoute
 import com.focos_dengue.ui.theme.FocosDengueTheme
 
 class MainActivity : ComponentActivity() {
