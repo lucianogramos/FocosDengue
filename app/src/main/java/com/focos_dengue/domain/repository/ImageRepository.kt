@@ -4,4 +4,5 @@ import android.net.Uri
 
 interface ImageRepository {
     suspend fun uploadImage(uri: Uri): String
+    suspend fun deleteImage(imageUrl: String)
 }

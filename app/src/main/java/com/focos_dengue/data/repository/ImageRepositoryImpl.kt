@@ -11,4 +11,8 @@ class ImageRepositoryImpl(
     override suspend fun uploadImage(uri: Uri): String {
         return imageDataSource.uploadImage(uri)
     }
+
+    override suspend fun deleteImage(imageUrl: String) {
+        imageDataSource.deleteImage(imageUrl)
+    }
 }
