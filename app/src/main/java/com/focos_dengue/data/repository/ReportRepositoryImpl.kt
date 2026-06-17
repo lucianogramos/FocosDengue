@@ -21,4 +21,8 @@ class ReportRepositoryImpl(private val reportDataSource: ReportDataSource) : Rep
 
         }
     }
+
+    override suspend fun getReportHistory(): Result<List<Report>> {
+        TODO("Not yet implemented")
+    }
 }
