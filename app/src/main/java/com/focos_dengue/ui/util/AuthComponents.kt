@@ -1,19 +1,22 @@
 package com.focos_dengue.ui.util
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.input.VisualTransformation
+import com.focos_dengue.R
 import com.focos_dengue.ui.theme.AppTheme
 
 @Composable
@@ -58,7 +61,7 @@ fun PasswordTextField(
         }
     }
 
-    PrimaryTextField(
+    PasswordTextField(
         value = value,
         onValueChange = {
             if (it.length <= maxChar) onValueChange(it)
@@ -66,28 +69,8 @@ fun PasswordTextField(
         modifier = modifier,
         label = label,
         placeholder = placeholder,
-        visualTransformation = PasswordVisualTransformation(), // Esconde o texto com bolinhas
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
         supportingText = supportingText
     )
-}
-
-@Preview
-@Composable
-fun PasswordTextFieldPreview() {
-    MaterialTheme {
-        Surface(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
-            PasswordTextField(
-                "",
-                {},
-                true,
-                true,
-                true,
-                true,
-                true
-            )
-        }
-    }
 }
 
 @Composable
@@ -96,15 +79,38 @@ fun PasswordTextField(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     label: String = "Senha",
-    placeholder: String = "Digite sua senha..."
+    placeholder: String = "Digite sua senha...",
+    supportingText: @Composable (() -> Unit)? = null
 ) {
+    val visibilityIconId = R.drawable.visibility_icon
+    val visibilityOffIconId = R.drawable.visibility_off_icon
+
+    var iconId by remember { mutableIntStateOf(visibilityIconId) }
+
     PrimaryTextField(
         value = value,
         onValueChange = onValueChange,
         modifier = modifier,
         label = label,
         placeholder = placeholder,
-        visualTransformation = PasswordVisualTransformation(),
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+        trailingIcon = {
+            PrimaryIconButton(
+                iconId = iconId,
+                contentDescription = "Mostrar/Esconder senha"
+            ) {
+                iconId =
+                    if (iconId == visibilityIconId)
+                        visibilityOffIconId
+                    else
+                        visibilityIconId
+            }
+        },
+        visualTransformation =
+            if (iconId == visibilityIconId)
+                PasswordVisualTransformation()
+            else
+                VisualTransformation.None,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        supportingText = supportingText
     )
 }
