@@ -18,13 +18,19 @@ class SubmitReportUseCase(
         try {
             compressedImage = imageCompService.compressToAvif(report.imageUri)
             publicUrl = imageRepository.uploadImage(compressedImage.toUri())
-        } catch (_: Exception) {
+        }
+        catch (_: Exception) {
             return Result.failure(Throwable("Erro ao enviar denúncia"))
-        } finally {
+        }
+        finally {
             if (compressedImage != null && compressedImage.exists())
                 compressedImage.delete()
         }
 
-        return reportRepository.submitReport(report.copy(imageUri = publicUrl.toUri()))
+        val result = reportRepository.submitReport(report.copy(imageUri = publicUrl.toUri()))
+
+        if (result.isSuccess)
+            return Result.success(Unit)
+        return Result.failure(Throwable("Erro ao enviar denúncia"))
     }
 }
