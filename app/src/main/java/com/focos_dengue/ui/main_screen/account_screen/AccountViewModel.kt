@@ -1,6 +1,5 @@
 package com.focos_dengue.ui.main_screen.account_screen
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -8,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.focos_dengue.domain.repository.AuthRepository
+import com.focos_dengue.domain.validation.EmailValidator
 import com.focos_dengue.domain.validation.PasswordRequirements
 import com.focos_dengue.domain.validation.PasswordValidator
 import kotlinx.coroutines.launch
@@ -15,10 +15,9 @@ import kotlinx.coroutines.launch
 data class AccountUIState(
     val newEmailValue: String = "",
     val newPasswordValue: String = "",
-    val oldEmailValue: String = "",
-    val oldPasswordValue: String = "",
     val confirmationPasswordValue: String = "",
-    val passwordRequirements: PasswordRequirements = PasswordRequirements()
+    val passwordRequirements: PasswordRequirements = PasswordRequirements(),
+    val errorMessage: String = ""
 )
 
 class AccountViewModel(
@@ -27,16 +26,8 @@ class AccountViewModel(
     var uiState by mutableStateOf(AccountUIState())
         private set
 
-    fun updateOldEmail(email: String) {
-        uiState = uiState.copy(oldEmailValue = email)
-    }
-
     fun updateNewEmail(email: String) {
         uiState = uiState.copy(newEmailValue = email)
-    }
-
-    fun updateOldPassword(password: String) {
-        uiState = uiState.copy(oldPasswordValue = password)
     }
 
     fun updateNewPassword(password: String) {
@@ -50,45 +41,57 @@ class AccountViewModel(
         uiState = uiState.copy(confirmationPasswordValue = password)
     }
 
-    fun onSave(redirectUrl: String, callback: (SaveResult) -> Unit) {
-        val data = listOf(
-            uiState.oldEmailValue,
-            uiState.newEmailValue,
-            uiState.oldPasswordValue,
-            uiState.newPasswordValue,
-            uiState.confirmationPasswordValue
-        )
+    fun updateErrorMessage(errorMessage: String) {
+        uiState = uiState.copy(errorMessage = errorMessage)
+    }
 
-        if (data.all { it.isEmpty() }) {
-            callback(SaveResult.Error("Nenhum dado foi alterado"))
-            return
-        }
-
+    fun onChangeEmail(redirectUrl: String, callback: (SaveResult) -> Unit) {
         val newEmail = uiState.newEmailValue
-        val newPassword = uiState.newPasswordValue
 
-        if (uiState.passwordRequirements.isValid) {
-            callback(SaveResult.Error("A sua nova senha não é válida. Verifique os requisitos"))
-            return
+        val errorMessage = when {
+            newEmail.isBlank() -> "Digite seu novo e-mail"
+            EmailValidator.validate(newEmail) -> "Se novo e-mail é inválido"
+            else -> null
         }
 
-        if (newPassword != uiState.confirmationPasswordValue) {
-            callback(SaveResult.Error("A sua nova senha não é igual a senha de confirmação"))
+        if (errorMessage != null) {
+            updateErrorMessage(errorMessage)
             return
         }
 
         viewModelScope.launch {
-            if (newEmail.isNotEmpty())
+            if (newEmail.isNotEmpty()) {
                 authRepository.updateEmail(
                     redirectUrl = redirectUrl,
                     newEmail = newEmail
                 )
+            }
+        }
+        callback(SaveResult.Success)
+    }
 
-            if (newPassword.isNotEmpty())
+    fun onChangePassword(redirectUrl: String, callback: (SaveResult) -> Unit) {
+        val newPassword = uiState.newPasswordValue
+
+        val errorMessage = when {
+            newPassword.isBlank() -> "Digite sua nova senha"
+            !uiState.passwordRequirements.isValid -> "A sua nova senha não é válida. Verifique os requisitos"
+            newPassword != uiState.confirmationPasswordValue -> "A sua nova senha não é igual a senha de confirmação"
+            else -> null
+        }
+
+        if (errorMessage != null) {
+            updateErrorMessage(errorMessage)
+            return
+        }
+
+        viewModelScope.launch {
+            if (newPassword.isNotEmpty()) {
                 authRepository.updatePassword(
                     redirectUrl = redirectUrl,
                     newPassword = newPassword
                 )
+            }
         }
         callback(SaveResult.Success)
     }

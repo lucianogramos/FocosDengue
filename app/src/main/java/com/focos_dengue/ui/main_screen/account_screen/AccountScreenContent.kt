@@ -32,74 +32,60 @@ fun AccountScreenContent(
     modifier: Modifier = Modifier,
     scrollState: ScrollState,
     state: AccountUIState,
-    onOldEmailChange: (String) -> Unit,
-    onNewEmailChange: (String) -> Unit,
-    onOldPasswordChange: (String) -> Unit,
-    onNewPasswordChange: (String) -> Unit,
-    onConfirmationPasswordChange: (String) -> Unit,
-    onSave: () -> Unit,
+    onUpdateNewEmail: (String) -> Unit,
+    onUpdateNewPassword: (String) -> Unit,
+    onUpdateConfirmationPassword: (String) -> Unit,
+    onChangeEmail: () -> Unit,
+    onChangePassword: () -> Unit,
     onLogout: () -> Unit
 ) {
     Column(modifier = modifier.fillMaxSize().verticalScroll(scrollState).padding(2 * MD)) {
         TitleText("Configurações da Conta", marginBottom = LG)
 
-        SubtitleText("E-mail", marginTop = 2 * MD, marginBottom = MD)
+        PrimaryCard {
+            PrimaryTextField(
+                value = state.newEmailValue,
+                onValueChange = onUpdateNewEmail,
+                label = "Novo E-mail",
+                placeholder = "Digite seu novo e-mail...",
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+            )
 
-        PrimaryTextField(
-            value = state.oldEmailValue,
-            onValueChange = onOldEmailChange,
-            label = "E-mail Atual",
-            placeholder = "Digite seu e-mail atual...",
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
-        )
+            Spacer(Modifier.height(SM))
 
-        Spacer(Modifier.height(SM))
+            PrimaryButton("Alterar E-mail", onClick = onChangeEmail)
+        }
 
-        PrimaryTextField(
-            value = state.newEmailValue,
-            onValueChange = onNewEmailChange,
-            label = "Novo E-mail",
-            placeholder = "Digite seu novo e-mail...",
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
-        )
+        PrimaryDivider(marginTop = SM, marginBottom = SM)
 
-        SubtitleText("Senha", marginTop = 2 * MD, marginBottom = MD)
+        PrimaryCard {
+            PasswordTextField(
+                value = state.newPasswordValue,
+                onValueChange = onUpdateNewPassword,
+                label = "Nova Senha",
+                placeholder = "Digite sua nova senha...",
+                hasMinChars = state.passwordRequirements.hasMinChars,
+                hasUpperCase = state.passwordRequirements.hasUpperCase,
+                hasLowerCase = state.passwordRequirements.hasLowerCase,
+                hasNumber = state.passwordRequirements.hasNumber,
+                hasSpecialChar = state.passwordRequirements.hasSpecialChar
+            )
 
-        PasswordTextField(
-            value = state.oldPasswordValue,
-            onValueChange = onOldPasswordChange,
-            label = "Senha Atual",
-            placeholder = "Digite sua senha atual..."
-        )
+            Spacer(Modifier.height(SM))
 
-        Spacer(Modifier.height(SM))
+            PrimaryTextField(
+                value = state.confirmationPasswordValue,
+                onValueChange = onUpdateConfirmationPassword,
+                label = "Confirmar Senha",
+                placeholder = "Confirme sua nova senha...",
+                visualTransformation = PasswordVisualTransformation(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+            )
 
-        PasswordTextField(
-            value = state.newPasswordValue,
-            onValueChange = onNewPasswordChange,
-            label = "Nova Senha",
-            placeholder = "Digite sua nova senha...",
-            hasMinChars = state.passwordRequirements.hasMinChars,
-            hasUpperCase = state.passwordRequirements.hasUpperCase,
-            hasLowerCase = state.passwordRequirements.hasLowerCase,
-            hasNumber = state.passwordRequirements.hasNumber,
-            hasSpecialChar = state.passwordRequirements.hasSpecialChar
-        )
+            Spacer(Modifier.height(SM))
 
-        Spacer(Modifier.height(SM))
-
-        PrimaryTextField(
-            value = state.confirmationPasswordValue,
-            onValueChange = onConfirmationPasswordChange,
-            label = "Confirmar Senha",
-            placeholder = "Confirme sua nova senha...",
-            visualTransformation = PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
-        )
-
-        Spacer(Modifier.height(LG))
-
-        PrimaryButton(text = "Salvar", onClick = onSave)
+            PrimaryButton(text = "Alterar Senha", onClick = onChangePassword)
+        }
 
         PrimaryDivider(marginTop = SM, marginBottom = SM)
 

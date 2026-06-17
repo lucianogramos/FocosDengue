@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.focos_dengue.domain.repository.AuthRepository
+import com.focos_dengue.domain.validation.EmailValidator
 import com.focos_dengue.domain.validation.PasswordRequirements
 import com.focos_dengue.domain.validation.PasswordValidator
 import kotlinx.coroutines.launch
@@ -52,6 +53,7 @@ class SignUpViewModel(
         val message = when {
             email.isBlank() -> "Digite um e-mail"
             password.isBlank() -> "Digite uma senha"
+            !EmailValidator.validate(email) -> "E-mail inválido"
             uiState.confirmationPassword.isBlank() -> "Confirme sua senha"
             !uiState.passwordRequirements.isValid -> "Senha inválida. Verifique os requisitos"
             password != uiState.confirmationPassword -> "As senhas não coincidem"

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.focos_dengue.domain.repository.AuthRepository
+import com.focos_dengue.domain.validation.EmailValidator
 import kotlinx.coroutines.launch
 
 data class LoginUIState(
@@ -42,6 +43,7 @@ class LoginViewModel(
         val message = when {
             email.isBlank() -> "Digite um e-mail"
             password.isBlank() -> "Digite uma senha"
+            !EmailValidator.validate(email) -> "E-mail inválido"
             else -> null
         }
 
