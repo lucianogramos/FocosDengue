@@ -1,7 +1,7 @@
 package com.focos_dengue.domain.usecase
 
 import androidx.core.net.toUri
-import com.focos_dengue.domain.model.Report
+import com.focos_dengue.domain.model.ReportModel
 import com.focos_dengue.domain.repository.ImageRepository
 import com.focos_dengue.domain.repository.ReportRepository
 import com.focos_dengue.domain.service.ImageCompService
@@ -12,7 +12,7 @@ class SubmitReportUseCase(
     private val imageRepository: ImageRepository,
     private val imageCompService: ImageCompService
 ) {
-    suspend operator fun invoke(report: Report): Result<Unit> {
+    suspend operator fun invoke(report: ReportModel): Result<Unit> {
         var publicUrl: String
         var compressedImage: File? = null
         try {

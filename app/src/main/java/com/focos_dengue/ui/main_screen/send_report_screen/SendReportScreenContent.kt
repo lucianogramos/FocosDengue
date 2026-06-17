@@ -35,19 +35,19 @@ import com.google.maps.android.compose.rememberCameraPositionState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ReportScreenContent(
+fun SendReportScreenContent(
     modifier: Modifier = Modifier,
     scrollState: ScrollState,
-    state: ReportUIState,
+    state: SendReportUIState,
     onDescriptionChange: (String) -> Unit,
     onTypeChange: (String) -> Unit,
     onPhotoUriChange: (Uri?) -> Unit,
+    onLocationChange: (LatLng) -> Unit,
     onSendReport: () -> Unit
 ) {
     val maxCharsOfDescription = 200
     val initialLocation = LatLng(-18.96889, -49.46500)
     var expanded by remember { mutableStateOf(false) }
-    var location by remember { mutableStateOf(initialLocation) }
     val cameraPositionState = rememberCameraPositionState()
 
     Column(modifier = modifier.fillMaxSize()
@@ -63,9 +63,13 @@ fun ReportScreenContent(
             marginBottom = MD
         )
 
-        LocationCard(cameraPositionState, initialLocation) {
-            location = it
-        }
+        LocationCard(
+            neighborhood = state.location.address.neighborhood,
+            street = state.location.address.street,
+            cameraPositionState = cameraPositionState,
+            initialLocation = initialLocation,
+            onLocationSelected = onLocationChange
+        )
 
         SubtitleText("Descrição (Opcional)", marginTop = MD, marginBottom = MD)
 

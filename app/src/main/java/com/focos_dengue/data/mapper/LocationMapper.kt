@@ -1,21 +1,21 @@
 package com.focos_dengue.data.mapper
 
 import com.focos_dengue.data.remote.dto.LocationDto
-import com.focos_dengue.domain.model.Location
-fun Location.toDto(): LocationDto {
+import com.focos_dengue.domain.model.AddressModel
+import com.focos_dengue.domain.model.LocationModel
+fun LocationModel.toDto(): LocationDto {
 
     return LocationDto(
         latitude = this.latitude,
-        longitude = this.longitude,
-        address = this.address
+        longitude = this.longitude
     )
 }
 
-fun LocationDto.toModel(): Location {
+fun LocationDto.toModel(): LocationModel {
 
-    return Location(
+    return LocationModel(
         latitude = this.latitude,
         longitude = this.longitude,
-        address = this.address
+        address = AddressModel("", "")
     )
 }

@@ -9,27 +9,28 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.focos_dengue.ui.main_screen.VerticalScrollableContent
 
 @Composable
-fun ReportScreen(toAccountScreen: () -> Unit, viewModel: ReportViewModel = viewModel()) {
+fun SendReportScreen(toAccountScreen: () -> Unit, viewModel: SendReportViewModel = viewModel()) {
     val context = LocalContext.current
 
     VerticalScrollableContent(
         bottomBar = {
-            ReportScreenBottomBar(toAccountScreen)
+            SendReportScreenBottomBar(toAccountScreen)
         }
     ) { innerPadding, scrollState ->
-        ReportScreenContent(
+        SendReportScreenContent(
             modifier = Modifier.padding(innerPadding),
             scrollState = scrollState,
             state = viewModel.uiState,
             onDescriptionChange = viewModel::updateDescription,
             onTypeChange = viewModel::updateSelectedType,
             onPhotoUriChange = viewModel::updatePhotoUri,
+            onLocationChange = viewModel::updateLocation,
             onSendReport = {
                 viewModel.onSendReport { result ->
                     when (result) {
-                        is SendResult.Success ->
+                        is SendReportResult.Success ->
                             Toast.makeText(context, "Denúncia enviada", Toast.LENGTH_LONG).show()
-                        is SendResult.Error ->
+                        is SendReportResult.Error ->
                             Toast.makeText(context, result.message, Toast.LENGTH_LONG).show()
                     }
                 }

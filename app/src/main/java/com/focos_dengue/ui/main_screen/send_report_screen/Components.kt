@@ -62,6 +62,8 @@ import com.google.maps.android.compose.MarkerState
 
 @Composable
 fun LocationCard(
+    neighborhood: String,
+    street: String,
     cameraPositionState: CameraPositionState,
     initialLocation: LatLng,
     onLocationSelected: (LatLng) -> Unit
@@ -85,7 +87,7 @@ fun LocationCard(
             MapPicker(cameraPositionState, initialLocation, onLocationSelected)
         }
 
-        SecondaryText(text = "Bairro Alcides Junqueira\nItuiutaba - MG", marginTop = SM)
+        SecondaryText(text = "$street - $neighborhood\nItuiutaba - MG", marginTop = SM)
     }
 }
 

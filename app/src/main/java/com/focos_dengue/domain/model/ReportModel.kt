@@ -2,10 +2,10 @@ package com.focos_dengue.domain.model
 
 import android.net.Uri
 
-data class Report(
+data class ReportModel(
     val type: ReportType,
     val description: String?,
-    val location: Location,
+    val location: LocationModel,
     val imageUri: Uri,
     val createdAt: Long? = null
 )

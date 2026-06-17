@@ -7,5 +7,4 @@ import kotlinx.serialization.Serializable
 data class LocationDto (
     @SerialName("latitude") val latitude: Double,
     @SerialName("longitude") val longitude: Double,
-    @SerialName("address") val address: String?
 )
