@@ -18,7 +18,7 @@ import com.focos_dengue.ui.util.MD
 import com.focos_dengue.ui.util.SM
 
 @Composable
-fun ReportScreenBottomBar(toAccountScreen: () -> Unit) {
+fun SendReportScreenBottomBar(toAccountScreen: () -> Unit) {
     val colors = AppTheme.colors
 
     Column(modifier = Modifier.navigationBarsPadding()) {
