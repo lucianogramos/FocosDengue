@@ -1,4 +1,8 @@
 package com.focos_dengue.domain.model
+
+import kotlinx.serialization.Serializable
+
+@Serializable
 enum class ReportType(val type: String) {
     BOTTLE_DRUMS_UNCOVERED("Caixa de Água Destampada"),
     TIRES_DISCARDED("Pneus Abandonados"),
