@@ -510,7 +510,7 @@ fun PrimaryIcon(iconId: Int, contentDescription: String?) {
 @Composable
 fun LoadingBox() {
     Box(
-        modifier = Modifier.fillMaxSize().background(Color.Black),
+        modifier = Modifier.fillMaxSize().background(AppTheme.colors.background),
         contentAlignment = Alignment.Center
     ) {
         CircularProgressIndicator(color = AppTheme.colors.primary)
