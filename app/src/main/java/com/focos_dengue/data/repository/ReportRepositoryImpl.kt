@@ -23,11 +23,11 @@ class ReportRepositoryImpl(private val reportDataSource: ReportDataSource) : Rep
         }
     }
 
-    override suspend fun getReports(): Result<List<ReportModel>> {
+    override suspend fun getReports(from: Long, limit: Long): Result<List<ReportModel>> {
 
         return try {
 
-            val reports = reportDataSource.getReports().map { it.toModel() }
+            val reports = reportDataSource.getReports(from, limit).map { it.toModel() }
 
             Result.success(reports)
 

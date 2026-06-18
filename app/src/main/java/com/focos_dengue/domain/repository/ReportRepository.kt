@@ -6,5 +6,5 @@ interface ReportRepository {
 
     suspend fun submitReport(report: ReportModel): Result<Unit>
 
-    suspend fun getReports(): Result<List<ReportModel>>
+    suspend fun getReports(from: Long, limit: Long): Result<List<ReportModel>>
 }
