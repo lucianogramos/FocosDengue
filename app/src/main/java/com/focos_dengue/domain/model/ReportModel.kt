@@ -7,5 +7,5 @@ data class ReportModel(
     val description: String?,
     val location: LocationModel,
     val imageUri: Uri,
-    val createdAt: Long? = null
+    val createdAt: String? = null
 )

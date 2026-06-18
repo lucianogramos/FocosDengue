@@ -10,5 +10,5 @@ data class ReportDto (
     @SerialName("description") val description: String,
     @SerialName("location") val locationDto: LocationDto,
     @SerialName("photo") val imageUrl: String,
-    @SerialName("created_at") val createdAt: Long? = null
+    @SerialName("created_at") val createdAt: String? = null
 )
