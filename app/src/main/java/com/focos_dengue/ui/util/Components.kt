@@ -6,16 +6,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -48,7 +45,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.Dp
@@ -187,40 +183,6 @@ fun ErrorText(text: String, modifier: Modifier = Modifier, fontSize: TextUnit = 
 }
 
 @Composable
-fun IconText(
-    iconId: Int, text: String,
-    modifier: Modifier = Modifier,
-    iconSize: Dp = 2 * MD,
-    iconTint: Color = AppTheme.colors.primary,
-    textColor: Color = AppTheme.colors.onBackground,
-    fontSize: TextUnit = TEXT_MD,
-    gap: Dp = SM,
-    marginTop: Dp = DP_0,
-    marginBottom: Dp = DP_0
-) {
-    MarginTop(marginTop)
-    Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(gap)
-    ) {
-        Icon(
-            painter = painterResource(id = iconId),
-            contentDescription = null,
-            modifier = Modifier.size(iconSize),
-            tint = iconTint
-        )
-        Text(
-            text = text,
-            color = textColor,
-            fontSize = fontSize,
-            lineHeight = fontSize * 1.5
-        )
-    }
-    MarginBottom(marginBottom)
-}
-
-@Composable
 fun PrimaryCard(
     modifier: Modifier = Modifier,
     horizontalPadding: Dp = MD,
@@ -239,33 +201,6 @@ fun PrimaryCard(
     ) {
         Column(
             modifier = Modifier.padding(horizontal = horizontalPadding, vertical = verticalPadding)
-        ) {
-            content()
-        }
-    }
-}
-
-@Composable
-fun SecondaryCard(
-    modifier: Modifier = Modifier,
-    horizontalAlignment: Alignment.Horizontal = Alignment.Start,
-    verticalArrangement: Arrangement.Vertical = Arrangement.Top,
-    content: @Composable () -> Unit
-) {
-    val colors = AppTheme.colors
-
-    OutlinedCard(
-        modifier = modifier,
-        shape = RoundedCornerShape(ROUNDED_MD),
-        border = BorderStroke(BORDER_WIDTH, colors.outline),
-        colors = CardDefaults.outlinedCardColors(
-            containerColor = colors.tertiary
-        )
-    ) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = horizontalAlignment,
-            verticalArrangement = verticalArrangement
         ) {
             content()
         }
@@ -404,37 +339,6 @@ fun PrimaryTextFieldWithCounter(
                 .padding(end = MD)
         )
     }
-}
-
-@Composable
-fun NumericField(
-    value: String,
-    onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    val colors = AppTheme.colors
-
-    OutlinedTextField(
-        value = value,
-        onValueChange = { input ->
-            if (input.isEmpty())
-                onValueChange(input)
-            else if (input[input.length - 1].isDigit())
-                onValueChange(input)
-        },
-        modifier = modifier,
-        shape = RoundedCornerShape(ROUNDED_MD),
-        singleLine = true,
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-        colors = OutlinedTextFieldDefaults.colors(
-            focusedContainerColor = colors.background,
-            unfocusedContainerColor = colors.background,
-            focusedTextColor = colors.onBackground,
-            unfocusedTextColor = colors.onBackground,
-            focusedBorderColor = colors.primary,
-            unfocusedBorderColor = colors.outline
-        )
-    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
