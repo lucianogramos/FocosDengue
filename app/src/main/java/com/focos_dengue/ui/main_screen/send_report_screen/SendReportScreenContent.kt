@@ -62,7 +62,7 @@ fun SendReportScreenContent(
             onClick = toReportScreen
         )
 
-        TitleText("Novo reporte", marginTop = MD)
+        TitleText("Nova Denúncia", marginTop = MD)
 
         SecondaryText(
             text = "Envie fotos do problema para os orgãos públicos",

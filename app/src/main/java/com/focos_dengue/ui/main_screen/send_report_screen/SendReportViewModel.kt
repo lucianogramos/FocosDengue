@@ -17,6 +17,7 @@ import com.focos_dengue.domain.usecase.SubmitReportUseCase
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlin.time.ExperimentalTime
 
 data class SendReportUIState (
     val description: String = "",
@@ -67,6 +68,7 @@ class SendReportViewModel(
         }
     }
 
+    @OptIn(ExperimentalTime::class)
     fun onSendReport(callback: (SendReportResult) -> Unit) {
         if (isSendingReport)
             return

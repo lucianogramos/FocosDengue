@@ -31,7 +31,10 @@ fun ReportScreen(
                     .background(
                         color = AppTheme.colors.primary,
                         shape = CircleShape
-                    ).padding(LG),
+                    ),
+                horizontalPadding = LG,
+                verticalPadding = LG,
+                indication = true,
                 onClick = toSendReportScreen
             )
         }

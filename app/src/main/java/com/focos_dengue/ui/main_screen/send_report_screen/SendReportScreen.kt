@@ -27,8 +27,10 @@ fun SendReportScreen(
             onSendReport = {
                 viewModel.onSendReport { result ->
                     when (result) {
-                        is SendReportResult.Success ->
+                        is SendReportResult.Success -> {
                             Toast.makeText(context, "Denúncia enviada", Toast.LENGTH_LONG).show()
+                            toReportScreen()
+                        }
                         is SendReportResult.Error ->
                             Toast.makeText(context, result.message, Toast.LENGTH_LONG).show()
                     }

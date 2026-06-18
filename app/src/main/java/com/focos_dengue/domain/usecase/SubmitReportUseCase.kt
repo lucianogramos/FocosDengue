@@ -6,12 +6,14 @@ import com.focos_dengue.domain.repository.ImageRepository
 import com.focos_dengue.domain.repository.ReportRepository
 import com.focos_dengue.domain.service.ImageCompService
 import java.io.File
+import kotlin.time.ExperimentalTime
 
 class SubmitReportUseCase(
     private val reportRepository: ReportRepository,
     private val imageRepository: ImageRepository,
     private val imageCompService: ImageCompService
 ) {
+    @OptIn(ExperimentalTime::class)
     suspend operator fun invoke(report: ReportModel): Result<Unit> {
         var publicUrl: String
         var compressedImage: File? = null

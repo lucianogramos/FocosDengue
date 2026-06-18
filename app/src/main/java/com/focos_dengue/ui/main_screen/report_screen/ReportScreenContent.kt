@@ -15,6 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import com.focos_dengue.ui.util.MD
+import com.focos_dengue.ui.util.PrimaryDivider
+import com.focos_dengue.ui.util.PrimaryText
 import com.focos_dengue.ui.util.SM
 import com.focos_dengue.ui.util.SecondaryText
 import com.focos_dengue.ui.util.TEXT_MD
@@ -33,8 +35,11 @@ fun ReportScreenContent(
             text = "Veja as denúncias que já foram enviadas",
             fontSize = TEXT_MD,
             marginTop = SM,
-            marginBottom = SM
+            marginBottom = MD
         )
+
+        PrimaryDivider()
+
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             items(state.reports) { report ->
                 ReportCard(report)

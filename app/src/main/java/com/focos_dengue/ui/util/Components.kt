@@ -1,6 +1,7 @@
 package com.focos_dengue.ui.util
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -92,6 +93,9 @@ fun PrimaryIconButton(
     iconId: Int,
     contentDescription: String?,
     modifier: Modifier = Modifier,
+    horizontalPadding: Dp = DP_0,
+    verticalPadding: Dp = DP_0,
+    indication: Boolean = false,
     onClick: () -> Unit
 ) {
     val interactionSource = remember { MutableInteractionSource() }
@@ -100,9 +104,9 @@ fun PrimaryIconButton(
         modifier = modifier
             .clickable(
                 interactionSource = interactionSource,
-                indication = null,
+                indication = if (!indication) null else LocalIndication.current,
                 onClick = onClick
-            ),
+            ).padding(horizontalPadding, verticalPadding),
         contentAlignment = Alignment.Center
     ) {
         PrimaryIcon(iconId, contentDescription)

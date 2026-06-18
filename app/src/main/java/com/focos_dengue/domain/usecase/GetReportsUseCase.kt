@@ -4,12 +4,14 @@ import android.util.Log
 import com.focos_dengue.domain.model.ReportModel
 import com.focos_dengue.domain.repository.GeoLocationRepository
 import com.focos_dengue.domain.repository.ReportRepository
+import kotlin.time.ExperimentalTime
 
 class GetReportsUseCase(
     private val repository: ReportRepository,
     private val geoLocationRepository: GeoLocationRepository
 ) {
 
+    @OptIn(ExperimentalTime::class)
     suspend operator fun invoke(from: Long, limit: Long): List<ReportModel> {
         val result = repository.getReports(from, limit)
 
