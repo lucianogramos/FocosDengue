@@ -6,8 +6,4 @@ data class AddressModel (
     val number: String = "",
     val city: String = "",
     val state: String = ""
-) {
-    override fun toString(): String {
-        return "$street N°$number - $neighborhood\n$city - $state"
-    }
-}
+)

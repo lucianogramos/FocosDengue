@@ -23,16 +23,8 @@ data class SendReportUIState (
     val description: String = "",
     val selectedType: String = "",
     val photoUri: Uri? = null,
-    val location: LocationModel = LocationModel(
-        0.0, 0.0,
-        AddressModel(
-            "Selecione um ponto",
-            "Selecione um ponto",
-            "",
-            "Selecione um ponto",
-            "Selecione um ponto"
-        )
-    )
+    val address: String = "Selecione um ponto",
+    val latLng: LatLng = LatLng(0.0, 0.0)
 )
 
 class SendReportViewModel(
@@ -64,7 +56,10 @@ class SendReportViewModel(
             val lat = latLng.latitude
             val lng = latLng.longitude
             val address = getAddressFromLatLngUseCase(lat, lng)
-            uiState = uiState.copy(location = LocationModel(lat, lng, address))
+            val street = address.street; val number = address.number
+            val neighborhood = address.neighborhood; val city = address.city
+            val state = address.state
+            uiState = uiState.copy(address = "$street N°$number - $neighborhood\n$city - $state")
         }
     }
 
@@ -90,11 +85,13 @@ class SendReportViewModel(
         isSendingReport = true
 
         viewModelScope.launch {
+            val latLng = uiState.latLng
+
             val report = ReportModel(
                 description = uiState.description,
                 type = selectedType.toReportType() ?: ReportType.OTHER,
                 imageUri = photoUri,
-                location = uiState.location
+                location = LocationModel(latLng.latitude, latLng.longitude, AddressModel())
             )
 
             submitReportUseCase(report).fold(

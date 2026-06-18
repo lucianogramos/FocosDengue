@@ -72,7 +72,7 @@ fun SendReportScreenContent(
         )
 
         LocationCard(
-            address = state.location.address,
+            address = state.address,
             cameraPositionState = cameraPositionState,
             initialLocation = initialLocation,
             onLocationSelected = onLocationChange

@@ -30,8 +30,13 @@ fun NavGraphBuilder.loginRoute(navController: NavHostController) {
         var isCheckingAuth by remember { mutableStateOf(true) }
 
         LaunchedEffect(Unit) {
-            if (authRepository.isAuthenticated())
-                navController.navigate(ScreenName.REPORT.route)
+            if (authRepository.isAuthenticated()) {
+                navController.navigate(ScreenName.REPORT.route) {
+                    popUpTo(ScreenName.LOGIN.route) {
+                        inclusive = true
+                    }
+                }
+            }
             else
                 isCheckingAuth = false
         }
@@ -42,7 +47,11 @@ fun NavGraphBuilder.loginRoute(navController: NavHostController) {
                     navController.navigate(ScreenName.SIGNUP.route)
                 },
                 toReportScreen = {
-                    navController.navigate(ScreenName.REPORT.route)
+                    navController.navigate(ScreenName.REPORT.route) {
+                        popUpTo(ScreenName.LOGIN.route) {
+                            inclusive = true
+                        }
+                    }
                 },
                 viewModel = viewModel(factory = LoginViewModelFactory(authRepository))
             )

@@ -52,10 +52,15 @@ class ReportScreenViewModel(
 
         viewModelScope.launch {
             val newReports = getReportsUseCase(currentPage * pageSize, pageSize).map {
+                val address = it.location.address
+                val street = address.street; val number = address.number
+                val neighborhood = address.neighborhood; val city = address.city
+                val state = address.state
+
                 ReportUIModel(
                     description = it.description ?: "",
                     imageUri = it.imageUri.toString(),
-                    address = it.location.address.toString(),
+                    address = "$street N°$number - $neighborhood\n$city - $state",
                     createdAt =
                         if (it.createdAt != null) {
                             it.createdAt.toLocalDateTime(TimeZone.currentSystemDefault())

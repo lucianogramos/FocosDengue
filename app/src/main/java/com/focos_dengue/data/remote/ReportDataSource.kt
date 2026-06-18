@@ -12,10 +12,9 @@ class ReportDataSource(
     }
 
     suspend fun getReports(from: Long, limit: Long): List<ReportDto> {
-        return postgrest.from("reports").select{
-            order("created_at", Order.DESCENDING)
-            range(from, from + limit - 1)
-            }
-            .decodeList<ReportDto>()
+        return postgrest.from("reports").select {
+                order("created_at", Order.DESCENDING)
+                range(from, from + limit - 1)
+            }.decodeList<ReportDto>()
     }
 }

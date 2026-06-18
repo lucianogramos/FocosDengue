@@ -1,5 +1,6 @@
 package com.focos_dengue.data.repository
 
+import android.util.Log
 import com.focos_dengue.data.remote.AuthDataSource
 import com.focos_dengue.domain.repository.AuthRepository
 
@@ -20,13 +21,14 @@ class AuthRepositoryImpl(private val authDataSource: AuthDataSource) : AuthRepos
 
     override suspend fun signIn(email: String, password: String): Result<Unit> {
 
-
         return try {
+            Log.d("console:", "Login iniciado")
             authDataSource.signIn(email, password)
 
             Result.success(Unit)
 
         } catch (e: Exception) {
+            Log.d("console:", "Erro no login $e")
             Result.failure(e)
         }
 

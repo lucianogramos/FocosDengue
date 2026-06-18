@@ -37,7 +37,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.times
 import coil.compose.AsyncImage
 import com.focos_dengue.R
-import com.focos_dengue.domain.model.AddressModel
 import com.focos_dengue.ui.theme.AppTheme
 import com.focos_dengue.ui.util.BORDER_WIDTH
 import com.focos_dengue.ui.util.DP_0
@@ -63,7 +62,7 @@ import com.google.maps.android.compose.MarkerState
 
 @Composable
 fun LocationCard(
-    address: AddressModel,
+    address: String,
     cameraPositionState: CameraPositionState,
     initialLocation: LatLng,
     onLocationSelected: (LatLng) -> Unit
@@ -87,7 +86,7 @@ fun LocationCard(
             MapPicker(cameraPositionState, initialLocation, onLocationSelected)
         }
 
-        SecondaryText(text = address.toString(), marginTop = SM)
+        SecondaryText(text = address, marginTop = SM)
     }
 }
 
