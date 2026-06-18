@@ -32,7 +32,7 @@ class SendReportViewModel(
 
     var uiState by mutableStateOf(SendReportUIState())
         private set
-    private var isSendingReport by mutableStateOf(false)
+    private var isSendingReport = false
     private var addressJob: Job? = null
 
     fun updateDescription(description: String) {
@@ -53,21 +53,8 @@ class SendReportViewModel(
         addressJob = viewModelScope.launch {
             val lat = latLng.latitude
             val lng = latLng.longitude
-
             val address = getAddressFromLatLngUseCase(lat, lng)
-            uiState =
-                if (address == null) {
-                    uiState.copy(
-                        location = LocationModel(
-                            lat, lng, AddressModel("Não encontrado", "Não encontrado")
-                        )
-                    )
-                }
-                else {
-                    uiState.copy(
-                        location = LocationModel(lat, lng, address)
-                    )
-                }
+            uiState = uiState.copy(location = LocationModel(lat, lng, address))
         }
     }
 

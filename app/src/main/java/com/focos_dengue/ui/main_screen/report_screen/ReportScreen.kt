@@ -1,20 +1,22 @@
 package com.focos_dengue.ui.main_screen.report_screen
 
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.focos_dengue.ui.main_screen.VerticalScrollableContent
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
-fun ReportScreen(toAccountScreen: () -> Unit) {
-    VerticalScrollableContent(
+fun ReportScreen(toAccountScreen: () -> Unit, viewModel: ReportScreenViewModel = viewModel()) {
+    Scaffold(
         bottomBar = {
             ReportScreenBottomBar(toAccountScreen = toAccountScreen)
         }
-    ) { innerPadding, scrollState ->
+    ) { innerPadding ->
         ReportScreenContent(
             modifier = Modifier.padding(innerPadding),
-            scrollState = scrollState
+            state = viewModel.uiState,
+            loadNextReports = viewModel::loadNextReports
         )
     }
 }

@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ReportDto (
+    @SerialName("id") val id: String? = null,
     @SerialName("type") val type: ReportType,
     @SerialName("description") val description: String,
     @SerialName("location") val locationDto: LocationDto,

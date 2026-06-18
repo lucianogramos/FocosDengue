@@ -5,5 +5,6 @@ enum class ScreenName(val route: String) {
     SIGNUP("signup"),
     RESET_PASSWORD("reset_password"),
     REPORT("report"),
+    SEND_REPORT("send_report"),
     ACCOUNT("account")
 }

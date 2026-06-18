@@ -26,6 +26,9 @@ class AccountViewModel(
     var uiState by mutableStateOf(AccountUIState())
         private set
 
+    private var isSavingEmail = false
+    private var isSavingPassword = false
+
     fun updateNewEmail(email: String) {
         uiState = uiState.copy(newEmailValue = email)
     }
@@ -46,6 +49,10 @@ class AccountViewModel(
     }
 
     fun onChangeEmail(redirectUrl: String, callback: (SaveResult) -> Unit) {
+        if (isSavingEmail)
+            return
+        isSavingEmail = true
+
         val newEmail = uiState.newEmailValue
 
         val errorMessage = when {
@@ -66,11 +73,16 @@ class AccountViewModel(
                     newEmail = newEmail
                 )
             }
+            isSavingEmail = false
         }
         callback(SaveResult.Success)
     }
 
     fun onChangePassword(redirectUrl: String, callback: (SaveResult) -> Unit) {
+        if (isSavingPassword)
+            return
+        isSavingPassword = true
+
         val newPassword = uiState.newPasswordValue
 
         val errorMessage = when {
@@ -92,6 +104,7 @@ class AccountViewModel(
                     newPassword = newPassword
                 )
             }
+            isSavingPassword = false
         }
         callback(SaveResult.Success)
     }
