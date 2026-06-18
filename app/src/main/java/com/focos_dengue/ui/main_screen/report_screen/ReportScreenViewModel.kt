@@ -23,7 +23,7 @@ class ReportScreenViewModel(
     var uiState by mutableStateOf(ReportUIState())
         private set
 
-    private val currentPage = 0L
+    private var currentPage = 0L
     private val pageSize = 10L
 
     fun loadNextReports() {
@@ -33,9 +33,10 @@ class ReportScreenViewModel(
         uiState = uiState.copy(isLoading = true)
 
         viewModelScope.launch {
-            val newReports = getReportsUseCase(currentPage, pageSize)
+            val newReports = getReportsUseCase(currentPage * pageSize, pageSize)
 
-            Log.d("console:", newReports.toString())
+            if (newReports.isNotEmpty())
+                currentPage++
 
             uiState = uiState.copy(
                 reports = uiState.reports + newReports,
