@@ -23,7 +23,7 @@ class ReportScreenViewModel(
         private set
 
     private var currentPage = 0L
-    private val pageSize = 10L
+    private val pageSize = 5L
 
     fun loadNextReports() {
         if (uiState.isLoading || uiState.isEndReached)
