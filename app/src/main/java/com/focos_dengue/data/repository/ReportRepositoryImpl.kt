@@ -1,6 +1,7 @@
 package com.focos_dengue.data.repository
 
 import com.focos_dengue.data.mapper.toDto
+import com.focos_dengue.data.mapper.toModel
 import com.focos_dengue.data.remote.ReportDataSource
 import com.focos_dengue.domain.model.ReportModel
 import com.focos_dengue.domain.repository.ReportRepository
@@ -22,7 +23,18 @@ class ReportRepositoryImpl(private val reportDataSource: ReportDataSource) : Rep
         }
     }
 
-    override suspend fun getReportHistory(): Result<List<ReportModel>> {
-        TODO("Not yet implemented")
+    override suspend fun getReports(): Result<List<ReportModel>> {
+
+        return try {
+
+            val reports = reportDataSource.getReports().map { it.toModel() }
+
+            Result.success(reports)
+
+        } catch (e: Exception) {
+
+            Result.failure(e)
+
+        }
     }
 }
