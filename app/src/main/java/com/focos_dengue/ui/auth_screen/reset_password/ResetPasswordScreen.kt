@@ -16,11 +16,11 @@ fun ResetPasswordScreen(toLoginScreen: () -> Unit, viewModel: ResetPasswordViewM
     val state = viewModel.uiState
     val context = LocalContext.current
 
-    LaunchedEffect(state.errorMessage) {
-        if (state.errorMessage.isEmpty())
+    LaunchedEffect(state.message) {
+        if (state.message.isEmpty())
             return@LaunchedEffect
-        Toast.makeText(context, state.errorMessage, Toast.LENGTH_LONG).show()
-        viewModel.updateErrorMessage("")
+        Toast.makeText(context, state.message, Toast.LENGTH_LONG).show()
+        viewModel.updateMessage("")
     }
 
     Scaffold(

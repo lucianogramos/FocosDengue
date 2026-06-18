@@ -15,7 +15,7 @@ data class ResetPasswordUIState(
     val password: String = "",
     val confirmationPassword: String = "",
     val passwordRequirements: PasswordRequirements = PasswordRequirements(),
-    val errorMessage: String = ""
+    val message: String = ""
 )
 
 class ResetPasswordViewModel(
@@ -35,31 +35,32 @@ class ResetPasswordViewModel(
         )
     }
 
-    fun updateErrorMessage(errorMessage: String) {
-        uiState = uiState.copy(errorMessage = errorMessage)
+    fun updateMessage(message: String) {
+        uiState = uiState.copy(message = message)
     }
 
     fun updatePassword(redirectUrl: String) {
         if (isUpdatingPassword)
             return
-        isUpdatingPassword = true
 
         val password = uiState.password
 
         if (password.isBlank()) {
-            updateErrorMessage("Digite uma senha")
+            updateMessage("Digite uma senha")
             return
         }
 
         if (!uiState.passwordRequirements.isValid) {
-            updateErrorMessage("Senha inválida. Verifique os requisitos")
+            updateMessage("Senha inválida. Verifique os requisitos")
             return
         }
 
         if (password != uiState.confirmationPassword) {
-            updateErrorMessage("As senhas não coincidem")
+            updateMessage("As senhas não coincidem")
             return
         }
+
+        isUpdatingPassword = true
 
         viewModelScope.launch {
             authRepository.updatePassword(
@@ -68,7 +69,7 @@ class ResetPasswordViewModel(
                 redirectUrl = redirectUrl,
                 newPassword = uiState.password
             )
-            updateErrorMessage("Senha atualizada com sucesso")
+            updateMessage("Senha atualizada com sucesso")
             isUpdatingPassword = false
         }
     }

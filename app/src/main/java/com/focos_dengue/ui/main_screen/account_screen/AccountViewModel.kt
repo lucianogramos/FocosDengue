@@ -51,7 +51,6 @@ class AccountViewModel(
     fun onChangeEmail(redirectUrl: String, callback: (SaveResult) -> Unit) {
         if (isSavingEmail)
             return
-        isSavingEmail = true
 
         val newEmail = uiState.newEmailValue
 
@@ -65,6 +64,8 @@ class AccountViewModel(
             updateErrorMessage(errorMessage)
             return
         }
+
+        isSavingEmail = true
 
         viewModelScope.launch {
             if (newEmail.isNotEmpty()) {
@@ -81,7 +82,6 @@ class AccountViewModel(
     fun onChangePassword(redirectUrl: String, callback: (SaveResult) -> Unit) {
         if (isSavingPassword)
             return
-        isSavingPassword = true
 
         val newPassword = uiState.newPasswordValue
 
@@ -96,6 +96,8 @@ class AccountViewModel(
             updateErrorMessage(errorMessage)
             return
         }
+
+        isSavingPassword = true
 
         viewModelScope.launch {
             if (newPassword.isNotEmpty()) {

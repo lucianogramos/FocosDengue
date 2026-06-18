@@ -40,7 +40,6 @@ class LoginViewModel(
     fun onLogin(onSuccess: () -> Unit, onFailure: (String) -> Unit) {
         if (isLoggingIn)
             return
-        isLoggingIn = true
 
         updateMessage("")
 
@@ -59,6 +58,8 @@ class LoginViewModel(
             return
         }
 
+        isLoggingIn = true
+
         viewModelScope.launch {
             authRepository.signIn(uiState.email, uiState.password).fold(
                 onSuccess = { onSuccess() },
@@ -71,12 +72,13 @@ class LoginViewModel(
     fun onForgotPassword(redirectUrl: String) {
         if (isSendingPasswordResetEmail)
             return
-        isSendingPasswordResetEmail = true
 
         if (uiState.email.isBlank()) {
             updateMessage("Digite um e-mail que você quer recuperar a senha")
             return
         }
+
+        isSendingPasswordResetEmail = true
 
         viewModelScope.launch {
             authRepository.recoverPassword(uiState.email, redirectUrl).onSuccess {

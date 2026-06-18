@@ -85,9 +85,9 @@ class SendReportViewModel(
             return
         }
 
-        viewModelScope.launch {
-            isSendingReport = true
+        isSendingReport = true
 
+        viewModelScope.launch {
             val report = ReportModel(
                 description = uiState.description,
                 type = selectedType.toReportType() ?: ReportType.OTHER,

@@ -49,7 +49,6 @@ class SignUpViewModel(
     fun onSignUp() {
         if (isSigningUp)
             return
-        isSigningUp = true
 
         updateMessage("")
 
@@ -70,6 +69,8 @@ class SignUpViewModel(
             updateMessage(message)
             return
         }
+
+        isSigningUp = true
 
         viewModelScope.launch {
             authRepository.signUp(email, password)
