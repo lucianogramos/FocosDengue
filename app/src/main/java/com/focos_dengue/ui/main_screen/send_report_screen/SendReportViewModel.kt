@@ -22,7 +22,16 @@ data class SendReportUIState (
     val description: String = "",
     val selectedType: String = "",
     val photoUri: Uri? = null,
-    val location: LocationModel = LocationModel(0.0, 0.0, AddressModel("", ""))
+    val location: LocationModel = LocationModel(
+        0.0, 0.0,
+        AddressModel(
+            "Selecione um ponto",
+            "Selecione um ponto",
+            "",
+            "Selecione um ponto",
+            "Selecione um ponto"
+        )
+    )
 )
 
 class SendReportViewModel(

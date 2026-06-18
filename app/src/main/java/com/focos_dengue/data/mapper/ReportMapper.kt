@@ -1,8 +1,8 @@
 package com.focos_dengue.data.mapper
 
+import androidx.core.net.toUri
 import com.focos_dengue.data.remote.dto.ReportDto
 import com.focos_dengue.domain.model.ReportModel
-import androidx.core.net.toUri
 
 fun ReportModel.toDto(): ReportDto {
 

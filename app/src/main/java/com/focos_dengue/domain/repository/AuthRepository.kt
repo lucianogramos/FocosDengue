@@ -1,7 +1,5 @@
 package com.focos_dengue.domain.repository
 
-import io.github.jan.supabase.gotrue.user.UserInfo
-
 interface AuthRepository {
 
     suspend fun signUp(email: String, password: String): Result<Unit>

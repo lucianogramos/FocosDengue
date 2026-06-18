@@ -1,12 +1,12 @@
 package com.focos_dengue.ui.main_screen.send_report_screen
 
 import android.net.Uri
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
@@ -20,18 +20,18 @@ import com.focos_dengue.R
 import com.focos_dengue.domain.model.ReportType
 import com.focos_dengue.ui.util.LG
 import com.focos_dengue.ui.util.MD
-import com.focos_dengue.ui.util.SM
-import com.focos_dengue.ui.util.XS
-import com.focos_dengue.ui.util.XL
 import com.focos_dengue.ui.util.PrimaryButton
 import com.focos_dengue.ui.util.PrimaryCard
 import com.focos_dengue.ui.util.PrimaryIconButton
 import com.focos_dengue.ui.util.PrimaryTextFieldWithCounter
+import com.focos_dengue.ui.util.SM
 import com.focos_dengue.ui.util.SecondaryText
 import com.focos_dengue.ui.util.Select
 import com.focos_dengue.ui.util.SubtitleText
 import com.focos_dengue.ui.util.TEXT_MD
 import com.focos_dengue.ui.util.TitleText
+import com.focos_dengue.ui.util.XL
+import com.focos_dengue.ui.util.XS
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.rememberCameraPositionState
 
@@ -40,7 +40,6 @@ import com.google.maps.android.compose.rememberCameraPositionState
 fun SendReportScreenContent(
     modifier: Modifier = Modifier,
     toReportScreen: () -> Unit,
-    scrollState: ScrollState,
     state: SendReportUIState,
     onDescriptionChange: (String) -> Unit,
     onTypeChange: (String) -> Unit,
@@ -54,7 +53,7 @@ fun SendReportScreenContent(
     val cameraPositionState = rememberCameraPositionState()
 
     Column(modifier = modifier.fillMaxSize()
-        .verticalScroll(scrollState, !cameraPositionState.isMoving)
+        .verticalScroll(rememberScrollState(), !cameraPositionState.isMoving)
         .padding(2 * MD)
     ) {
         PrimaryIconButton(
@@ -73,8 +72,7 @@ fun SendReportScreenContent(
         )
 
         LocationCard(
-            neighborhood = state.location.address.neighborhood,
-            street = state.location.address.street,
+            address = state.location.address,
             cameraPositionState = cameraPositionState,
             initialLocation = initialLocation,
             onLocationSelected = onLocationChange

@@ -37,12 +37,13 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.times
 import coil.compose.AsyncImage
 import com.focos_dengue.R
+import com.focos_dengue.domain.model.AddressModel
 import com.focos_dengue.ui.theme.AppTheme
 import com.focos_dengue.ui.util.BORDER_WIDTH
-import com.focos_dengue.ui.util.PrimaryCard
-import com.focos_dengue.ui.util.PrimaryIcon
 import com.focos_dengue.ui.util.DP_0
 import com.focos_dengue.ui.util.MD
+import com.focos_dengue.ui.util.PrimaryCard
+import com.focos_dengue.ui.util.PrimaryIcon
 import com.focos_dengue.ui.util.PrimaryText
 import com.focos_dengue.ui.util.ROUNDED_MD
 import com.focos_dengue.ui.util.SM
@@ -62,8 +63,7 @@ import com.google.maps.android.compose.MarkerState
 
 @Composable
 fun LocationCard(
-    neighborhood: String,
-    street: String,
+    address: AddressModel,
     cameraPositionState: CameraPositionState,
     initialLocation: LatLng,
     onLocationSelected: (LatLng) -> Unit
@@ -87,7 +87,7 @@ fun LocationCard(
             MapPicker(cameraPositionState, initialLocation, onLocationSelected)
         }
 
-        SecondaryText(text = "$street - $neighborhood\nItuiutaba - MG", marginTop = SM)
+        SecondaryText(text = address.toString(), marginTop = SM)
     }
 }
 

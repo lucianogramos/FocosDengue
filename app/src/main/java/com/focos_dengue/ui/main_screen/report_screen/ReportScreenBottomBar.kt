@@ -12,9 +12,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.times
 import com.focos_dengue.ui.main_screen.BottomBarButton
 import com.focos_dengue.ui.theme.AppTheme
-import com.focos_dengue.ui.util.PrimaryDivider
 import com.focos_dengue.ui.util.LG
 import com.focos_dengue.ui.util.MD
+import com.focos_dengue.ui.util.PrimaryDivider
 import com.focos_dengue.ui.util.SM
 
 @Composable

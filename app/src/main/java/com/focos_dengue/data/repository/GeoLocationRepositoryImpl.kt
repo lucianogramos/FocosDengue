@@ -36,12 +36,25 @@ class GeoLocationRepositoryImpl(private val geocoder: Geocoder) : GeoLocationRep
             }
         }
 
-        if (address == null)
-            return AddressModel("Bairro não encontrado", "Rua não encontrada")
+        if (address == null) {
+            return AddressModel(
+                neighborhood = "Bairro não encontrado",
+                street = "Rua não encontrada",
+                number = "Número não encontrado",
+                city = "Cidade não encontrada",
+                state = "Estado não encontrado"
+            )
+        }
 
         return AddressModel(
-            neighborhood = address.subLocality,
-            street = address.thoroughfare
+            neighborhood = address.subLocality ?: "Bairro não encontrado",
+            street = address.thoroughfare ?: "Rua não encontrada",
+            number = address.subThoroughfare ?: "Número não encontrado",
+            city = address.locality ?:
+                address.subAdminArea ?:
+                address.subLocality ?:
+                "Cidade não encontrada",
+            state = address.adminArea ?: "Estado não encontrado"
         )
     }
 }

@@ -33,7 +33,7 @@ fun ReportScreenContent(
             text = "Veja as denúncias que já foram enviadas",
             fontSize = TEXT_MD,
             marginTop = SM,
-            marginBottom = MD
+            marginBottom = SM
         )
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             items(state.reports) { report ->

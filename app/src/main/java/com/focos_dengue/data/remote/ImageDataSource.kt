@@ -2,7 +2,6 @@ package com.focos_dengue.data.remote
 
 import android.content.Context
 import android.net.Uri
-import androidx.compose.runtime.structuralEqualityPolicy
 import io.github.jan.supabase.storage.Storage
 import java.util.UUID
 

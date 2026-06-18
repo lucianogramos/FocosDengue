@@ -1,7 +1,6 @@
 package com.focos_dengue.ui.auth_screen.reset_password
 
 import android.content.Intent
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.os.BundleCompat

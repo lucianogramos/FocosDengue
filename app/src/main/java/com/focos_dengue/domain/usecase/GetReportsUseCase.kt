@@ -1,5 +1,6 @@
 package com.focos_dengue.domain.usecase
 
+import android.util.Log
 import com.focos_dengue.domain.model.ReportModel
 import com.focos_dengue.domain.repository.GeoLocationRepository
 import com.focos_dengue.domain.repository.ReportRepository
@@ -16,6 +17,7 @@ class GetReportsUseCase(
             return emptyList()
         }
         val reports = result.getOrDefault(emptyList())
+        Log.d("console:", "$reports")
         return reports.map { report ->
             val address = geoLocationRepository.getAdress(
                 lat = report.location.latitude,

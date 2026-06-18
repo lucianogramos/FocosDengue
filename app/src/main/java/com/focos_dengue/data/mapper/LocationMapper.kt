@@ -16,6 +16,6 @@ fun LocationDto.toModel(): LocationModel {
     return LocationModel(
         latitude = this.latitude,
         longitude = this.longitude,
-        address = AddressModel("", "")
+        address = AddressModel()
     )
 }
