@@ -59,7 +59,10 @@ class SendReportViewModel(
             val street = address.street; val number = address.number
             val neighborhood = address.neighborhood; val city = address.city
             val state = address.state
-            uiState = uiState.copy(address = "$street N°$number - $neighborhood\n$city - $state")
+            uiState = uiState.copy(
+                latLng = latLng,
+                address = "$street N°$number - $neighborhood\n$city - $state"
+            )
         }
     }
 
