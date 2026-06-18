@@ -26,6 +26,8 @@ class ResetPasswordViewModel(
     var uiState by mutableStateOf(ResetPasswordUIState())
         private set
 
+    private var isUpdatingPassword = false
+
     fun onPasswordChange(password: String) {
         uiState = uiState.copy(
             password = password,
@@ -38,6 +40,10 @@ class ResetPasswordViewModel(
     }
 
     fun updatePassword(redirectUrl: String) {
+        if (isUpdatingPassword)
+            return
+        isUpdatingPassword = true
+
         val password = uiState.password
 
         if (password.isBlank()) {
@@ -62,6 +68,8 @@ class ResetPasswordViewModel(
                 redirectUrl = redirectUrl,
                 newPassword = uiState.password
             )
+            updateErrorMessage("Senha atualizada com sucesso")
+            isUpdatingPassword = false
         }
     }
 }

@@ -31,6 +31,7 @@ class SubmitReportUseCase(
 
         if (result.isSuccess)
             return Result.success(Unit)
+        imageRepository.deleteImage(publicUrl)
         return Result.failure(Throwable("Erro ao enviar denúncia"))
     }
 }

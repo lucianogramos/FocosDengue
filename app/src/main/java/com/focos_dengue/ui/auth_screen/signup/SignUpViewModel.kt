@@ -25,6 +25,8 @@ class SignUpViewModel(
 ) : ViewModel() {
     var uiState by mutableStateOf(SignUpUIState())
 
+    private var isSigningUp = false
+
     fun onEmailChange(email: String) {
         uiState = uiState.copy(email = email)
     }
@@ -45,6 +47,10 @@ class SignUpViewModel(
     }
 
     fun onSignUp() {
+        if (isSigningUp)
+            return
+        isSigningUp = true
+
         updateMessage("")
 
         val email = uiState.email
@@ -68,6 +74,7 @@ class SignUpViewModel(
         viewModelScope.launch {
             authRepository.signUp(email, password)
             updateMessage("Enviamos um e-mail para você confirmar sua conta. Verifique sua caixa de e-mails")
+            isSigningUp = false
         }
     }
 }

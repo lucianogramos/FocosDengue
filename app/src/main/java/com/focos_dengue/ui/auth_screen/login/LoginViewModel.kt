@@ -22,6 +22,9 @@ class LoginViewModel(
     var uiState by mutableStateOf(LoginUIState())
         private set
 
+    private var isLoggingIn = false
+    private var isSendingPasswordResetEmail = false
+
     fun updateEmail(email: String) {
         uiState = uiState.copy(email = email)
     }
@@ -35,6 +38,10 @@ class LoginViewModel(
     }
 
     fun onLogin(onSuccess: () -> Unit, onFailure: (String) -> Unit) {
+        if (isLoggingIn)
+            return
+        isLoggingIn = true
+
         updateMessage("")
 
         val email = uiState.email
@@ -57,10 +64,15 @@ class LoginViewModel(
                 onSuccess = { onSuccess() },
                 onFailure = { t -> onFailure(t.message ?: "Ocorreu um erro") }
             )
+            isLoggingIn = false
         }
     }
 
     fun onForgotPassword(redirectUrl: String) {
+        if (isSendingPasswordResetEmail)
+            return
+        isSendingPasswordResetEmail = true
+
         if (uiState.email.isBlank()) {
             updateMessage("Digite um e-mail que você quer recuperar a senha")
             return
@@ -70,6 +82,7 @@ class LoginViewModel(
             authRepository.recoverPassword(uiState.email, redirectUrl).onSuccess {
                 updateMessage("Um e-mail foi enviado para ${uiState.email}")
             }
+            isSendingPasswordResetEmail = false
         }
     }
 }

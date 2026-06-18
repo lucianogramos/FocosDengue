@@ -71,6 +71,13 @@ class SendReportViewModel(
         if (isSendingReport)
             return
 
+        val selectedType = uiState.selectedType
+
+        if (selectedType.isBlank()) {
+            callback(SendReportResult.Error("Selecione um tipo de denúncia"))
+            return
+        }
+
         val photoUri = uiState.photoUri
 
         if (photoUri == null) {
@@ -83,7 +90,7 @@ class SendReportViewModel(
 
             val report = ReportModel(
                 description = uiState.description,
-                type = uiState.selectedType.toReportType() ?: ReportType.OTHER,
+                type = selectedType.toReportType() ?: ReportType.OTHER,
                 imageUri = photoUri,
                 location = uiState.location
             )
