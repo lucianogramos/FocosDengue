@@ -15,8 +15,8 @@ fun NavGraphBuilder.sendReportRoute(navController: NavHostController) {
         val app = LocalContext.current.applicationContext as FocosDengueApplication
 
         SendReportScreen(
-            toAccountScreen = {
-                navController.navigate(ScreenName.ACCOUNT.route)
+            toReportScreen = {
+                navController.navigate(ScreenName.REPORT.route)
             },
             viewModel = viewModel(
                 factory = SendReportViewModelFactory(

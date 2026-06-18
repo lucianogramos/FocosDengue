@@ -31,7 +31,7 @@ import kotlin.math.abs
 @SuppressLint("FrequentlyChangingValue")
 @Composable
 fun VerticalScrollableContent(
-    bottomBar: @Composable AnimatedVisibilityScope.() -> Unit,
+    bottomBar: (@Composable AnimatedVisibilityScope.() -> Unit)? = null,
     content: @Composable (PaddingValues, ScrollState) -> Unit
 ) {
     val scrollState = rememberScrollState()
@@ -55,15 +55,21 @@ fun VerticalScrollableContent(
     }
 
     Scaffold(
-        bottomBar = {
-            AnimatedVisibility(
-                visible = isBottomBarVisible,
-                enter = slideInVertically(initialOffsetY = { it }), // Desliza de baixo para cima
-                exit = slideOutVertically(targetOffsetY = { it }),  // Desliza para baixo ao sair
-            ) {
-                bottomBar()
+        bottomBar =
+            if (bottomBar != null) {
+                {
+                    AnimatedVisibility(
+                        visible = isBottomBarVisible,
+                        enter = slideInVertically(initialOffsetY = { it }), // Desliza de baixo para cima
+                        exit = slideOutVertically(targetOffsetY = { it }),  // Desliza para baixo ao sair
+                    ) {
+                        bottomBar()
+                    }
+                }
             }
-        }
+            else {
+                {}
+            }
     ) { innerPadding ->
         content(innerPadding, scrollState)
     }

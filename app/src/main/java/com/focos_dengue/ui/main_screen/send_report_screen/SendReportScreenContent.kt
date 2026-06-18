@@ -16,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.times
+import com.focos_dengue.R
 import com.focos_dengue.domain.model.ReportType
 import com.focos_dengue.ui.util.LG
 import com.focos_dengue.ui.util.MD
@@ -24,6 +25,7 @@ import com.focos_dengue.ui.util.XS
 import com.focos_dengue.ui.util.XL
 import com.focos_dengue.ui.util.PrimaryButton
 import com.focos_dengue.ui.util.PrimaryCard
+import com.focos_dengue.ui.util.PrimaryIconButton
 import com.focos_dengue.ui.util.PrimaryTextFieldWithCounter
 import com.focos_dengue.ui.util.SecondaryText
 import com.focos_dengue.ui.util.Select
@@ -37,6 +39,7 @@ import com.google.maps.android.compose.rememberCameraPositionState
 @Composable
 fun SendReportScreenContent(
     modifier: Modifier = Modifier,
+    toReportScreen: () -> Unit,
     scrollState: ScrollState,
     state: SendReportUIState,
     onDescriptionChange: (String) -> Unit,
@@ -54,7 +57,13 @@ fun SendReportScreenContent(
         .verticalScroll(scrollState, !cameraPositionState.isMoving)
         .padding(2 * MD)
     ) {
-        TitleText("Novo reporte", marginTop = XS)
+        PrimaryIconButton(
+            iconId = R.drawable.arrow_back,
+            contentDescription = "Voltar para a tela de denúncias",
+            onClick = toReportScreen
+        )
+
+        TitleText("Novo reporte", marginTop = MD)
 
         SecondaryText(
             text = "Envie fotos do problema para os orgãos públicos",

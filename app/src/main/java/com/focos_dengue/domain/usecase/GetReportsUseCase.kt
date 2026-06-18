@@ -1,6 +1,5 @@
 package com.focos_dengue.domain.usecase
 
-import android.util.Log
 import com.focos_dengue.domain.model.ReportModel
 import com.focos_dengue.domain.repository.GeoLocationRepository
 import com.focos_dengue.domain.repository.ReportRepository

@@ -24,6 +24,9 @@ fun NavGraphBuilder.reportRoute(navController: NavHostController) {
             toAccountScreen = {
                 navController.navigate(ScreenName.ACCOUNT.route)
             },
+            toSendReportScreen = {
+                navController.navigate(ScreenName.SEND_REPORT.route)
+            },
             viewModel = viewModel(
                 factory = ReportScreenViewModelFactory(app.container.getReportsUseCase)
             )
