@@ -7,7 +7,7 @@ import com.focos_dengue.data.remote.AuthDataSource
 import com.focos_dengue.data.remote.ImageDataSource
 import com.focos_dengue.data.remote.ReportDataSource
 import com.focos_dengue.data.repository.AuthRepositoryImpl
-import com.focos_dengue.data.repository.GeoLocationRepositoryImpl
+import com.focos_dengue.data.repository.AndroidGeoLocationRepositoryImpl
 import com.focos_dengue.data.repository.ImageRepositoryImpl
 import com.focos_dengue.data.repository.ReportRepositoryImpl
 import com.focos_dengue.domain.service.ImageCompService
@@ -15,8 +15,8 @@ import com.focos_dengue.domain.usecase.GetAddressFromLatLngUseCase
 import com.focos_dengue.domain.usecase.GetReportsUseCase
 import com.focos_dengue.domain.usecase.SubmitReportUseCase
 import io.github.jan.supabase.createSupabaseClient
-import io.github.jan.supabase.gotrue.Auth
-import io.github.jan.supabase.gotrue.auth
+import io.github.jan.supabase.auth.Auth
+import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.storage.Storage
@@ -50,7 +50,7 @@ class AppContainer(context: Context) {
         ImageRepositoryImpl(imageDataSource)
     }
     private val geoLocationRepository by lazy {
-        GeoLocationRepositoryImpl(geocoder)
+        AndroidGeoLocationRepositoryImpl(geocoder)
     }
 
     // Domain Services

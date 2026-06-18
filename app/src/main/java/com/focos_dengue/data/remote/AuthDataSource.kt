@@ -1,9 +1,8 @@
 package com.focos_dengue.data.remote
 
-import io.github.jan.supabase.gotrue.Auth
-import io.github.jan.supabase.gotrue.providers.builtin.Email
+import io.github.jan.supabase.auth.Auth
+import io.github.jan.supabase.auth.providers.builtin.Email
 import io.github.jan.supabase.postgrest.Postgrest
-import io.github.jan.supabase.postgrest.rpc
 
 class AuthDataSource(
     private val auth: Auth,
@@ -29,7 +28,7 @@ class AuthDataSource(
     }
 
     suspend fun updateEmail(redirectUrl: String, newEmail: String) {
-        auth.modifyUser(redirectUrl = redirectUrl) {
+        auth.updateUser(redirectUrl = redirectUrl) {
             email = newEmail
         }
         this.logout()
@@ -40,7 +39,7 @@ class AuthDataSource(
         if (accessToken != null && refreshToken != null) {
             auth.importAuthToken(accessToken, refreshToken)
         }
-        auth.modifyUser(redirectUrl = redirectUrl) {
+        auth.updateUser(redirectUrl = redirectUrl) {
             password = newPassword
         }
         this.logout()

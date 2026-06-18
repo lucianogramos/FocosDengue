@@ -9,7 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 
-class GeoLocationRepositoryImpl(private val geocoder: Geocoder) : GeoLocationRepository {
+class AndroidGeoLocationRepositoryImpl(private val geocoder: Geocoder) : GeoLocationRepository {
     override suspend fun getAdress(lat: Double, lng: Double): AddressModel {
         val address = withContext(Dispatchers.IO) {
             try {
