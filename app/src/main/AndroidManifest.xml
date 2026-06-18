@@ -14,7 +14,7 @@
         android:theme="@style/Theme.FocoAcessibilidadeDengue">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAGrZOcQlIMZvfAz340VykExlnAduB8-Fs"/>
+            android:value="${GEO_API_KEY}"/>
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"
