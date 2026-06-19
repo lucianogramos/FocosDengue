@@ -1,3 +1,11 @@
+# Focos Dengue
+Focos Dengue é um aplicativo Android feito para que os usuários possam realizar denúncias e visualizar outras denúncias sobre dengue.
+
+## Guia do Desenvolvedor
+### 1. Arquitetura: Clean Architecture (Simplificada)
+### 2. Linguagem de Programação: Kotlin
+### 3. UI Toolkit: Jetpack Compose
+
 ## Licença e Créditos
 
 Este software é um código aberto licenciado sob a [GNU General Public License v3.0 (GPLv3)](LICENSE). 
