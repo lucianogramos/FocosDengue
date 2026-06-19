@@ -1,7 +1,10 @@
 package com.focos_dengue.ui.main_screen.report_screen
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -14,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
+import com.focos_dengue.ui.util.LG
 import com.focos_dengue.ui.util.MD
 import com.focos_dengue.ui.util.PrimaryDivider
 import com.focos_dengue.ui.util.PrimaryText
@@ -40,7 +44,7 @@ fun ReportScreenContent(
 
         PrimaryDivider()
 
-        LazyColumn(modifier = Modifier.fillMaxSize()) {
+        LazyColumn(modifier = Modifier.fillMaxWidth(), contentPadding = PaddingValues(bottom = 3 * LG)) {
             items(state.reports) { report ->
                 ReportCard(report)
             }
@@ -58,6 +62,18 @@ fun ReportScreenContent(
                         contentAlignment = Alignment.Center
                     ) {
                         CircularProgressIndicator()
+                    }
+                }
+                else {
+                    if (state.reports.isNotEmpty()) PrimaryDivider(marginTop = MD, marginBottom = MD)
+
+                    Row(
+                        modifier =
+                            if (state.reports.isNotEmpty()) Modifier.fillMaxWidth()
+                            else Modifier.fillMaxWidth().padding(top = MD),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        PrimaryText("Você chegou ao fim das denúncias!")
                     }
                 }
             }
